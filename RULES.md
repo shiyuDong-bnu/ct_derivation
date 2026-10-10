@@ -131,3 +131,12 @@ information enters.
   and without the virtual rule); template grouping flatten check;
   group-vs-flat decomposition equivalence per three-body term; block
   grouping check.
+
+## Stage 7 -- f12_special_term (PENDING DEFINITION)
+
+- The final piece: the contribution of the fixed F12 geminal amplitudes
+  (CABS space, SP/cusp coefficients t~^{ab}_{ij} = (3/8)<ab|Q12 f12|ij> +
+  (1/8)<ab|Q12 f12|ji>) that compensates the stage-4 space restriction.
+- The exact formula is not yet decided; see f12_special_term/readme.md
+  for the candidate forms (resurrected geminal commutators /
+  Yanai--Shiozaki V,X,B intermediates / deexcitation part of A^F12).

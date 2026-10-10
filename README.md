@@ -69,6 +69,11 @@ fourth and sixth are **the derivation process**, applied in order.
    block grouping.  Output: the final blocks, flat and grouped by
    operator.
 
+7. `f12_special_term/` -- the final piece, PENDING DEFINITION: the
+   contribution of the fixed F12 geminal amplitudes (CABS space) that
+   compensates the stage-4 space restriction.  See its readme.md for the
+   candidate formulas; not yet implemented, not part of run_all.sh.
+
 ## Conventions in force
 
 - Spin-integrated formalism: NO index antisymmetry of t or g anywhere;
