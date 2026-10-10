@@ -1,48 +1,62 @@
 #!/usr/bin/env python3
-"""Generate all commutators needed in CT theory and write them into LaTeX.
+r"""Generate all commutators needed in CT theory and write them into LaTeX.
 
 The commutators are generated symbolically with sympy's Commutator and kept
 in nested-operator form; they are *not* expanded into concrete many-body
 equations (that expansion is done elsewhere via the generalized Wick theorem
 and cumulant expansion).
 
-Operators (convention of ct_F_A.tex / ct_V_A.tex / ct_f_a_a.pdf):
-    F = f^q_p E^p_q                    one-body (Fock) operator, Hermitian
-    V = (1/2) g^{pq}_{rs} E^{rs}_{pq}  two-body (valence) operator, Hermitian
-    T = T1 + T2                        excitation part of the generator
-    A = T - T^dagger                   anti-Hermitian CT generator
-    C = [F, A] = C1 + C2 + C1^dagger + C2^dagger,   Cr = [F, Tr]
-    D = [V, A] = D1 + D2 + D1^dagger + D2^dagger,   Dr = [V, Tr]
+The script works in three stages:
 
-The truncation is by perturbation order (Moller-Plesset counting F ~ O(1),
-V ~ O(lambda), T ~ O(lambda)), keeping the CT expansion correct through
-O(lambda^2): the first-order term [H, A] and the Fock half of the
-second-order term, (1/2)[[F, A], A].  The valence double commutator
-(1/2)[[V, A], A] is O(lambda^3) and is NOT generated.
+1. Elementary operators (have a direct many-body form, convention of
+   ct_F_A.tex / ct_V_A.tex / ct_f_a_a.pdf):
+       h  = h^q_p E^p_q                     one-body  operator, Hermitian
+       v  = (1/2) g^{pq}_{rs} E^{rs}_{pq}   two-body  operator, Hermitian
+       f  = f^q_p E^p_q                     one-body (Fock) operator, Hermitian
+       t1 = t^a_i E^a_i                     one-body (singles) excitation
+       t2 = (1/2) t^{ab}_{ij} E^{ab}_{ij}   two-body (doubles) excitation
 
-Commutators generated:
-    first order   [F, Tr], [V, Tr]                      (4 blocks, + h.c.)
-    second order  [[F, Tr], Ts], [[F, Tr]^dagger, Ts]   (8 blocks, + h.c.)
+2. Composite operators (sums/products of the elementary ones):
+       H_b    = h + v                              bare Hamiltonian
+       t      = t1 + t2                            excitation operator
+       a      = t - t^dagger                       anti-Hermitian CT generator
+       \bar H = H_b + [H_b, a] + (1/2)[[f, a], a]  transcorrelated Hamiltonian
+
+3. Expansion of the target operator \bar H into commutators between
+   elementary operators:
+       first order   [h, tr], [v, tr]                      (4 blocks, + h.c.)
+       second order  [[f, tr], ts], [[f, tr]^dagger, ts]   (8 blocks, + h.c.)
+
+The truncation is by perturbation order (Moller-Plesset counting f ~ O(1),
+v ~ O(lambda), t ~ O(lambda)), keeping the CT expansion correct through
+O(lambda^2): the full first-order term [H_b, a] and the Fock half of the
+second-order term, (1/2)[[f, a], a].  The valence double commutator
+(1/2)[[v, a], a] is O(lambda^3) and is not generated.
 
 Running the script also checks every reduction identity numerically on
 random matrices, writes commutators.tex, and (if latexmk is available)
 commutators.pdf.
+
+Public API for the many-body equations:
+    elementary_operators()    -- the five elementary operators [h, V, F, T1, T2]
+    elementary_definitions()  -- their many-body definitions (sympy exprs)
+    commutator_blocks()       -- all commutator blocks between them, as a
+                                 dict {"first_order": 4 blocks,
+                                       "second_order": 8 blocks}
 """
 
 import shutil
 import subprocess
 from pathlib import Path
 
-from sympy import Add, Mul, Rational, S, latex, sympify
+from sympy import Add, Mul, Rational, S, Symbol, latex, sympify
 from sympy.core.parameters import evaluate
 from sympy.physics.quantum import Commutator, Dagger, Operator
 
 HERE = Path(__file__).resolve().parent
 TEX_PATH = HERE / "commutators.tex"
 
-# ---------------------------------------------------------------------------
-# Operators
-# ---------------------------------------------------------------------------
+
 class NCommutator(Commutator):
     """sympy Commutator without canonical reordering.
 
@@ -62,64 +76,151 @@ class NCommutator(Commutator):
         return None
 
 
-F = Operator("F")
+# ---------------------------------------------------------------------------
+# Stage 1: elementary operators
+#
+# The ones with a direct many-body (second-quantized) definition.
+# Everything else is built from these five.
+# ---------------------------------------------------------------------------
+H = Operator("h")
 V = Operator("V")
+F = Operator("F")
 T1 = Operator("T_1")
 T2 = Operator("T_2")
 
 OP_LATEX = {
-    F: r"\hat{F}",
+    H: r"\hat{h}",
     V: r"\hat{V}",
+    F: r"\hat{F}",
     T1: r"\hat{T}_{1}",
     T2: r"\hat{T}_{2}",
 }
 
-# Blocks of the first-order commutators: the elementary objects everything
-# else is built from.  Dagger(...) is kept unevaluated so that the conjugate
-# blocks print as [F, Tr]^dagger instead of being rewritten by sympy.
-with evaluate(False):
-    T = T1 + T2
-    A = T - Dagger(T)
-
-    C1 = NCommutator(F, T1)
-    C2 = NCommutator(F, T2)
-    D1 = NCommutator(V, T1)
-    D2 = NCommutator(V, T2)
-
-    C1D = Dagger(C1)
-    C2D = Dagger(C2)
-    D1D = Dagger(D1)
-    D2D = Dagger(D2)
-
-    C = C1 + C2 + C1D + C2D
-    D = D1 + D2 + D1D + D2D
-
-# composite operators that print as their own symbol
-PRESENT = {
-    A: r"\hat{A}",
-    T: r"\hat{T}",
-    C: r"\hat{C}",
-    D: r"\hat{D}",
+# many-body (second-quantized) definitions of the elementary operators:
+# right-hand sides of "op = ...", as sympy expressions (coefficient symbols
+# times unitary group generators E), in the convention of ct_F_A.tex /
+# ct_V_A.tex / ct_f_a_a.pdf (crossed Fock order, excitation operators,
+# general indices over {i} u {a})
+OP_DEFINITION = {
+    H: Symbol("h^q_p") * Operator("E^p_q"),
+    V: Rational(1, 2) * Symbol("g^{pq}_{rs}") * Operator("E^{rs}_{pq}"),
+    F: Symbol("f^q_p") * Operator("E^p_q"),
+    T1: Symbol("t^a_i") * Operator("E^a_i"),
+    T2: Rational(1, 2) * Symbol("t^{ab}_{ij}") * Operator("E^{ab}_{ij}"),
 }
 
 # ---------------------------------------------------------------------------
-# The commutators needed in CT theory
+# Stage 2: composite operators
+#
+# Sums/products/commutators of the elementary ones.  Dagger(...) is kept
+# unevaluated so that conjugates print as (...)^dagger instead of being
+# rewritten by sympy.
 # ---------------------------------------------------------------------------
 with evaluate(False):
-    # first order: [F, A] = [F, T1] + [F, T2] + h.c., same for V
-    first_order_F = [C1, C2]
+    HB = H + V               # bare Hamiltonian
+    T = T1 + T2              # excitation operator
+    A = T - Dagger(T)        # anti-Hermitian CT generator
+
+    CT_first_H = NCommutator(H, A)
+    CT_first_V = NCommutator(V, A)
+    CT_first_HB = NCommutator(HB, A)
+    CT_second_F = Rational(1, 2) * NCommutator(NCommutator(F, A), A)
+
+    # the target operator, in nested composite form
+    BAR_H = HB + CT_first_HB + CT_second_F
+
+# ---------------------------------------------------------------------------
+# Stage 3: expand \bar H into commutators between elementary operators
+#
+# First order:  [h, A] = [h, T1] + [h, T2] + h.c., same for V.
+# Second order: only the Fock half is O(lambda^2); the valence double
+# commutator (1/2)[[V, A], A] is O(lambda^3) and is dropped by the
+# perturbation-order truncation.
+# ---------------------------------------------------------------------------
+with evaluate(False):
+    # first-order blocks
+    B1 = NCommutator(H, T1)
+    B2 = NCommutator(H, T2)
+    D1 = NCommutator(V, T1)
+    D2 = NCommutator(V, T2)
+    first_order_H = [B1, B2]
     first_order_V = [D1, D2]
 
-    # second order: only the Fock half is O(lambda^2); the valence double
-    # commutator (1/2)[[V, A], A] is O(lambda^3) and is dropped by the
-    # perturbation-order truncation.
+    # blocks of [F, A], the inner commutator of the second-order term
+    C1 = NCommutator(F, T1)
+    C2 = NCommutator(F, T2)
+    C1D = Dagger(C1)
+    C2D = Dagger(C2)
+
+    # second-order blocks
     Ts = [T1, T2]
     second_order_F = [NCommutator(inner, ts)
                       for inner in (C1, C2, C1D, C2D) for ts in Ts]
 
-    CT_second_F = Rational(1, 2) * NCommutator(NCommutator(F, A), A)
-    CT_first_F = NCommutator(F, A)
-    CT_first_V = NCommutator(V, A)
+    # Hermitian block sums: [X, A] = [X, T1] + [X, T2] + h.c.
+    B = B1 + B2 + Dagger(B1) + Dagger(B2)    # [h, A]
+    D = D1 + D2 + Dagger(D1) + Dagger(D2)    # [V, A]
+    C = C1 + C2 + C1D + C2D                  # [F, A]
+
+    # the target operator, expanded into elementary commutators:
+    #   \bar H = h + V
+    #            + [h, T1] + [h, T2] + [V, T1] + [V, T2] + h.c.
+    #            + (1/2)(sum of the 8 nested blocks + h.c.)
+    S8 = sum(second_order_F[1:], second_order_F[0])
+    BAR_H_EXPANDED = (H + V + B + D
+                      + Rational(1, 2) * (S8 + Dagger(S8)))
+
+# composite operators that print as their own symbol
+PRESENT = {
+    HB: r"\hat{H}_{b}",
+    T: r"\hat{T}",
+    A: r"\hat{A}",
+    B: r"\hat{B}",
+    BAR_H: r"\bar{\hat{H}}",
+}
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+def elementary_operators():
+    """Return the list of elementary operators, [h, V, F, T1, T2].
+
+    These are the operators with a direct many-body (second-quantized)
+    definition; every other object is composite (a sum, product or
+    commutator of these five).
+    """
+    return [H, V, F, T1, T2]
+
+
+def elementary_definitions():
+    """Return the many-body definitions of the elementary operators.
+
+    Maps each operator in elementary_operators() to the sympy expression on
+    the right-hand side of its second-quantized definition, e.g.
+    T1 -> t^a_i*E^a_i.
+    """
+    return dict(OP_DEFINITION)
+
+
+def commutator_blocks():
+    """Return all commutator blocks between elementary operators.
+
+    These are the blocks appearing in the expansion of the target operator
+    BAR_H; they are the quantities the many-body equations (generalized
+    Wick theorem + cumulant expansion) have to evaluate.  Returns a dict:
+
+        "first_order":  [B1, B2, D1, D2]
+            [h, T1], [h, T2], [V, T1], [V, T2] -- enter BAR_H with their
+            Hermitian conjugates at O(lambda) + O(lambda^2).
+        "second_order": 8 nested blocks
+            [[F, Tr], Ts] and [[F, Tr]^dagger, Ts] (r, s = 1, 2) -- enter
+            BAR_H as (1/2)(sum + h.c.) at O(lambda^2).
+    """
+    return {
+        "first_order": list(first_order_H + first_order_V),
+        "second_order": list(second_order_F),
+    }
+
 
 # ---------------------------------------------------------------------------
 # LaTeX printer for the operator expressions
@@ -210,7 +311,7 @@ def check_identities():
         m = rand_matrix()
         return m + m.conj().T
 
-    subs = {F: rand_hermitian(), V: rand_hermitian(),
+    subs = {H: rand_hermitian(), V: rand_hermitian(), F: rand_hermitian(),
             T1: rand_matrix(), T2: rand_matrix()}
 
     def to_matrix(expr):
@@ -236,24 +337,33 @@ def check_identities():
 
     checks = []
 
-    # [X, A] = [X, T1] + [X, T2] + h.c.  (X Hermitian)
+    # [X, A] = [X, T1] + [X, T2] + h.c.  (X elementary and Hermitian)
     with evaluate(False):
-        for X, blocks, tag in ((F, first_order_F, "F"), (V, first_order_V, "V")):
+        for X, blocks, tag in ((H, (B1, B2), "h"),
+                               (V, (D1, D2), "V"),
+                               (F, (C1, C2), "F")):
             lhs = NCommutator(X, A)
             rhs = blocks[0] + blocks[1] + Dagger(blocks[0]) + Dagger(blocks[1])
             checks.append((f"[{tag}, A] = [{tag}, T1] + [{tag}, T2] + h.c.",
                            deviation(lhs, rhs)))
 
+        # [H_b, A] = [h, A] + [V, A]  (composite bare Hamiltonian)
+        checks.append(("[H_b, A] = [h, A] + [V, A]",
+                       deviation(NCommutator(HB, A), B + D)))
+
         # (1/2)[[F, A], A] = (1/2)([C, T] + [C, T]^dagger) over the 8 blocks
-        for X, blocks, tag in ((F, second_order_F, "F"),):
-            lhs = Rational(1, 2) * NCommutator(NCommutator(X, A), A)
-            s8 = np.zeros((n, n), dtype=complex)
-            for b in blocks:
-                s8 = s8 + to_matrix(b)
-            rhs_mat = 0.5 * (s8 + s8.conj().T)
-            diff = to_matrix(lhs) - rhs_mat
-            checks.append((f"(1/2)[[{tag}, A], A] = (1/2)(sum of 8 blocks + h.c.)",
-                           float(np.max(np.abs(diff)))))
+        lhs = CT_second_F
+        s8 = np.zeros((n, n), dtype=complex)
+        for b in second_order_F:
+            s8 = s8 + to_matrix(b)
+        rhs_mat = 0.5 * (s8 + s8.conj().T)
+        diff = to_matrix(lhs) - rhs_mat
+        checks.append(("(1/2)[[F, A], A] = (1/2)(sum of 8 blocks + h.c.)",
+                       float(np.max(np.abs(diff)))))
+
+        # the expanded target operator agrees with the nested definition
+        checks.append(("bar H (nested) = bar H (expanded elementary blocks)",
+                       deviation(BAR_H, BAR_H_EXPANDED)))
 
         # the two mixed blocks are different operators (no Jacobi shortcut)
         diff = to_matrix(NCommutator(C1, T2)) - to_matrix(NCommutator(C2, T1))
@@ -261,7 +371,7 @@ def check_identities():
         checks.append(("[[F, T1], T2] != [[F, T2], T1] (mixed blocks differ)",
                        mixed))
 
-    print("numerical checks (random 6x6 matrices, F and V Hermitian):")
+    print("numerical checks (random 6x6 matrices, h, V and F Hermitian):")
     ok = True
     for name, dev in checks:
         if name.startswith("[["):
@@ -300,7 +410,7 @@ def write_tex():
     add(r"The truncation is by perturbation order (M\o ller--Plesset"
         r" counting $\hat{F} \sim O(1)$, $\hat{V} \sim O(\lambda)$,"
         r" $\hat{T} \sim O(\lambda)$), keeping the expansion correct through"
-        r" $O(\lambda^2)$: the full first-order term $[\hat{H}, \hat{A}]$"
+        r" $O(\lambda^2)$: the full first-order term $[\hat{H}_b, \hat{A}]$"
         r" ($O(\lambda) + O(\lambda^2)$) and the Fock half of the"
         r" second-order term, $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$"
         r" ($O(\lambda^2)$).  The valence double commutator"
@@ -308,61 +418,86 @@ def write_tex():
         r" is not generated.")
     add("")
 
-    # --- definitions -----------------------------------------------------
-    add(r"\section{Operators and generator}")
-    add(r"Convention of \texttt{ct\_F\_A.tex}, \texttt{ct\_V\_A.tex} and"
-        r" \texttt{ct\_f\_a\_a.pdf}: crossed Fock order, excitation operators,"
-        r" general indices over $\{i\}\cup\{a\}$:")
+    # --- stage 1: elementary operators ------------------------------------
+    add(r"\section{Elementary operators}")
+    add(r"The elementary operators have a direct many-body form"
+        r" (convention of \texttt{ct\_F\_A.tex}, \texttt{ct\_V\_A.tex} and"
+        r" \texttt{ct\_f\_a\_a.pdf}: crossed Fock order, excitation"
+        r" operators, general indices over $\{i\}\cup\{a\}$):")
     add(r"\begin{align}")
-    add(r"\hat{F} &= f^q_p\, \hat{E}^p_q,"
+    add(r"\hat{h} &= h^q_p\, \hat{E}^p_q,"
         r" & \hat{V} &= \tfrac{1}{2} g^{pq}_{rs}\, \hat{E}^{rs}_{pq}, \\")
-    add(r"\hat{T} &= \hat{T}_1 + \hat{T}_2,"
-        r" & \hat{A} &= \hat{T} - \hat{T}^\dagger, \\")
-    add(r"\hat{T}_1 &= t^a_i\, \hat{E}^a_i,"
-        r" & \hat{T}_2 &= \tfrac{1}{2} t^{a\beta}_{ij}\, \hat{E}^{a\beta}_{ij},")
+    add(r"\hat{F} &= f^q_p\, \hat{E}^p_q,"
+        r" & \hat{T}_1 &= t^a_i\, \hat{E}^a_i, \\")
+    add(r"\hat{T}_2 &= \tfrac{1}{2} t^{ab}_{ij}\, \hat{E}^{ab}_{ij},")
     add(r"\end{align}")
-    add(r"with $\hat{F}$ and $\hat{V}$ Hermitian and $\hat{A}$ anti-Hermitian."
-        r" The blocks of the first-order commutators are")
-    add(r"\begin{align}")
-    add(r"\hat{C}_1 &= " + ct_latex(C1) + r","
-        r" & \hat{C}_2 &= " + ct_latex(C2) + r", \\")
-    add(r"\hat{D}_1 &= " + ct_latex(D1) + r","
-        r" & \hat{D}_2 &= " + ct_latex(D2) + r",")
-    add(r"\end{align}")
-    add(r"so that $\hat{C} = [\hat{F}, \hat{A}] = \hat{C}_1 + \hat{C}_2"
-        r" + \hat{C}_1^\dagger + \hat{C}_2^\dagger$ and"
-        r" $\hat{D} = [\hat{V}, \hat{A}] = \hat{D}_1 + \hat{D}_2"
-        r" + \hat{D}_1^\dagger + \hat{D}_2^\dagger$.")
+    add(r"with $\hat{h}$, $\hat{V}$ and $\hat{F}$ Hermitian.")
     add("")
 
-    # --- first order -----------------------------------------------------
+    # --- stage 2: composite operators --------------------------------------
+    add(r"\section{Composite operators}")
+    add(r"The composite operators are sums and products of the elementary"
+        r" ones:")
+    add(r"\begin{align}")
+    add(r"\hat{H}_b &= \hat{h} + \hat{V},"
+        r" & \hat{T} &= \hat{T}_1 + \hat{T}_2, \\")
+    add(r"\hat{A} &= \hat{T} - \hat{T}^\dagger,"
+        r" & \bar{\hat{H}} &= \hat{H}_b + \left[\hat{H}_b,\, \hat{A}\right]"
+        r" + \tfrac{1}{2}\left[\left[\hat{F},\, \hat{A}\right],\,"
+        r" \hat{A}\right],")
+    add(r"\end{align}")
+    add(r"with $\hat{A}$ anti-Hermitian.  The transcorrelated Hamiltonian"
+        r" $\bar{\hat{H}}$ is the target operator.  The blocks of the"
+        r" first-order commutators are")
+    add(r"\begin{align}")
+    add(r"\hat{B}_1 &= " + ct_latex(B1) + r","
+        r" & \hat{B}_2 &= " + ct_latex(B2) + r", \\")
+    add(r"\hat{D}_1 &= " + ct_latex(D1) + r","
+        r" & \hat{D}_2 &= " + ct_latex(D2) + r", \\")
+    add(r"\hat{C}_1 &= " + ct_latex(C1) + r","
+        r" & \hat{C}_2 &= " + ct_latex(C2) + r",")
+    add(r"\end{align}")
+    add(r"so that $[\hat{h}, \hat{A}] = \hat{B}_1 + \hat{B}_2"
+        r" + \hat{B}_1^\dagger + \hat{B}_2^\dagger$, and similarly for"
+        r" $[\hat{V}, \hat{A}]$ and $[\hat{F}, \hat{A}]$.")
+    add("")
+
+    # --- first order -------------------------------------------------------
     add(r"\section{First-order commutators}")
+    add(r"The first-order term of $\bar{\hat{H}}$ involves the composite"
+        r" bare Hamiltonian $\hat{H}_b = \hat{h} + \hat{V}$,")
+    add(r"\begin{equation}")
+    add(ct_latex(CT_first_HB) + r" = "
+        + ct_latex(CT_first_H) + " + " + ct_latex(CT_first_V) + r".")
+    add(r"\end{equation}")
     add(r"Since $\hat{A} = \hat{T} - \hat{T}^\dagger$ and"
         r" $[\hat{X}, \hat{T}]^\dagger = -[\hat{X}, \hat{T}^\dagger]$ for"
         r" Hermitian $\hat{X}$, only the two $\hat{T}$ blocks have to be"
-        r" computed for each part of the Hamiltonian:")
+        r" computed for each elementary part of $\hat{H}_b$:")
     add(r"\begin{align}")
-    add(ct_latex(CT_first_F) + r" &= "
-        + ct_latex(C1) + " + " + ct_latex(C2) + r" \hc, \\")
+    add(ct_latex(CT_first_H) + r" &= "
+        + ct_latex(B1) + " + " + ct_latex(B2) + r" \hc, \\")
     add(ct_latex(CT_first_V) + r" &= "
         + ct_latex(D1) + " + " + ct_latex(D2) + r" \hc.")
     add(r"\end{align}")
     add("")
 
-    # --- second order ----------------------------------------------------
+    # --- second order ------------------------------------------------------
     add(r"\section{Second-order commutators}")
     add(r"At $O(\lambda^2)$ the second-order term keeps only the Fock half,"
         r" $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$; the valence half"
         r" $\tfrac{1}{2}[[\hat{V}, \hat{A}], \hat{A}] \sim O(\lambda^3)$ is"
         r" dropped.  $\hat{A}$ anti-Hermitian makes"
-        r" $\hat{C} = [\hat{F}, \hat{A}]$ Hermitian, so that"
-        r" $[\hat{C}, \hat{T}]^\dagger = -[\hat{C}, \hat{T}^\dagger]$ and")
+        r" $[\hat{F}, \hat{A}]$ Hermitian, so that"
+        r" $[[\hat{F}, \hat{A}], \hat{T}]^\dagger ="
+        r" -[[\hat{F}, \hat{A}], \hat{T}^\dagger]$ and")
     add(r"\begin{equation}")
     add(ct_latex(CT_second_F) + r" = \tfrac{1}{2}"
-        + ct_latex(NCommutator(C, T)) + r" \hc,")
+        + ct_latex(NCommutator(NCommutator(F, A), T)) + r" \hc,")
     add(r"\end{equation}")
     add(r"Expanding"
-        r" $[\hat{C}, \hat{T}] = [\hat{C}_1, \hat{T}] + [\hat{C}_2, \hat{T}]"
+        r" $[[\hat{F}, \hat{A}], \hat{T}] = [\hat{C}_1, \hat{T}]"
+        r" + [\hat{C}_2, \hat{T}]"
         r" + [\hat{C}_1^\dagger, \hat{T}] + [\hat{C}_2^\dagger, \hat{T}]$"
         r" and each $[\,\cdot\,, \hat{T}] = [\,\cdot\,, \hat{T}_1]"
         r" + [\,\cdot\,, \hat{T}_2]$ gives the eight blocks")
@@ -379,21 +514,47 @@ def write_tex():
         r" are kept.")
     add("")
 
-    # --- full list -------------------------------------------------------
+    # --- stage 3: expansion of the target operator --------------------------
+    add(r"\section{Expansion of the target operator}")
+    add(r"Assembling the composite pieces and expanding every commutator of"
+        r" composite operators into commutators between elementary operators,"
+        r" the transcorrelated Hamiltonian through $O(\lambda^2)$ is")
+    add(r"\begin{align}")
+    add(ct_latex(BAR_H) + r" &= " + ct_latex(HB) + " + "
+        + ct_latex(CT_first_HB) + " + " + ct_latex(CT_second_F) + r" \\")
+    add(r"&= " + ct_latex(H) + " + " + ct_latex(V)
+        + " + " + " + ".join(ct_latex(b)
+                             for b in first_order_H + first_order_V)
+        + r" \hc \nonumber \\")
+    s8_terms = " + ".join(ct_latex(b) for b in second_order_F[:4])
+    s8d_terms = " + ".join(ct_latex(b) for b in second_order_F[4:])
+    add(r"&\quad + \tfrac{1}{2}\left(" + s8_terms + r" \right. \nonumber \\")
+    add(r"&\qquad \left. + " + s8d_terms + r" \hc \right). \nonumber")
+    add(r"\end{align}")
+    add(r"Every remaining object is a commutator between elementary"
+        r" operators ($\hat{h}$, $\hat{V}$, $\hat{F}$ with $\hat{T}_1$,"
+        r" $\hat{T}_2$); these are the quantities that the generalized Wick"
+        r" theorem and the cumulant expansion turn into many-body equations.")
+    add("")
+
+    # --- full list ----------------------------------------------------------
     add(r"\section{Complete list}")
     add(r"The commutators that remain to be evaluated (each by one or two"
-        r" applications of the $(1,1)$, $(1,2)$, $(2,1)$ or $(2,2)$ rule):")
+        r" applications of the $(1,1)$, $(1,2)$, $(2,1)$ or $(2,2)$ rule),"
+        r" as returned by \texttt{commutator\_blocks()}:")
+    blocks = commutator_blocks()
+    all_first = blocks["first_order"]
+    all_second = blocks["second_order"]
     add(r"\paragraph{First order (4 blocks $+$ h.c.)}")
     add(r"\begin{align}")
-    all_first = first_order_F + first_order_V
     for i, b in enumerate(all_first):
         end = r" \\" if i < len(all_first) - 1 else ""
         add(ct_latex(b) + end)
     add(r"\end{align}")
     add(r"\paragraph{Second order (8 blocks $+$ h.c.)}")
     add(r"\begin{align}")
-    for i, b in enumerate(second_order_F):
-        end = r" \\" if i < len(second_order_F) - 1 else ""
+    for i, b in enumerate(all_second):
+        end = r" \\" if i < len(all_second) - 1 else ""
         add(ct_latex(b) + end)
     add(r"\end{align}")
     add(r"\end{document}")

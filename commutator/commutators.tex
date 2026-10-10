@@ -9,35 +9,48 @@
 
 The commutators of the transcorrelated (CT) expansion, generated symbolically with sympy's \texttt{Commutator} and kept in nested-operator form.  They are \emph{not} expanded into concrete many-body equations; the expansion through the generalized Wick theorem and the cumulant expansion is done separately.
 
-The truncation is by perturbation order (M\o ller--Plesset counting $\hat{F} \sim O(1)$, $\hat{V} \sim O(\lambda)$, $\hat{T} \sim O(\lambda)$), keeping the expansion correct through $O(\lambda^2)$: the full first-order term $[\hat{H}, \hat{A}]$ ($O(\lambda) + O(\lambda^2)$) and the Fock half of the second-order term, $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$ ($O(\lambda^2)$).  The valence double commutator $\tfrac{1}{2}[[\hat{V}, \hat{A}], \hat{A}]$ is $O(\lambda^3)$ and is not generated.
+The truncation is by perturbation order (M\o ller--Plesset counting $\hat{F} \sim O(1)$, $\hat{V} \sim O(\lambda)$, $\hat{T} \sim O(\lambda)$), keeping the expansion correct through $O(\lambda^2)$: the full first-order term $[\hat{H}_b, \hat{A}]$ ($O(\lambda) + O(\lambda^2)$) and the Fock half of the second-order term, $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$ ($O(\lambda^2)$).  The valence double commutator $\tfrac{1}{2}[[\hat{V}, \hat{A}], \hat{A}]$ is $O(\lambda^3)$ and is not generated.
 
-\section{Operators and generator}
-Convention of \texttt{ct\_F\_A.tex}, \texttt{ct\_V\_A.tex} and \texttt{ct\_f\_a\_a.pdf}: crossed Fock order, excitation operators, general indices over $\{i\}\cup\{a\}$:
+\section{Elementary operators}
+The elementary operators have a direct many-body form (convention of \texttt{ct\_F\_A.tex}, \texttt{ct\_V\_A.tex} and \texttt{ct\_f\_a\_a.pdf}: crossed Fock order, excitation operators, general indices over $\{i\}\cup\{a\}$):
 \begin{align}
-\hat{F} &= f^q_p\, \hat{E}^p_q, & \hat{V} &= \tfrac{1}{2} g^{pq}_{rs}\, \hat{E}^{rs}_{pq}, \\
-\hat{T} &= \hat{T}_1 + \hat{T}_2, & \hat{A} &= \hat{T} - \hat{T}^\dagger, \\
-\hat{T}_1 &= t^a_i\, \hat{E}^a_i, & \hat{T}_2 &= \tfrac{1}{2} t^{a\beta}_{ij}\, \hat{E}^{a\beta}_{ij},
+\hat{h} &= h^q_p\, \hat{E}^p_q, & \hat{V} &= \tfrac{1}{2} g^{pq}_{rs}\, \hat{E}^{rs}_{pq}, \\
+\hat{F} &= f^q_p\, \hat{E}^p_q, & \hat{T}_1 &= t^a_i\, \hat{E}^a_i, \\
+\hat{T}_2 &= \tfrac{1}{2} t^{ab}_{ij}\, \hat{E}^{ab}_{ij},
 \end{align}
-with $\hat{F}$ and $\hat{V}$ Hermitian and $\hat{A}$ anti-Hermitian. The blocks of the first-order commutators are
+with $\hat{h}$, $\hat{V}$ and $\hat{F}$ Hermitian.
+
+\section{Composite operators}
+The composite operators are sums and products of the elementary ones:
 \begin{align}
-\hat{C}_1 &= \left[\hat{F},\, \hat{T}_{1}\right], & \hat{C}_2 &= \left[\hat{F},\, \hat{T}_{2}\right], \\
-\hat{D}_1 &= \left[\hat{V},\, \hat{T}_{1}\right], & \hat{D}_2 &= \left[\hat{V},\, \hat{T}_{2}\right],
+\hat{H}_b &= \hat{h} + \hat{V}, & \hat{T} &= \hat{T}_1 + \hat{T}_2, \\
+\hat{A} &= \hat{T} - \hat{T}^\dagger, & \bar{\hat{H}} &= \hat{H}_b + \left[\hat{H}_b,\, \hat{A}\right] + \tfrac{1}{2}\left[\left[\hat{F},\, \hat{A}\right],\, \hat{A}\right],
 \end{align}
-so that $\hat{C} = [\hat{F}, \hat{A}] = \hat{C}_1 + \hat{C}_2 + \hat{C}_1^\dagger + \hat{C}_2^\dagger$ and $\hat{D} = [\hat{V}, \hat{A}] = \hat{D}_1 + \hat{D}_2 + \hat{D}_1^\dagger + \hat{D}_2^\dagger$.
+with $\hat{A}$ anti-Hermitian.  The transcorrelated Hamiltonian $\bar{\hat{H}}$ is the target operator.  The blocks of the first-order commutators are
+\begin{align}
+\hat{B}_1 &= \left[\hat{h},\, \hat{T}_{1}\right], & \hat{B}_2 &= \left[\hat{h},\, \hat{T}_{2}\right], \\
+\hat{D}_1 &= \left[\hat{V},\, \hat{T}_{1}\right], & \hat{D}_2 &= \left[\hat{V},\, \hat{T}_{2}\right], \\
+\hat{C}_1 &= \left[\hat{F},\, \hat{T}_{1}\right], & \hat{C}_2 &= \left[\hat{F},\, \hat{T}_{2}\right],
+\end{align}
+so that $[\hat{h}, \hat{A}] = \hat{B}_1 + \hat{B}_2 + \hat{B}_1^\dagger + \hat{B}_2^\dagger$, and similarly for $[\hat{V}, \hat{A}]$ and $[\hat{F}, \hat{A}]$.
 
 \section{First-order commutators}
-Since $\hat{A} = \hat{T} - \hat{T}^\dagger$ and $[\hat{X}, \hat{T}]^\dagger = -[\hat{X}, \hat{T}^\dagger]$ for Hermitian $\hat{X}$, only the two $\hat{T}$ blocks have to be computed for each part of the Hamiltonian:
+The first-order term of $\bar{\hat{H}}$ involves the composite bare Hamiltonian $\hat{H}_b = \hat{h} + \hat{V}$,
+\begin{equation}
+\left[\hat{H}_{b},\, \hat{A}\right] = \left[\hat{h},\, \hat{A}\right] + \left[\hat{V},\, \hat{A}\right].
+\end{equation}
+Since $\hat{A} = \hat{T} - \hat{T}^\dagger$ and $[\hat{X}, \hat{T}]^\dagger = -[\hat{X}, \hat{T}^\dagger]$ for Hermitian $\hat{X}$, only the two $\hat{T}$ blocks have to be computed for each elementary part of $\hat{H}_b$:
 \begin{align}
-\left[\hat{F},\, \hat{A}\right] &= \left[\hat{F},\, \hat{T}_{1}\right] + \left[\hat{F},\, \hat{T}_{2}\right] \hc, \\
+\left[\hat{h},\, \hat{A}\right] &= \left[\hat{h},\, \hat{T}_{1}\right] + \left[\hat{h},\, \hat{T}_{2}\right] \hc, \\
 \left[\hat{V},\, \hat{A}\right] &= \left[\hat{V},\, \hat{T}_{1}\right] + \left[\hat{V},\, \hat{T}_{2}\right] \hc.
 \end{align}
 
 \section{Second-order commutators}
-At $O(\lambda^2)$ the second-order term keeps only the Fock half, $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$; the valence half $\tfrac{1}{2}[[\hat{V}, \hat{A}], \hat{A}] \sim O(\lambda^3)$ is dropped.  $\hat{A}$ anti-Hermitian makes $\hat{C} = [\hat{F}, \hat{A}]$ Hermitian, so that $[\hat{C}, \hat{T}]^\dagger = -[\hat{C}, \hat{T}^\dagger]$ and
+At $O(\lambda^2)$ the second-order term keeps only the Fock half, $\tfrac{1}{2}[[\hat{F}, \hat{A}], \hat{A}]$; the valence half $\tfrac{1}{2}[[\hat{V}, \hat{A}], \hat{A}] \sim O(\lambda^3)$ is dropped.  $\hat{A}$ anti-Hermitian makes $[\hat{F}, \hat{A}]$ Hermitian, so that $[[\hat{F}, \hat{A}], \hat{T}]^\dagger = -[[\hat{F}, \hat{A}], \hat{T}^\dagger]$ and
 \begin{equation}
-\frac{1}{2}\, \left[\left[\hat{F},\, \hat{A}\right],\, \hat{A}\right] = \tfrac{1}{2}\left[\hat{C},\, \hat{T}\right] \hc,
+\frac{1}{2}\, \left[\left[\hat{F},\, \hat{A}\right],\, \hat{A}\right] = \tfrac{1}{2}\left[\left[\hat{F},\, \hat{A}\right],\, \hat{T}\right] \hc,
 \end{equation}
-Expanding $[\hat{C}, \hat{T}] = [\hat{C}_1, \hat{T}] + [\hat{C}_2, \hat{T}] + [\hat{C}_1^\dagger, \hat{T}] + [\hat{C}_2^\dagger, \hat{T}]$ and each $[\,\cdot\,, \hat{T}] = [\,\cdot\,, \hat{T}_1] + [\,\cdot\,, \hat{T}_2]$ gives the eight blocks
+Expanding $[[\hat{F}, \hat{A}], \hat{T}] = [\hat{C}_1, \hat{T}] + [\hat{C}_2, \hat{T}] + [\hat{C}_1^\dagger, \hat{T}] + [\hat{C}_2^\dagger, \hat{T}]$ and each $[\,\cdot\,, \hat{T}] = [\,\cdot\,, \hat{T}_1] + [\,\cdot\,, \hat{T}_2]$ gives the eight blocks
 \begin{align}
 \left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] \\
 \left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] \\
@@ -50,12 +63,22 @@ Expanding $[\hat{C}, \hat{T}] = [\hat{C}_1, \hat{T}] + [\hat{C}_2, \hat{T}] + [\
 \end{align}
 The mixed nested commutators are different operators, $\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] \neq \left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right]$, since $\hat{T}_1 \hat{T}_2 - \hat{T}_2 \hat{T}_1$ does not vanish; the Jacobi shortcut is not available and both mixed blocks are kept.
 
+\section{Expansion of the target operator}
+Assembling the composite pieces and expanding every commutator of composite operators into commutators between elementary operators, the transcorrelated Hamiltonian through $O(\lambda^2)$ is
+\begin{align}
+\bar{\hat{H}} &= \hat{H}_{b} + \left[\hat{H}_{b},\, \hat{A}\right] + \frac{1}{2}\, \left[\left[\hat{F},\, \hat{A}\right],\, \hat{A}\right] \\
+&= \hat{h} + \hat{V} + \left[\hat{h},\, \hat{T}_{1}\right] + \left[\hat{h},\, \hat{T}_{2}\right] + \left[\hat{V},\, \hat{T}_{1}\right] + \left[\hat{V},\, \hat{T}_{2}\right] \hc \nonumber \\
+&\quad + \tfrac{1}{2}\left(\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] + \left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] + \left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right] + \left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{2}\right] \right. \nonumber \\
+&\qquad \left. + \left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right] + \left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right] + \left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right] + \left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right] \hc \right). \nonumber
+\end{align}
+Every remaining object is a commutator between elementary operators ($\hat{h}$, $\hat{V}$, $\hat{F}$ with $\hat{T}_1$, $\hat{T}_2$); these are the quantities that the generalized Wick theorem and the cumulant expansion turn into many-body equations.
+
 \section{Complete list}
-The commutators that remain to be evaluated (each by one or two applications of the $(1,1)$, $(1,2)$, $(2,1)$ or $(2,2)$ rule):
+The commutators that remain to be evaluated (each by one or two applications of the $(1,1)$, $(1,2)$, $(2,1)$ or $(2,2)$ rule), as returned by \texttt{commutator\_blocks()}:
 \paragraph{First order (4 blocks $+$ h.c.)}
 \begin{align}
-\left[\hat{F},\, \hat{T}_{1}\right] \\
-\left[\hat{F},\, \hat{T}_{2}\right] \\
+\left[\hat{h},\, \hat{T}_{1}\right] \\
+\left[\hat{h},\, \hat{T}_{2}\right] \\
 \left[\hat{V},\, \hat{T}_{1}\right] \\
 \left[\hat{V},\, \hat{T}_{2}\right]
 \end{align}
