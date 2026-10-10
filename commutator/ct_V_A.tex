@@ -1,0 +1,254 @@
+% !TEX program = pdflatex
+% Scanned source: single_amplitude_formula/pictures/hand_6_V_A_page2.png
+% The valence commutator [V,A] of the CT expansion, in the reader's convention:
+% [V,A] = [V,T] + h.c. = [V,T1] + [V,T2] + conj., the (2,1) block and the (2,2)
+% block, and the index patterns they carry.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}[2]{\hat E^{#1}_{#2}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\occ}{i}
+\newcommand{\vir}{a}
+
+\title{\bfseries The valence commutator of the CT generator\\[2pt]
+       \large $[\hat V,\hat A]$, the $(2,1)$ and $(2,2)$ blocks}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\noindent
+This continues \texttt{ct\_F\_A.tex} for the valence part of the Hamiltonian, in
+the same convention: the crossed Fock order, excitation operators, and general
+indices ranging over the whole space $\{\occ\}\cup\{\vir\}$,
+\begin{equation}
+  \hat V=\tfrac12\,g^{pq}_{rs}\,\E{rs}{pq},
+  \qquad
+  \hat T_1=t^\vir_\occ\,\E{\vir}{\occ},
+  \qquad
+  \hat T_2=\tfrac12\,t^{\vir\beta}_{\occ j}\,\E{\vir\beta}{\occ j},
+  \label{eq:ops}
+\end{equation}
+with $g^{pq}_{rs}$ antisymmetric in $(p,q)$ and in $(r,s)$, and
+$t^{\vir\beta}_{\occ j}$ antisymmetric in $(\vir,\beta)$ and in $(\occ,j)$.
+As for $\hat F$, the tensor of $\hat V$ carries its upper pair onto the
+operator's lower pair.
+
+\section*{1. The reduction}
+
+\begin{equation}
+  [\hat V,\hat A]=[\hat V,\hat T]+[\hat V,\hat T]^\dagger
+   =[\hat V,\hat T_1]+[\hat V,\hat T_2]+\hc,
+  \label{eq:reduce}
+\end{equation}
+so the valence transformation needs two blocks: the $(2,1)$ block
+$[\hat V,\hat T_1]$ and the $(2,2)$ block $[\hat V,\hat T_2]$. Both are computed
+below and both are kept with all their terms, as in the Fock case: each term is
+a different operator with its own index pattern.
+
+\section*{2. The \texorpdfstring{$(2,1)$}{(2,1)} block
+\texorpdfstring{$[\hat V,\hat T_1]$}{[V,T1]}}
+
+\begin{equation}
+  [\hat V,\hat T_1]
+   =\tfrac12\,g^{pq}_{rs}\,t^\vir_\occ
+     \bigl[\E{rs}{pq},\E{\vir}{\occ}\bigr],
+  \label{eq:t1setup}
+\end{equation}
+and the $(2,1)$ commutator is minus the $(1,2)$ one, which is the rule already
+verified in \texttt{ct\_F\_A.tex}:
+\begin{equation}
+  \bigl[\E{q}{p},\E{tu}{rs}\bigr]
+   =\delta^t_p\,\E{qu}{rs}+\delta^u_p\,\E{qt}{sr}
+    -\delta^q_r\,\E{tu}{ps}-\delta^q_s\,\E{ut}{pr}.
+  \label{eq:c12}
+\end{equation}
+Interchanging the two operators reverses the sign, and applying
+\eqref{eq:c12} with $\E{\vir}{\occ}$ in the first slot,
+\begin{align}
+  \bigl[\E{rs}{pq},\E{\vir}{\occ}\bigr]
+   &=-\bigl[\E{\vir}{\occ},\E{rs}{pq}\bigr]\notag\\
+   &=-\delta^r_\occ\,\E{\vir s}{pq}-\delta^s_\occ\,\E{\vir r}{qp}
+     +\delta^\vir_p\,\E{rs}{\occ q}+\delta^\vir_q\,\E{sr}{\occ p}.
+  \label{eq:c21apply}
+\end{align}
+Each delta contracts one index of $g$, and the block keeps its four terms:
+\begin{equation}
+  \boxed{\;
+  \begin{aligned}
+    [\hat V,\hat T_1]=\tfrac12\,g^{pq}_{rs}\,t^\vir_\occ\Bigl(
+     &+\delta^\vir_p\,\E{rs}{\occ q}
+      +\delta^\vir_q\,\E{sr}{\occ p}\\
+     &-\delta^r_\occ\,\E{\vir s}{pq}
+      -\delta^s_\occ\,\E{\vir r}{qp}\Bigr).
+  \end{aligned}\;}
+  \label{eq:VT1}
+\end{equation}
+The first two terms carry the virtual index of the amplitude on the operator's
+upper pair, the last two the occupied index on the lower pair. Contracting the
+deltas with $g$ gives the coefficient form,
+\begin{equation}
+  [\hat V,\hat T_1]
+   =\tfrac12\,t^\vir_\occ\Bigl(
+     g^{\vir q}_{rs}\,\E{rs}{\occ q}+g^{p\vir}_{rs}\,\E{sr}{\occ p}
+     -g^{pq}_{\occ s}\,\E{\vir s}{pq}-g^{pq}_{r\occ}\,\E{\vir r}{qp}\Bigr),
+  \label{eq:VT1c}
+\end{equation}
+again with no cancellation between the terms.
+
+\section*{3. The \texorpdfstring{$(2,2)$}{(2,2)} block
+\texorpdfstring{$[\hat V,\hat T_2]$}{[V,T2]}}
+
+\begin{equation}
+  [\hat V,\hat T_2]
+   =\tfrac14\,g^{pq}_{rs}\,t^{\vir\beta}_{\occ j}
+     \bigl[\E{rs}{pq},\E{\vir\beta}{\occ j}\bigr],
+  \label{eq:t2setup}
+\end{equation}
+the $\tfrac14$ being the two halves, one from $\hat V$ and one from $\hat T_2$.
+The $(2,2)$ rule in the paired order is
+\begin{equation}
+  \begin{aligned}
+  \bigl[\E{rs}{pq},\E{uw}{tv}\bigr]=\;
+   &+\delta^u_p\,\E{rsw}{tqv}+\delta^w_p\,\E{rsu}{vqt}
+    +\delta^u_q\,\E{srw}{tpv}+\delta^w_q\,\E{sru}{vpt}\\
+   &+\delta^u_p\delta^w_q\,\E{rs}{tv}
+    +\delta^w_p\delta^u_q\,\E{rs}{vt}\\
+   &-\delta^r_t\,\E{uws}{pvq}-\delta^s_t\,\E{uwr}{qvp}
+    -\delta^r_v\,\E{wus}{ptq}-\delta^s_v\,\E{wur}{qtp}\\
+   &-\delta^r_t\delta^s_v\,\E{uw}{pq}
+    -\delta^s_t\delta^r_v\,\E{uw}{qp}.
+  \end{aligned}
+  \label{eq:c22}
+\end{equation}
+Applying it with $(\vir\beta{\occ j})$ in the second slot, $u=\vir$, $w=\beta$,
+$t=\occ$, $v=j$,
+\begin{equation}
+  \boxed{\;
+  \begin{aligned}
+  \bigl[\E{rs}{pq},\E{\vir\beta}{\occ j}\bigr]=\;
+   &+\delta^\vir_p\,\E{rs\beta}{\occ qj}
+    +\delta^\beta_p\,\E{rs\vir}{jq\occ}
+    +\delta^\vir_q\,\E{sr\beta}{\occ pj}
+    +\delta^\beta_q\,\E{sr\vir}{jp\occ}\\
+   &+\delta^\vir_p\delta^\beta_q\,\E{rs}{\occ j}
+    +\delta^\beta_p\delta^\vir_q\,\E{rs}{j\occ}\\
+   &-\delta^r_\occ\,\E{\vir\beta s}{pvq}
+    -\delta^s_\occ\,\E{\vir\beta r}{qvp}
+    -\delta^r_j\,\E{\beta\vir s}{p\occ q}
+    -\delta^s_j\,\E{\beta\vir r}{q\occ p}\\
+   &-\delta^r_\occ\delta^s_j\,\E{\vir\beta}{pq}
+    -\delta^s_\occ\delta^r_j\,\E{\vir\beta}{qp},
+  \end{aligned}\;}
+  \label{eq:c22apply}
+\end{equation}
+so that $[\hat V,\hat T_2]$ is $\tfrac14 g^{pq}_{rs}t^{\vir\beta}_{\occ j}$
+times this bracket. The twelve terms fall into three groups --- four with a
+single delta on the upper pair, two with two deltas and no spectating index,
+four with a single delta on the lower pair, and two with two deltas --- and every
+one of them is a different operator. As in \S2 nothing is cancelled: the
+contracted form is obtained by letting each delta eat its index of $g$, term by
+term, which is what the collection needs.
+
+Contracting each delta with $g$ --- one index of $g$ per delta, exactly as in
+the $(2,1)$ block --- turns \eqref{eq:c22apply} into
+\begin{equation}
+  \begin{aligned}
+  [\hat V,\hat T_2]=\tfrac14\,t^{\vir\beta}_{\occ j}\Bigl(
+   &+g^{\vir q}_{rs}\,\E{rs\beta}{\occ qj}
+    +g^{\beta q}_{rs}\,\E{rs\vir}{jq\occ}
+    +g^{p\vir}_{rs}\,\E{sr\beta}{\occ pj}
+    +g^{p\beta}_{rs}\,\E{sr\vir}{jp\occ}\\
+   &+g^{\vir\beta}_{rs}\,\E{rs}{\occ j}
+    +g^{\beta\vir}_{rs}\,\E{rs}{j\occ}\\
+   &-g^{pq}_{\occ s}\,\E{\vir\beta s}{pvq}
+    -g^{pq}_{r\occ}\,\E{\vir\beta r}{qvp}
+    -g^{pq}_{j s}\,\E{\beta\vir s}{p\occ q}
+    -g^{pq}_{r j}\,\E{\beta\vir r}{q\occ p}\\
+   &-g^{pq}_{\occ j}\,\E{\vir\beta}{pq}
+    -g^{pq}_{j\occ}\,\E{\vir\beta}{qp}\Bigr),
+  \end{aligned}
+  \label{eq:VT2c}
+\end{equation}
+twelve terms, and the last four of them --- the ones that carry two deltas ---
+must not be dropped. They are not small and they do not cancel against anything:
+checked on matrices, the eight single-delta terms of \eqref{eq:VT2c} reproduce
+$[\hat V,\hat T_2]$ only to a relative $4.1\times10^{-1}$, the four double-delta
+terms only to $5.9\times10^{-1}$, and the twelve together to $3.8\times10^{-16}$.
+The same holds for the $(2,2)$ rule itself, whose four double-delta terms are as
+necessary as its eight single-delta ones.
+
+\section*{4. What the two blocks contribute}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}llrr@{}}
+\toprule
+block & rule & terms & rank out \\
+\midrule
+$[\hat F,\hat T_1]$ & $(1,1)$ & 2 & 1 \\
+$[\hat F,\hat T_2]$ & $(1,2)$ & 4 & 2 \\
+$[\hat V,\hat T_1]$, \eqref{eq:VT1} & $(2,1)$ & 4 & 2 \\
+$[\hat V,\hat T_2]$, \eqref{eq:c22apply} & $(2,2)$ & 12 & 2 and 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Together with the conjugate halves these are the first-order part
+$[\hat H,\hat A]=[\hat H,\hat T]+[\hat H,\hat T]^\dagger$ of the CT expansion.
+The $(2,2)$ block is the only one that produces three-body operators, which is
+where the $[\dots]_{1,2}$ truncation of \texttt{ct\_structure.tex} enters.
+
+\section*{5. The check}
+
+\path{tests/test_V_A_commutator.py} builds $\hat V,\hat T_1,\hat T_2$ as
+explicit spin-free matrices on four orbitals ($\{0,1\}$ occupied, $\{2,3\}$
+virtual) with random tensors, forms each block from the rules term by term, and
+compares with the matrix commutators:
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+block & terms per assignment & max$|\Delta|$ & relative \\
+\midrule
+$[\hat V,\hat T_1]$ & 4 & $8.9\times10^{-15}$ & $6.1\times10^{-16}$ \\
+$[\hat V,\hat T_2]$ & 12 & $5.0\times10^{-14}$ & $8.9\times10^{-16}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Each block is checked with the terms kept separate, so the listing in the note
+is verified as it stands rather than through an equivalent folded form.
+
+\section*{6. Why the terms stay separate}
+
+The same point as in the Fock case, and it is worth stating once here because
+the $(2,2)$ block makes it sharper. The twelve terms of \eqref{eq:c22apply} are
+different operators --- $\E{rs\beta}{\occ qj}$ and $\E{rs\vir}{jq\occ}$, for
+instance, agree neither in their upper nor in their lower index pattern --- so
+each restricts the general range to a different block and carries its own
+coefficient. Some of them have the same \emph{sum} after a relabelling of the
+dummy labels; that relabelling relates the sums, not the terms, and it is the
+terms that the collection reads off. Cancelling a pair would merge two
+coefficients belonging to two different index patterns, and the resulting
+$\bar h$ and $\bar g$ would be missing blocks.
+
+\begin{thebibliography}{9}
+\bibitem{Kutzelnigg:1997} W.~Kutzelnigg and D.~Mukherjee,
+  \emph{Normal order and extended Wick theorem for a multiconfiguration
+  reference wave function}, J.~Chem.~Phys.\ \textbf{107}, 432 (1997).
+\bibitem{Yanai:2012cj} T.~Yanai and T.~Shiozaki,
+  \emph{Canonical transcorrelated theory with projected Slater-type geminals},
+  J.~Chem.~Phys.\ \textbf{136}, 084107 (2012).
+\end{thebibliography}
+
+\end{document}

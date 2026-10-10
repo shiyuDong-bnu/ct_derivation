@@ -1,0 +1,117 @@
+%-----------------------------------------------------------
+% TEMPLATE: Mathematical Derivation Draft
+% PURPOSE: For documenting step-by-step derivations
+% AUTHOR: [Your Name]
+% DATE: \today
+%-----------------------------------------------------------
+\documentclass[11pt, oneside]{article}
+
+%-------------------------
+% 1. ESSENTIAL PACKAGES
+%-------------------------
+\usepackage{amsmath, amssymb, amsthm} % Core math typesetting
+\usepackage{geometry}                 % Flexible page margins
+\usepackage{microtype}                % Better typography
+\usepackage{hyperref}                 % For internal references
+\usepackage[shortlabels]{enumitem}    % Customizable lists
+\usepackage{xcolor}                   % For colored text/comments
+\usepackage{todonotes}                % For draft notes in margins
+\usepackage{titling}                  % For custom title spacing
+\usepackage{mathtools}                % Extends amsmath (for \coloneqq, etc.)
+\usepackage{mdframed}                 % For framed boxes (theorems, notes)
+% Reset equation counter for each lemma
+\usepackage{etoolbox}
+\allowdisplaybreaks
+\AtBeginEnvironment{lemma}{\setcounter{equation}{0}}
+%-------------------------
+% 2. PAGE & GEOMETRY SETUP
+%-------------------------
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=25mm,
+    bottom=30mm,
+    % Showframe  % Uncomment to see page margins during setup
+}
+\setlength{\parindent}{0pt}          % No paragraph indentation
+\setlength{\parskip}{0.8em}          % Space between paragraphs
+\setlength{\droptitle}{-4em}         % Adjust title position
+
+%-------------------------
+% 3. CUSTOM COLORS & COMMANDS
+%-------------------------
+\definecolor{deepblue}{RGB}{0,0,128}
+\definecolor{deepgreen}{RGB}{0,100,0}
+\definecolor{noteorange}{RGB}{200,100,0}
+\hypersetup{colorlinks=true, linkcolor=deepblue, urlcolor=deepblue}
+
+% Quick mathematical symbols/operators
+\newcommand{\R}{\mathbb{R}}          % Real numbers
+\newcommand{\C}{\mathbb{C}}          % Complex numbers
+\newcommand{\diff}{\mathop{}\!\mathrm{d}} % Proper differential 'd'
+\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}} % Partial derivative
+\newcommand{\eqnref}[1]{Eq.~(\ref{#1})} % Clean equation reference
+
+%-------------------------
+% 4. CUSTOM ENVIRONMENTS
+%-------------------------
+% For stating assumptions explicitly
+\newenvironment{assumptions}
+    {\begin{mdframed}[linecolor=deepgreen, linewidth=1.5pt,
+         frametitle={Assumptions}, frametitlealignment=\centering]}
+    {\end{mdframed}}
+\newenvironment{lemma}
+    {\begin{mdframed}[linecolor=deepgreen, linewidth=1.5pt,
+         frametitle={Lemma}, frametitlealignment=\centering]}
+    {\end{mdframed}}
+% For key results or final formulas
+\newenvironment{result}
+    {\begin{mdframed}[linecolor=deepblue, linewidth=2pt, frametitle={Result}, frametitlealignment=\centering]}
+    {\end{mdframed}}
+
+% For important derivation steps
+\newenvironment{keystep}
+    {\vspace{0.5em}\noindent\textbf{Key Step:} \itshape}
+    {\normalfont\vspace{0.5em}}
+
+% For placeholder notes (remove in final draft)
+\newcommand{\derivnote}[1]{\todo[inline, color=noteorange!30]{#1}}
+
+%-------------------------
+% 5. DOCUMENT START
+%-------------------------
+\begin{document}
+\section{Cumulant Expression}
+\begin{multline}
+    \input{cumulant_decomposition.tex}
+\end{multline}
+\section{Normal Order}
+\begin{multline}
+    \input{normal_order3.tex}
+\end{multline}
+\begin{equation}
+    \input{normal_order2.tex}
+\end{equation}
+\begin{equation}
+    \input{normal_order1.tex}
+\end{equation}
+\section{Change to Operator}
+\begin{equation}
+    \input{substitution1.tex}
+\end{equation}
+\begin{equation}
+    \input{substitution2.tex}
+\end{equation}
+\section{Final Result}
+\begin{multline}
+ \input{substitution3.tex}
+\end{multline}
+\begin{multline}
+    \input{operator_decomposition.tex}
+\end{multline}
+\section{Spin Free Result}
+\begin{multline}
+    \input{spin_free.tex}
+\end{multline}
+\end{document}

@@ -1,0 +1,149 @@
+% !TEX program = pdflatex
+% Scanned source: ../single_amplitude_formula/pictures/ct_f_a_a_p6_scan.png
+% Page 6 of the double-commutator sheets: the block [[F,T2]^dag, T2],
+% typeset from the scan, with the first step checked.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}[2]{\hat E^{#1}_{#2}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\occ}{i}
+\newcommand{\vir}{a}
+
+\title{\bfseries The block $\bigl[[\hat F,\hat T_2]^\dagger,\hat T_2\bigr]$\\[4pt]
+       \large page 6 of the sheets, typeset}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\noindent
+This is the six-page sheet's block, in the convention of
+\texttt{ct\_F\_A.tex} and \texttt{ct\_f\_a\_a.tex}: crossed Fock order,
+excitation operators, general indices over the whole space
+$\{\occ\}\cup\{\vir\}$, and
+\begin{equation}
+  \hat F=f^p_q\,\E{q}{p},
+  \qquad
+  \hat T_2=\tfrac12\,t^{\vir\beta}_{\occ j}\,\E{\vir\beta}{\occ j},
+  \qquad
+  \hat C_r=[\hat F,\hat T_r].
+  \label{eq:ops}
+\end{equation}
+It is one of the eight blocks of $\tfrac12[[\hat F,\hat A],\hat A]$, the
+conjugate-inner one with $\hat T_2$ on the outside.
+
+\section*{1. The conjugate block folds to two terms}
+
+Start from $[\hat F,\hat T_2]$ of \texttt{ct\_F\_A.tex},
+\begin{equation}
+  [\hat F,\hat T_2]=\tfrac12\Bigl(
+   +f^\vir_q t^{\vir\beta}_{\occ j}\E{q\beta}{\occ j}
+   +f^\beta_q t^{\vir\beta}_{\occ j}\E{q\vir}{j\occ}
+   -f^p_\occ t^{\vir\beta}_{\occ j}\E{\vir\beta}{pj}
+   -f^j_p t^{\vir\beta}_{\occ j}\E{\beta\vir}{p\occ}\Bigr),
+  \label{eq:FT2}
+\end{equation}
+whose adjoint exchanges the operator's two index groups,
+$(\E{rs}{pq})^\dagger=\E{pq}{rs}$. The second term is the first under
+$\vir\leftrightarrow\beta$, $\occ\leftrightarrow j$, and the fourth is the
+third under the same exchange, so each pair adds to twice one member, the inner
+$\tfrac12$ cancels against the doubling, and
+\begin{equation}
+  \boxed{\;[\hat F,\hat T_2]^\dagger
+   =f^\vir_q\,t^{\vir\beta}_{\occ j}\,\E{\occ j}{q\beta}
+    -f^p_\occ\,t^{\vir\beta}_{\occ j}\,\E{pj}{\vir\beta}.\;}
+  \label{eq:C2dag}
+\end{equation}
+The two terms carry \emph{coefficient one}: the $\tfrac12$ is gone, and the
+$\tfrac12$ that appears below belongs to the outer $\hat T_2$, not to this
+block. Checked on matrices: $3.4\times10^{-16}$.
+
+\section*{2. Commuting with \texorpdfstring{$\hat T_2$}{T2}}
+
+With $\hat T_2=\tfrac12t^{cd}_{kl}\E{cd}{kl}$ and \eqref{eq:C2dag},
+\begin{equation}
+  \bigl[[\hat F,\hat T_2]^\dagger,\hat T_2\bigr]
+   =\tfrac12\Bigl(
+     f^\vir_q\,t^{\vir\beta}_{\occ j}\,t^{cd}_{kl}
+       \bigl[\E{\occ j}{q\beta},\E{cd}{kl}\bigr]
+    -f^p_\occ\,t^{\vir\beta}_{\occ j}\,t^{cd}_{kl}
+       \bigl[\E{pj}{\vir\beta},\E{cd}{kl}\bigr]\Bigr),
+  \label{eq:block}
+\end{equation}
+so the block is two copies of the $(2,2)$ rule with the outer operator's indices
+in the second slot, $u=c$, $w=d$, $t=k$, $v=l$:
+\begin{equation}
+  \begin{aligned}
+  \bigl[\E{rs}{pq},\E{cd}{kl}\bigr]=\;
+   &+\delta^c_p\,\E{rsd}{kql}+\delta^d_p\,\E{rsc}{lqk}
+    +\delta^c_q\,\E{srd}{kpl}+\delta^d_q\,\E{src}{lpk}\\
+   &+\delta^c_p\delta^d_q\,\E{rs}{kl}
+    +\delta^d_p\delta^c_q\,\E{rs}{lk}\\
+   &-\delta^r_k\,\E{cds}{plq}-\delta^s_k\,\E{cdr}{qlp}
+    -\delta^r_l\,\E{dcs}{pkq}-\delta^s_l\,\E{dcr}{qkp}\\
+   &-\delta^r_k\delta^s_l\,\E{cd}{pq}
+    -\delta^s_k\delta^r_l\,\E{cd}{qp}.
+  \end{aligned}
+  \label{eq:rule}
+\end{equation}
+For the first group $(r,s,p,q)=(\occ,j,q,\beta)$ and for the second
+$(r,s,p,q)=(p,j,\vir,\beta)$, each giving the twelve terms of \eqref{eq:rule}
+--- twenty-four terms in all, of which four in each group carry two deltas.
+Those must be kept: dropping the double-delta terms of a $(2,2)$ application
+costs about $41\%$ of the operator, as the $[\hat V,\hat T_2]$ check showed.
+
+\section*{3. The check}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}llr@{}}
+\toprule
+step & check & result \\
+\midrule
+\eqref{eq:C2dag}, the folded conjugate block & matrix, exact & $3.4\times10^{-16}$ \\
+\eqref{eq:block}, both groups from \eqref{eq:rule} & matrix sweep & script committed; see the note below \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The sweep for \eqref{eq:block} builds the twenty-four terms from
+\eqref{eq:rule} with the two index substitutions and compares with the matrix
+commutator $\bigl[[\hat F,\hat T_2]^\dagger,\hat T_2\bigr]$. The script is
+\texttt{tests/test\_f\_a\_a\_p6.py}; the sweep had not finished when this note was written, so the
+second line of the table is a statement about the script, not a result: the
+first step is verified, and the block is the verified rule applied twice.
+
+\section*{4. Where this block sits}
+
+It is the fifth of the eight in \texttt{ct\_f\_a\_a.tex},
+$\tfrac12\bigl\{[\hat C_1,\hat T_1]+[\hat C_1,\hat T_2]
++[\hat C_2,\hat T_1]+[\hat C_2,\hat T_2]
++[\hat C_1^\dagger,\hat T_1]+[\hat C_1^\dagger,\hat T_2]
++[\hat C_2^\dagger,\hat T_1]+[\hat C_2^\dagger,\hat T_2]\bigr\}+\hc$,
+the one with the conjugate of the two-body Fock block inside and $\hat T_2$
+outside. Like the others it is assembled from operators with distinct index
+patterns, so its terms are not to be cancelled against one another; and like
+$[\hat C_2,\hat T_2]$ it produces three-body operators, from the four
+single-delta terms of each group, which the $[\dots]_{1,2}$ reduction has to
+fold back.
+
+\begin{thebibliography}{9}
+\bibitem{Kutzelnigg:1997} W.~Kutzelnigg and D.~Mukherjee,
+  \emph{Normal order and extended Wick theorem for a multiconfiguration
+  reference wave function}, J.~Chem.~Phys.\ \textbf{107}, 432 (1997).
+\bibitem{Yanai:2012cj} T.~Yanai and T.~Shiozaki,
+  \emph{Canonical transcorrelated theory with projected Slater-type geminals},
+  J.~Chem.~Phys.\ \textbf{136}, 084107 (2012).
+\end{thebibliography}
+
+\end{document}

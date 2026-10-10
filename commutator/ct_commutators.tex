@@ -1,0 +1,257 @@
+% !TEX program = pdflatex
+% The three commutators of the CT expansion gathered into one document:
+% [F,A], [V,A] and [[F,A],A], with the scanned sheets they were read from.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+% the scans live at the repository root; work from either directory
+\graphicspath{{../}{./}{../single_amplitude_formula/pictures/}{single_amplitude_formula/pictures/}}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}[2]{\hat E^{#1}_{#2}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\occ}{i}
+\newcommand{\vir}{a}
+
+\title{\bfseries The commutators of canonical transcorrelation\\[4pt]
+  \large $\hat C=[\hat F,\hat A]$, $\hat D=[\hat V,\hat A]$, and
+  $\tfrac12[[\hat F,\hat A],\hat A]$}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\noindent
+The three commutators the CT expansion needs, gathered. Each is derived in its
+own note --- \texttt{ct\_F\_A.tex}, \texttt{ct\_V\_A.tex},
+\texttt{ct\_f\_a\_a.tex} --- and each was read from a sheet of the handwritten
+notes, reproduced as a scan in \S4. This document collects the results, the
+index conventions they are written in, and what has been checked.
+
+\section*{1. Conventions}
+
+The crossed Fock order of the sheets and of \texttt{formula.tex}, excitation
+operators, and general indices ranging over the whole space
+$\{\occ\}\cup\{\vir\}$:
+\begin{equation}
+  \hat F=f^p_q\,\E{q}{p},
+  \qquad
+  \hat V=\tfrac12\,g^{pq}_{rs}\,\E{rs}{pq},
+  \qquad
+  \hat T_1=t^\vir_\occ\,\E{\vir}{\occ},
+  \qquad
+  \hat T_2=\tfrac12\,t^{\vir\beta}_{\occ j}\,\E{\vir\beta}{\occ j},
+  \label{eq:ops}
+\end{equation}
+with $\hat A=\hat T-\hat T^\dagger$, $\hat T=\hat T_1+\hat T_2$, and
+$g^{pq}_{rs}$, $t^{\vir\beta}_{\occ j}$ antisymmetric in each of their pairs.
+Two points that the checks depend on:
+
+\begin{itemize}
+  \item $\hat F$ is Hermitian only for symmetric (real) $f$, which is the
+        physical case; the identity
+        $[\hat F,\hat A]=[\hat F,\hat T]+[\hat F,\hat T]^\dagger$ uses that
+        Hermiticity and fails otherwise.
+  \item A general index is occupied or virtual and nothing else, so an
+        occupied label can never satisfy a delta against a virtual one. That is
+        how some terms below vanish --- by an unsatisfiable delta, not by
+        cancellation.
+\end{itemize}
+
+\section*{2. \texorpdfstring{$[\hat F,\hat A]$}{[F,A]}}
+
+Both blocks come from the $(1,1)$ and $(1,2)$ rules,
+\begin{equation}
+  \bigl[\E{q}{p},\E{s}{r}\bigr]=\delta^s_p\E{q}{r}-\delta^q_r\E{s}{p},
+  \qquad
+  \bigl[\E{q}{p},\E{tu}{rs}\bigr]
+   =\delta^t_p\E{qu}{rs}+\delta^u_p\E{qt}{sr}
+    -\delta^q_r\E{tu}{ps}-\delta^q_s\E{ut}{pr},
+  \label{eq:rules}
+\end{equation}
+and with $[\hat F,\hat A]=[\hat F,\hat T]+[\hat F,\hat T]^\dagger$ one gets
+\begin{equation}
+  [\hat F,\hat T_1]=t^\vir_\occ\bigl(f^\vir_q\E{q}{\occ}-f^p_\occ\E{\vir}{p}\bigr),
+  \label{eq:FT1}
+\end{equation}
+\begin{equation}
+  [\hat F,\hat T_2]=\tfrac12\Bigl(
+   +f^\vir_q t^{\vir\beta}_{\occ j}\E{q\beta}{\occ j}
+   +f^\beta_q t^{\vir\beta}_{\occ j}\E{q\vir}{j\occ}
+   -f^p_\occ t^{\vir\beta}_{\occ j}\E{\vir\beta}{pj}
+   -f^j_p t^{\vir\beta}_{\occ j}\E{\beta\vir}{p\occ}\Bigr),
+  \label{eq:FT2}
+\end{equation}
+the four terms of \eqref{eq:FT2} kept separate: they are different operators,
+and cancelling a pair would merge coefficients belonging to different index
+patterns. Collecting both halves in the general basis,
+\begin{equation}
+  \boxed{\;[\hat F,\hat A]=C^q_p\,\E{q}{p}+C^{rs}_{pq}\,\E{rs}{pq}\;}
+  \label{eq:FA}
+\end{equation}
+with
+\begin{equation}
+  \boxed{\;C^q_p=
+    \underbrace{f^\vir_q\,t^\vir_p}_{p\ \text{occupied}}
+   -\underbrace{f^p_\occ\,t^q_\occ}_{q\ \text{virtual}}
+   +\underbrace{f^\vir_p\,t^\vir_q}_{q\ \text{occupied}}
+   -\underbrace{f^q_\occ\,t^p_\occ}_{p\ \text{virtual}}\;}
+  \label{eq:C1}
+\end{equation}
+for the one-body coefficient, and the eight index patterns of the four terms of
+\eqref{eq:FT2} together with their conjugates for the two-body coefficient
+$C^{rs}_{pq}$. The conjugate half is what supplies the third and fourth terms of
+\eqref{eq:C1}; the sheet's two-term form is the $[\hat F,\hat T]$ half alone.
+
+\section*{3. \texorpdfstring{$[\hat V,\hat A]$}{[V,A]}}
+
+The $(2,1)$ commutator is minus the $(1,2)$ one of \eqref{eq:rules}, which gives
+the four-term block
+\begin{equation}
+  [\hat V,\hat T_1]=\tfrac12\,g^{pq}_{rs}t^\vir_\occ
+   \Bigl(\delta^\vir_p\E{rs}{\occ q}+\delta^\vir_q\E{sr}{\occ p}
+    -\delta^r_\occ\E{\vir s}{pq}-\delta^s_\occ\E{\vir r}{qp}\Bigr),
+  \label{eq:VT1}
+\end{equation}
+and the $(2,2)$ rule gives the twelve-term block
+\begin{equation}
+  \begin{aligned}
+  \bigl[\E{rs}{pq},\E{\vir\beta}{\occ j}\bigr]=\;
+   &+\delta^\vir_p\,\E{rs\beta}{\occ qj}
+    +\delta^\beta_p\,\E{rs\vir}{jq\occ}
+    +\delta^\vir_q\,\E{sr\beta}{\occ pj}
+    +\delta^\beta_q\,\E{sr\vir}{jp\occ}\\
+   &+\delta^\vir_p\delta^\beta_q\,\E{rs}{\occ j}
+    +\delta^\beta_p\delta^\vir_q\,\E{rs}{j\occ}\\
+   &-\delta^r_\occ\,\E{\vir\beta s}{pvq}
+    -\delta^s_\occ\,\E{\vir\beta r}{qvp}
+    -\delta^r_j\,\E{\beta\vir s}{p\occ q}
+    -\delta^s_j\,\E{\beta\vir r}{q\occ p}\\
+   &-\delta^r_\occ\delta^s_j\,\E{\vir\beta}{pq}
+    -\delta^s_\occ\delta^r_j\,\E{\vir\beta}{qp},
+  \end{aligned}
+  \label{eq:VT2}
+\end{equation}
+so that $[\hat V,\hat T_2]$ is $\tfrac14g^{pq}_{rs}t^{\vir\beta}_{\occ j}$ times
+this bracket. The four terms carrying two deltas must not be dropped: with the
+eight single-delta terms alone the block is reproduced only to a relative
+$4.1\times10^{-1}$, with the four double-delta terms alone to $5.9\times10^{-1}$,
+and with all twelve to $3.8\times10^{-16}$. Contracting one index of $g$ per
+delta gives the coefficient form, twelve terms, in \texttt{ct\_V\_A.tex}
+eq.~(13).
+
+\section*{4. \texorpdfstring{$\tfrac12[[\hat F,\hat A],\hat A]$}{1/2[[F,A],A]}}
+
+With $\hat C=[\hat F,\hat A]$ Hermitian,
+\begin{equation}
+  \tfrac12\bigl[[\hat F,\hat A],\hat A\bigr]
+   =\tfrac12[\hat C,\hat T]+\tfrac12[\hat C,\hat T]^\dagger,
+  \qquad
+  \hat C=\hat C_1+\hat C_2+\hat C_1^\dagger+\hat C_2^\dagger,
+  \qquad
+  \hat C_r=[\hat F,\hat T_r],
+  \label{eq:dbl}
+\end{equation}
+which expands into the eight commutators of the sheets,
+\begin{equation}
+  \tfrac12\Bigl\{
+    [\hat C_1,\hat T_1]+[\hat C_1,\hat T_2]+[\hat C_2,\hat T_1]+[\hat C_2,\hat T_2]
+   +[\hat C_1^\dagger,\hat T_1]+[\hat C_1^\dagger,\hat T_2]
+   +[\hat C_2^\dagger,\hat T_1]+[\hat C_2^\dagger,\hat T_2]\Bigr\}+\hc .
+  \label{eq:eight}
+\end{equation}
+None of the eight is redundant: $[\hat C_r,\hat T_s]^\dagger
+=-[\hat C_r^\dagger,\hat T_s^\dagger]$ relates conjugates across
+$\hat T_s^\dagger$, and the two mixed nested commutators differ because
+$\hat T_1\hat T_2-\hat T_2\hat T_1\neq0$.
+
+The simplest block shows both mechanisms at work. From \eqref{eq:FT1} and
+$\hat T_1=t^\beta_j\E{\beta}{j}$,
+\begin{equation}
+  \bigl[\E{q}{\occ},\E{\beta}{j}\bigr]=\delta^\beta_\occ\E{q}{j}
+   -\delta^q_j\E{\beta}{\occ},
+  \qquad
+  \bigl[\E{\vir}{p},\E{\beta}{j}\bigr]=\delta^\beta_p\E{\vir}{j}
+   -\delta^\vir_j\E{\beta}{p},
+  \label{eq:worked}
+\end{equation}
+and two of the four terms vanish because $\delta^\beta_\occ$ and
+$\delta^\vir_j$ tie an occupied label to a virtual one. The surviving two are
+equal under $\occ\leftrightarrow j$, $\vir\leftrightarrow\beta$, so
+\begin{equation}
+  \bigl[[\hat F,\hat T_1],\hat T_1\bigr]
+   =-2\,f^\vir_j\,t^\vir_\occ\,t^\beta_j\,\E{\beta}{\occ}\neq0 :
+  \label{eq:workedresult}
+\end{equation}
+the block does not vanish, because $[\hat F,\hat T_1]$ is a one-body operator of
+the same shape as $\hat T_1$ with different coefficients.
+
+\section*{5. The sheets}
+
+\begin{center}
+\includegraphics[width=0.46\textwidth]{single_amplitude_formula/pictures/ct_F_A_scan.png}
+\hfill
+\includegraphics[width=0.46\textwidth]{single_amplitude_formula/pictures/ct_V_A_scan.png}
+
+\vspace{1em}
+\includegraphics[width=0.46\textwidth]{single_amplitude_formula/pictures/ct_f_a_a_scan.png}
+\end{center}
+
+\noindent
+Left to right, top to bottom: the $[\hat F,\hat A]$ page, the
+$[\hat V,\hat A]$ page, and the double-commutator page. Everything in \S2--\S4
+was read from these, and each equation was checked against the others'
+machinery rather than against the handwriting.
+
+\section*{6. What is checked}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}llrr@{}}
+\toprule
+quantity & check & max$|\Delta|$ & relative \\
+\midrule
+$[\hat F,\hat T_1]$, \eqref{eq:FT1} & \texttt{test\_F\_A\_commutator.py}
+  & $1.1\times10^{-15}$ & $2.6\times10^{-16}$ \\
+$[\hat F,\hat T_2]$, \eqref{eq:FT2}, four terms & idem
+  & $3.6\times10^{-15}$ & $1.5\times10^{-16}$ \\
+$[\hat F,\hat A]$, \eqref{eq:FA}, both coefficients & \texttt{test\_F\_A\_result.py}
+  & $4.4\times10^{-15}$ & $6.5\times10^{-16}$ \\
+$C^q_p$, \eqref{eq:C1} & idem & --- & $2.5\times10^{-16}$ \\
+$[\hat V,\hat T_1]$, \eqref{eq:VT1} & \texttt{test\_V\_A\_commutator.py}
+  & $8.9\times10^{-15}$ & $6.1\times10^{-16}$ \\
+$[\hat V,\hat T_2]$, \eqref{eq:VT2}, twelve terms & idem
+  & $5.0\times10^{-14}$ & $8.9\times10^{-16}$ \\
+the eight blocks of \eqref{eq:eight} & \texttt{test\_ct\_structure.py}
+  & $7.4\times10^{-13}$ & --- \\
+$[[\hat F,\hat T_1],\hat T_1]$, \eqref{eq:workedresult} & idem
+  & $2.2\times10^{-15}$ & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+\textbf{Open.} The two-body coefficient $C^{rs}_{pq}$ of \eqref{eq:FA} is
+verified as a collection of index patterns and has no compact closed form
+written down. And the three-body operators produced by the $(2,2)$ blocks ---
+the four single-delta terms of \eqref{eq:VT2} whose operators carry three
+indices --- still need the $[\dots]_{1,2}$ reduction through the extended normal
+ordering of Kutzelnigg and Mukherjee.
+
+\begin{thebibliography}{9}
+\bibitem{Kutzelnigg:1997} W.~Kutzelnigg and D.~Mukherjee,
+  \emph{Normal order and extended Wick theorem for a multiconfiguration
+  reference wave function}, J.~Chem.~Phys.\ \textbf{107}, 432 (1997).
+\bibitem{Yanai:2012cj} T.~Yanai and T.~Shiozaki,
+  \emph{Canonical transcorrelated theory with projected Slater-type geminals},
+  J.~Chem.~Phys.\ \textbf{136}, 084107 (2012).
+\end{thebibliography}
+
+\end{document}

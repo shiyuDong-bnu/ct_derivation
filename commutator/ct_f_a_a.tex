@@ -1,0 +1,245 @@
+% !TEX program = pdflatex
+% Scanned source: single_amplitude_formula/pictures/ct_f_a_a_scan.png
+% The double commutator of the CT expansion: 1/2[[F,A],A] = 1/2[C,T] + h.c.,
+% and its expansion into the eight commutators of the sheets.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}[2]{\hat E^{#1}_{#2}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\occ}{i}
+\newcommand{\vir}{a}
+\newcommand{\Cd}{\hat C}
+
+\title{\bfseries The double commutator of the CT expansion\\[2pt]
+       \large $\tfrac12[[\hat F,\hat A],\hat A]$, and the eight blocks}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\noindent
+This is the last piece of the first-order structure: the second-order term of
+the CT expansion, in the convention of \texttt{ct\_F\_A.tex} and
+\texttt{ct\_V\_A.tex} (crossed Fock order, excitations, general indices over
+$\{\occ\}\cup\{\vir\}$). With
+\begin{equation}
+  \hat A=\hat T-\hat T^\dagger,
+  \qquad
+  \hat T=\hat T_1+\hat T_2,
+  \qquad
+  \hat C=[\hat F,\hat A],
+  \label{eq:setup}
+\end{equation}
+the second-order term is
+\begin{equation}
+  \tfrac12\bigl[[\hat F,\hat A],\hat A\bigr]
+   =\tfrac12[\hat C,\hat A]
+   =\tfrac12[\hat C,\hat T]+\tfrac12[\hat C,\hat T]^\dagger,
+  \label{eq:first}
+\end{equation}
+the second equality because $\hat A$ is anti-Hermitian, which makes $\hat C$
+Hermitian, so that $[\hat C,\hat T]^\dagger=-[\hat C,\hat T^\dagger]$ and
+$[\hat C,\hat A]=[\hat C,\hat T]-[\hat C,\hat T^\dagger]$. Only the $\hat T$
+half has to be computed; the other half is its conjugate.
+
+\section*{1. Splitting \texorpdfstring{$\hat C$}{C}}
+
+Write the two halves of the Fock commutator separately,
+\begin{equation}
+  \hat C_1=[\hat F,\hat T_1],
+  \qquad
+  \hat C_2=[\hat F,\hat T_2],
+  \qquad
+  \hat C=\hat C_1+\hat C_2+\hat C_1^\dagger+\hat C_2^\dagger,
+  \label{eq:Csplit}
+\end{equation}
+with $\hat C_r^\dagger=-[\hat F,\hat T_r^\dagger]$ the conjugate of
+$\hat C_r$. Both $\hat C_1$ and $\hat C_2$ are already in closed form in
+\texttt{ct\_F\_A.tex}: two terms for the one-body block, four for the two-body
+block.
+
+Since the commutator is linear in its first argument,
+\begin{equation}
+  [\hat C,\hat T]
+   =[\hat C_1,\hat T]+[\hat C_2,\hat T]
+    +[\hat C_1^\dagger,\hat T]+[\hat C_2^\dagger,\hat T],
+  \label{eq:four}
+\end{equation}
+and expanding each $[\cdot,\hat T]=[\cdot,\hat T_1]+[\cdot,\hat T_2]$ gives the
+eight commutators of the sheets:
+\begin{equation}
+  \boxed{\;
+  \begin{aligned}
+  \tfrac12\bigl[[\hat F,\hat A],\hat A\bigr]
+   =\tfrac12\Bigl\{&
+    [\hat C_1,\hat T_1]+[\hat C_1,\hat T_2]
+   +[\hat C_2,\hat T_1]+[\hat C_2,\hat T_2]\\
+   &+[\hat C_1^\dagger,\hat T_1]+[\hat C_1^\dagger,\hat T_2]
+   +[\hat C_2^\dagger,\hat T_1]+[\hat C_2^\dagger,\hat T_2]\Bigr\}
+   +\hc .
+  \end{aligned}\;}
+  \label{eq:eight}
+\end{equation}
+
+\section*{2. What the eight blocks are}
+
+The first four of \eqref{eq:eight} are the nested double commutators of the
+Fock operator with two $\hat T$'s,
+\begin{equation}
+  [\hat C_r,\hat T_s]=\bigl[[\hat F,\hat T_r],\hat T_s\bigr],
+  \qquad r,s\in\{1,2\},
+  \label{eq:nested}
+\end{equation}
+and the last four are the same with the conjugate inner commutator,
+$[\hat C_r^\dagger,\hat T_s]$. They are not related to each other by
+conjugation in a way that saves work:
+\begin{equation}
+  [\hat C_r,\hat T_s]^\dagger=-[\hat C_r^\dagger,\hat T_s^\dagger],
+  \label{eq:adjoint}
+\end{equation}
+which is a statement about $[\cdot,\hat T_s^\dagger]$, not about
+$[\cdot,\hat T_s]$, so each of the eight has to be evaluated. In particular the
+two mixed nested commutators are different operators,
+\begin{equation}
+  \bigl[[\hat F,\hat T_1],\hat T_2\bigr]\neq
+  \bigl[[\hat F,\hat T_2],\hat T_1\bigr],
+\end{equation}
+since $\hat T_1\hat T_2-\hat T_2\hat T_1$ does not vanish (four terms), so the
+Jacobi shortcut is not available and both mixed blocks are kept.
+
+Each block is evaluated the same way: commute once to get $\hat C_r$ (or
+$\hat C_r^\dagger$) from \texttt{ct\_F\_A.tex}, then commute the result with
+$\hat T_s$ using the $(1,1)$ or $(1,2)$ rule. Counting terms before merging:
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}llrc@{}}
+\toprule
+block & inner object & inner terms & terms out \\
+\midrule
+$[\hat C_1,\hat T_1]=\bigl[[\hat F,\hat T_1],\hat T_1\bigr]$
+  & $\hat C_1$ (1 body) & 2 & $2\times2=4$ \\
+$[\hat C_1,\hat T_2]=\bigl[[\hat F,\hat T_1],\hat T_2\bigr]$
+  & $\hat C_1$ (1 body) & 2 & $2\times4=8$ \\
+$[\hat C_2,\hat T_1]=\bigl[[\hat F,\hat T_2],\hat T_1\bigr]$
+  & $\hat C_2$ (2 body) & 4 & $4\times2=8$ \\
+$[\hat C_2,\hat T_2]=\bigl[[\hat F,\hat T_2],\hat T_2\bigr]$
+  & $\hat C_2$ (2 body) & 4 & $4\times4=16$ \\
+the four conjugate-inner blocks & $\hat C_r^\dagger$ & same & same \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Every one of these terms is kept: as in the first-order blocks, the terms of a
+block are different operators with different index patterns, and the collection
+into $\bar h$ and $\bar g$ reads a coefficient off each of them.
+
+\subsection*{2.1 A worked block: $\bigl[[\hat F,\hat T_1],\hat T_1\bigr]$}
+
+The simplest of the eight, and the one that answers the natural question of
+whether it vanishes. With $[\hat F,\hat T_1]$ from \texttt{ct\_F\_A.tex} and
+$\hat T_1=t^b_j\E{b}{j}$ with $b$ virtual and $j$ occupied,
+\begin{equation}
+  \bigl[[\hat F,\hat T_1],\hat T_1\bigr]
+   =f^\vir_q\,t^\vir_\occ\,t^\beta_j
+      \bigl[\E{q}{\occ},\E{\beta}{j}\bigr]
+    -f^p_\occ\,t^\vir_\occ\,t^\beta_j
+      \bigl[\E{\vir}{p},\E{\beta}{j}\bigr],
+  \label{eq:worked}
+\end{equation}
+and the $(1,1)$ rule gives
+\begin{equation}
+  \bigl[\E{q}{\occ},\E{\beta}{j}\bigr]
+   =\delta^\beta_\occ\E{q}{j}-\delta^q_j\E{\beta}{\occ},
+  \qquad
+  \bigl[\E{\vir}{p},\E{\beta}{j}\bigr]
+   =\delta^\beta_p\E{\vir}{j}-\delta^\vir_j\E{\beta}{p}.
+  \label{eq:workedrule}
+\end{equation}
+Two of the four resulting terms vanish identically, and not by cancellation:
+$\delta^\beta_\occ$ ties an occupied label to a virtual one, and so does
+$\delta^\vir_j$, so both are zero whatever the amplitudes are. The other two
+survive and are equal to each other under $\occ\leftrightarrow j$,
+$\vir\leftrightarrow\beta$,
+\begin{equation}
+  \bigl[[\hat F,\hat T_1],\hat T_1\bigr]
+   =-f^\vir_j\,t^\vir_\occ\,t^\beta_j\,\E{\beta}{\occ}
+    -f^\beta_\occ\,t^\vir_\occ\,t^\beta_j\,\E{\vir}{j}
+   =-2\,f^\vir_j\,t^\vir_\occ\,t^\beta_j\,\E{\beta}{\occ}.
+  \label{eq:workedresult}
+\end{equation}
+So the block does \emph{not} vanish. $[\hat F,\hat T_1]$ is a one-body operator
+of the same shape as $\hat T_1$ but with different coefficients, and two
+one-body operators do not commute merely because they look alike. Checked on
+matrices: the four delta terms of \eqref{eq:workedrule} reproduce the block to
+$2.2\times10^{-15}$, and the block is non-zero.
+
+\section*{3. The check}
+
+The identities of \S1 are operator identities, so they can be checked on
+explicit matrices with no reference to the $\hat E$ algebra.
+\path{tests/test_ct_structure.py} does this with random Hermitian $\hat F$ and
+arbitrary $\hat T_1,\hat T_2$; the values are
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}lr@{}}
+\toprule
+identity & max$|\Delta|$ \\
+\midrule
+$\hat C=[\hat F,\hat A]=\hat C_1+\hat C_2+\hat C_1^\dagger+\hat C_2^\dagger$
+  & $3.7\times10^{-14}$ \\
+$[\hat C,\hat T]$ equals the four commutators of \eqref{eq:four}
+  & $6.8\times10^{-13}$ \\
+$[\hat C,\hat T]$ equals the eight of \eqref{eq:eight}
+  & $7.6\times10^{-13}$ \\
+$\tfrac12[[\hat F,\hat A],\hat A]=\tfrac12([\hat C,\hat T]+\hc)$
+  & $4.8\times10^{-13}$ \\
+$[\hat C_1,\hat T_1]=\bigl[[\hat F,\hat T_1],\hat T_1\bigr]$
+  & $0.0$ \\
+$[\hat C_1,\hat T_2]^\dagger=-[\hat C_1^\dagger,\hat T_2^\dagger]$
+  & $1.7\times10^{-13}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+and the check also asserts that
+$\bigl[[\hat F,\hat T_1],\hat T_2\bigr]$ and
+$\bigl[[\hat F,\hat T_2],\hat T_1\bigr]$ differ, so the mixed blocks cannot be
+taken as equal.
+
+\section*{4. Where this leaves the derivation}
+
+With \eqref{eq:eight} the second-order term is reduced to the eight blocks
+above, each of which is two applications of rules that are already verified.
+What remains is not algebra of this kind but two other things:
+\begin{itemize}
+  \item \textbf{the three-body reduction.} The $(2,2)$-derived blocks produce
+        three-body operators, which the $[\dots]_{1,2}$ truncation folds back
+        into one- and two-body form with the extended normal ordering of
+        Kutzelnigg and Mukherjee --- an approximation, and one that has to be
+        recorded as such wherever the result is used;
+  \item \textbf{the collection.} Reading $\bar h$ and $\bar g$ off the
+        assembled monomials, term by term, in the general basis
+        $C^q_p\E{q}{p}+\tfrac12C^{rs}_{pq}\E{rs}{pq}$ of \texttt{ct\_F\_A.tex},
+        which is where the index patterns of the previous notes have to be
+        preserved rather than cancelled.
+\end{itemize}
+
+\begin{thebibliography}{9}
+\bibitem{Kutzelnigg:1997} W.~Kutzelnigg and D.~Mukherjee,
+  \emph{Normal order and extended Wick theorem for a multiconfiguration
+  reference wave function}, J.~Chem.~Phys.\ \textbf{107}, 432 (1997).
+\bibitem{Yanai:2012cj} T.~Yanai and T.~Shiozaki,
+  \emph{Canonical transcorrelated theory with projected Slater-type geminals},
+  J.~Chem.~Phys.\ \textbf{136}, 084107 (2012).
+\end{thebibliography}
+
+\end{document}

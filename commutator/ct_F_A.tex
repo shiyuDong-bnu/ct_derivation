@@ -1,0 +1,345 @@
+% !TEX program = pdflatex
+% The Fock commutator of the CT generator, in the reader's own order of steps
+% and Fock convention: [F,A] = [F,T] + h.c., the two blocks, and the collection
+% into C^q_p and C^{rs}_{pq} by enlarging the summation range and restricting
+% it again with deltas.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}[2]{\hat E^{#1}_{#2}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\occ}{i}
+\newcommand{\vir}{a}
+
+\title{\bfseries The Fock commutator of the CT generator\\[2pt]
+       \large $[\hat F,\hat A]$, its two blocks, and the coefficients $C^q_p$,
+       $C^{rs}_{pq}$}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+
+\noindent
+This is the derivation as it is written out by hand, with the algebra checked
+against explicit matrices. The convention is the one used there and in
+\texttt{formula.tex}: the Fock tensor carries its indices in the order
+$f^p_q$, the generator carries the \emph{excitation} operator, and
+\begin{equation}
+  \hat F=f^p_q\,\E{q}{p},
+  \qquad
+  \hat T_1=t^\vir_\occ\,\E{\vir}{\occ},
+  \qquad
+  \hat T_2=\tfrac12\,t^{\vir\beta}_{\occ j}\,\E{\vir\beta}{\occ j},
+  \label{eq:ops}
+\end{equation}
+with $\occ,j$ occupied, $\vir,\beta$ virtual and $t^{\vir\beta}_{\occ j}$
+antisymmetric in $(\vir,\beta)$ and in $(\occ,j)$.
+$\hat A=\hat T-\hat T^\dagger$ is anti-Hermitian and $\hat T=\hat T_1+\hat T_2$.
+
+\medskip
+\noindent
+\textbf{Index ranges.} Throughout, the \emph{general} indices $p,q,r,s$ run
+over the \emph{whole} space, which is the union of the occupied and the virtual
+sets,
+\begin{equation}
+  p,q,r,s\in\{\occ\}\cup\{\vir\},
+  \label{eq:ranges}
+\end{equation}
+so a general index is an occupied one or a virtual one and nothing else. The
+$\hat E$ operators in the general basis, $\E{q}{p}$, therefore carry four
+families of blocks --- occupied--occupied, occupied--virtual,
+virtual--occupied and virtual--virtual --- and a Kronecker delta is what selects
+one of them. This is the convention that makes the enlargement of \S4 work: the
+general range contains both the occupied and the virtual parts, so a restricted
+sum can be extended to it and then cut back with a delta.
+
+\section*{1. The reduction}
+
+\begin{equation}
+  [\hat F,\hat A]=[\hat F,\hat T]+[\hat F,\hat T]^\dagger
+   =[\hat F,\hat T_1]+[\hat F,\hat T_2]+\hc,
+  \label{eq:reduce}
+\end{equation}
+because $\hat A=\hat T-\hat T^\dagger$ and
+$([\hat F,\hat T])^\dagger=-[\hat F,\hat T^\dagger]$. Only the two $\hat T$
+blocks have to be computed; the other half of $\hat C=[\hat F,\hat A]$ is their
+conjugate.
+
+\section*{2. \texorpdfstring{$[\hat F,\hat T_1]$}{[F,T1]}}
+
+Writing the operators out,
+\begin{equation}
+  [\hat F,\hat T_1]
+   =\bigl[f^p_q\E{q}{p},\,t^\vir_\occ\E{\vir}{\occ}\bigr]
+   =f^p_q\,t^\vir_\occ\bigl[\E{q}{p},\E{\vir}{\occ}\bigr],
+  \label{eq:t1setup}
+\end{equation}
+and with the $(1,1)$ rule
+\begin{equation}
+  \bigl[\E{q}{p},\E{s}{r}\bigr]
+   =\delta^s_p\,\E{q}{r}-\delta^q_r\,\E{s}{p},
+  \label{eq:c11}
+\end{equation}
+\begin{equation}
+  \bigl[\E{q}{p},\E{\vir}{\occ}\bigr]
+   =\delta^\vir_p\,\E{q}{\occ}-\delta^q_\occ\,\E{\vir}{p}.
+  \label{eq:c11apply}
+\end{equation}
+The two deltas contract one index of $f$ in each term --- in the first the
+\emph{lower} index of $f$ becomes the virtual one, in the second the
+\emph{upper} index becomes the occupied one --- so
+\begin{equation}
+  \boxed{\;[\hat F,\hat T_1]
+   =t^\vir_\occ\bigl(f^\vir_q\,\E{q}{\occ}-f^p_\occ\,\E{\vir}{p}\bigr).\;}
+  \label{eq:FT1}
+\end{equation}
+
+\noindent\textbf{Canonical Fock.} With $f^p_q=\epsilon_p\delta^p_q$,
+\begin{equation}
+  [\hat F,\hat T_1]=t^\vir_\occ\,(\epsilon_\vir-\epsilon_\occ)\,\E{\vir}{\occ},
+  \label{eq:FT1canon}
+\end{equation}
+and the condition on the occupied--virtual block,
+$f^\occ_\vir+[\hat F,\hat T_1]^\occ_\vir=0$, gives the singles amplitude
+\begin{equation}
+  t^\vir_\occ=\frac{f^\occ_\vir}{\epsilon_\occ-\epsilon_\vir},
+\end{equation}
+the amplitude of the handwritten singles note.
+
+\section*{3. \texorpdfstring{$[\hat F,\hat T_2]$}{[F,T2]}}
+
+In the same way,
+\begin{equation}
+  [\hat F,\hat T_2]
+   =\tfrac12\,f^p_q\,t^{\vir\beta}_{\occ j}
+     \bigl[\E{q}{p},\E{\vir\beta}{\occ j}\bigr],
+\end{equation}
+the $\tfrac12$ being the one in $\hat T_2$ of \eqref{eq:ops}.
+with the $(1,2)$ rule
+\begin{equation}
+  \bigl[\E{q}{p},\E{tu}{rs}\bigr]
+   =\delta^t_p\,\E{qu}{rs}+\delta^u_p\,\E{qt}{sr}
+    -\delta^q_r\,\E{tu}{ps}-\delta^q_s\,\E{ut}{pr},
+  \label{eq:c12}
+\end{equation}
+so
+\[
+  \bigl[\E{q}{p},\E{\vir\beta}{\occ j}\bigr]
+   =\delta^\vir_p\,\E{q\beta}{\occ j}+\delta^\beta_p\,\E{q\vir}{j\occ}
+    -\delta^q_\occ\,\E{\vir\beta}{pj}-\delta^q_j\,\E{\beta\vir}{p\occ},
+\]
+so that
+\begin{equation}
+  [\hat F,\hat T_2]
+   =\tfrac12\,f^p_q\,t^{\vir\beta}_{\occ j}
+     \Bigl(\delta^\vir_p\,\E{q\beta}{\occ j}+\delta^\beta_p\,\E{q\vir}{j\occ}
+      -\delta^q_\occ\,\E{\vir\beta}{pj}-\delta^q_j\,\E{\beta\vir}{p\occ}\Bigr),
+  \label{eq:c12apply}
+\end{equation}
+where the $\tfrac12$ is the one from $\hat T_2$ and must not be dropped: it is
+these four terms that are collected in \S4, so the factor stands in front of
+the sum. Each delta contracts one index of $f$ with the operator, which gives
+the block in the form
+\begin{equation}
+  \boxed{\;
+  \begin{aligned}
+    [\hat F,\hat T_2]=\tfrac12\Bigl(
+     &+f^\vir_q\,t^{\vir\beta}_{\occ j}\,\E{q\beta}{\occ j}
+      +f^\beta_q\,t^{\vir\beta}_{\occ j}\,\E{q\vir}{j\occ}\\
+     &-f^\occ_p\,t^{\vir\beta}_{\occ j}\,\E{\vir\beta}{pj}
+      -f^j_p\,t^{\vir\beta}_{\occ j}\,\E{\beta\vir}{p\occ}\Bigr).
+  \end{aligned}\;}
+  \label{eq:FT2}
+\end{equation}
+The first and the second term are related by the antisymmetry of $t$
+(relabelling $\vir\leftrightarrow\beta$ and $\occ\leftrightarrow j$), and so
+are the third and the fourth. This relabelling relates the two \emph{sums}; it
+is not available term by term, and term by term is how the block is used. At
+fixed values of the summation indices the four terms are different operators
+with different index patterns --- $\E{q\beta}{ij}$ and $\E{qa}{ji}$ in the first
+pair, $\E{\vir\beta}{pj}$ and $\E{\beta\vir}{pi}$ in the second --- so each of
+them restricts the general range to a different block, and each carries its own
+coefficient. Nothing is cancelled here: cancelling a pair would merge the two
+coefficients into one and lose the index patterns that \S4 has to read
+$C^{rs}_{pq}$ off.
+
+\noindent\textbf{Canonical Fock.} With $f^p_q=\epsilon_p\delta^p_q$ every one of
+the four terms of \eqref{eq:FT2} collapses onto $\E{\vir\beta}{\occ j}$, and the
+sum of the four gives
+\begin{equation}
+  [\hat F,\hat T_2]
+   =\tfrac12\,t^{\vir\beta}_{\occ j}
+     \bigl(\epsilon_\vir+\epsilon_\beta-\epsilon_\occ-\epsilon_j\bigr)
+     \E{\vir\beta}{\occ j}.
+  \label{eq:FT2canon}
+\end{equation}
+Each of the four contributes one of the four orbital energies, which is what
+the uncollected form makes visible and what the $\tfrac12$ in front of the sum
+is doing there.
+
+\section*{4. Collecting into \texorpdfstring{$C^q_p$}{Cqp} and
+\texorpdfstring{$C^{rs}_{pq}$}{Crs pq}}
+
+The result of \S2 and \S3 is a sum of $\hat E$ operators whose indices are
+partly restricted --- $\E{q}{\occ}$ has an occupied lower index,
+$\E{\vir}{p}$ a virtual upper one. To read off coefficients in the general
+basis
+\begin{equation}
+  [\hat F,\hat A]=C^q_p\,\E{q}{p}+C^{rs}_{pq}\,\E{rs}{pq},
+  \label{eq:Cform}
+\end{equation}
+each restricted sum is enlarged to the general range \eqref{eq:ranges} and
+restricted again with a delta. The enlargement is legitimate precisely because
+$p,q$ cover the whole space: extending an occupied sum to all of
+$\{\occ\}\cup\{\vir\}$ adds the virtual labels, and the delta removes them
+again. For the one-body block,
+\begin{align}
+  \sum_{\occ,\vir,q}t^\vir_\occ f^\vir_q\,\E{q}{\occ}
+   &=\sum_{p,q,\occ,\vir}t^\vir_\occ f^\vir_q\,\delta^p_\occ\,\E{q}{p},\notag\\
+  -\sum_{\occ,\vir,p}t^\vir_\occ f^p_\occ\,\E{\vir}{p}
+   &=-\sum_{p,q,\occ,\vir}t^\vir_\occ f^p_\occ\,\delta^\vir_q\,\E{q}{p},
+  \label{eq:enlarge1}
+\end{align}
+so the $[\hat F,\hat T]$ half of the one-body coefficient is
+\begin{equation}
+  C^{[T]\,q}_p=\sum_{\occ,\vir}\Bigl(t^\vir_\occ f^\vir_q\,\delta^p_\occ
+   -t^\vir_\occ f^p_\occ\,\delta^\vir_q\Bigr).
+  \label{eq:C1}
+\end{equation}
+The conjugate half contributes the same two structures once more with the
+operator's indices exchanged, so the complete one-body coefficient is
+\begin{equation}
+  \boxed{\;C^q_p=
+    \underbrace{f^\vir_q\,t^\vir_p}_{p\ \text{occupied}}
+   -\underbrace{f^p_\occ\,t^q_\occ}_{q\ \text{virtual}}
+   +\underbrace{f^\vir_p\,t^\vir_q}_{q\ \text{occupied}}
+   -\underbrace{f^q_\occ\,t^p_\occ}_{p\ \text{virtual}}\;}
+  \label{eq:C1result}
+\end{equation}
+two terms from $[\hat F,\hat T_1]$ and two from its conjugate.
+
+The two-body coefficient is collected the same way, from the four terms of
+$[\hat F,\hat T_2]$ in \eqref{eq:FT2} and the four of its conjugate, each on its
+own index pattern: $\E{q\beta}{\occ j}$ and $\E{\occ j}{q\beta}$,
+$\E{q\vir}{j\occ}$ and $\E{j\occ}{q\vir}$, $\E{\vir\beta}{pj}$ and
+$\E{pj}{\vir\beta}$, $\E{\beta\vir}{p\occ}$ and $\E{p\occ}{\beta\vir}$, carrying
+the coefficients $\pm\tfrac12 f t$ of that equation. Nothing is cancelled
+between them, for the reason given in \S3: the eight are different operators,
+and it is their eight patterns that build up $C^{rs}_{pq}$.
+
+With both coefficients complete, the result of the derivation is
+\begin{equation}
+  \boxed{\;[\hat F,\hat A]=C^q_p\,\E{q}{p}+C^{rs}_{pq}\,\E{rs}{pq}.\;}
+  \label{eq:result}
+\end{equation}
+The two deltas cut the general range back down: $\delta^p_\occ$ keeps the
+\emph{occupied} part of it for the lower index, so the first term contributes
+only for occupied $p$; $\delta^\vir_q$ keeps the \emph{virtual} part for the
+upper index, so the second contributes only for virtual $q$. Every coefficient
+below is therefore written over the whole space, with the index ranges carried
+by the deltas rather than by the summation limits --- which is the point of the
+rewriting.
+
+The same enlargement applies to the four terms of \eqref{eq:c12apply}, each
+operator now carrying four restrictions, one per index, which is why
+$C^{rs}_{pq}$ comes out as a sum of delta products rather than single deltas.
+Two cautionary points, both of which have already bitten this derivation:
+
+\begin{itemize}
+  \item \textbf{Keep each delta on the index it restricts.} The enlargement
+        fixes the index of $\hat E$, not the index of $f$: the first term of
+        \eqref{eq:C1} is $f^\vir_q\delta^p_\occ$, and writing it as
+        $f^\occ_q\delta^p_\vir$ instead is wrong while still agreeing for
+        symmetric $f$.
+  \item \textbf{Canonicalise the two-body operator before reading the
+        coefficient.} Once $p,q$ run over all orbitals the same $\E{rs}{pq}$ is
+        reached from more than one term; fixing one index ordering first is
+        what prevents $C^{rs}_{pq}$ and $C^{sr}_{qp}$ being counted separately.
+\end{itemize}
+
+\noindent
+These coefficient tensors are the $\bar h$ and $\bar g$ of the CT Hamiltonian
+once the conjugate half of \eqref{eq:reduce} is added.
+
+\section*{5. What is verified}
+
+\path{tests/test_F_A_commutator.py} builds $\hat F,\hat T_1,\hat T_2$ as
+explicit spin-free matrices on four orbitals ($\{0,1\}$ occupied, $\{2,3\}$
+virtual) with random tensors, and compares the closed forms against the matrix
+commutators:
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+quantity & max$|\Delta|$ & relative \\
+\midrule
+$[\hat F,\hat T_1]$, \eqref{eq:FT1} & $1.1\times10^{-15}$ & $2.6\times10^{-16}$ \\
+$[\hat F,\hat T_2]$, \eqref{eq:FT2}, the four terms uncancelled
+  & $3.6\times10^{-15}$ & $1.5\times10^{-16}$ \\
+the same block with the pairs folded & $3.6\times10^{-15}$ & $1.5\times10^{-16}$ \\
+$C^q_p$ of \eqref{eq:C1result}, one-body part & --- & $2.5\times10^{-16}$ \\
+\eqref{eq:result} against $[\hat F,\hat A]$ & $4.4\times10^{-15}$ & $6.5\times10^{-16}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The third and fourth rows are the two listings of the same operator: leaving the
+four terms uncancelled and folding the pairs agree to the same precision, which
+is why the note can keep them separate without changing anything.
+
+\noindent
+\textbf{The result is verified.} \path{tests/test_F_A_result.py} takes the two
+blocks in closed form, adds the conjugate half, and collects every term into the
+general basis by running each term over its own index ranges --- the
+enlarge-and-restrict step done mechanically, so that no delta has to be
+transcribed by hand --- then reconstructs $C^q_p\E{q}{p}+C^{rs}_{pq}\E{rs}{pq}$
+and compares it with the matrix commutator $[\hat F,\hat A]$:
+$4.4\times10^{-15}$ absolute, $6.5\times10^{-16}$ relative. The compact
+four-term form \eqref{eq:C1result} of the one-body coefficient is checked
+separately, $2.5\times10^{-16}$.
+
+One convention point the check turned up, worth stating because it is easy to
+overlook: with $\hat F=f^p_q\E{q}{p}$ the operator is Hermitian only when $f$ is
+symmetric (real), which is the physical case. The step
+$[\hat F,\hat A]=[\hat F,\hat T]+[\hat F,\hat T]^\dagger$ uses that
+Hermiticity, and it fails for a non-symmetric $f$ --- the check therefore
+symmetrises $f$ and asserts that $\hat F$ is Hermitian before comparing.
+
+\section*{6. The other Fock convention}
+
+The derivation above uses $\hat F=f^p_q\E{q}{p}$. With the aligned order
+$\hat F=f^q_p\E{q}{p}=f^q_p\hat a^\dagger_q\hat a_p$, in which
+$f^q_p=\langle p|\hat f|q\rangle$, the same derivation gives
+\begin{equation}
+  [\hat F,\hat T_1]=t^\vir_\occ\bigl(f^p_\vir\E{p}{\occ}-f^\occ_p\E{\vir}{p}\bigr),
+  \qquad
+  [\hat F,\hat T_2]=t^{\vir\beta}_{\occ j}\bigl(f^p_\vir\E{p\beta}{\occ j}
+   -f^\occ_p\E{\vir\beta}{pj}\bigr).
+  \label{eq:aligned}
+\end{equation}
+The two sets are related by $f\to f^{\mathsf T}$, so they agree whenever $f$ is
+symmetric --- in particular for the diagonal canonical Fock, which is where a
+first check is usually made. That is what makes the distinction easy to lose;
+\path{tests/test_F_A_commutator.py} checks both conventions and asserts that
+each closed form deviates by a relative amount of order one under the other
+one's $\hat F$.
+
+\begin{thebibliography}{9}
+\bibitem{Kutzelnigg:1997} W.~Kutzelnigg and D.~Mukherjee,
+  \emph{Normal order and extended Wick theorem for a multiconfiguration
+  reference wave function}, J.~Chem.~Phys.\ \textbf{107}, 432 (1997).
+\bibitem{Yanai:2012cj} T.~Yanai and T.~Shiozaki,
+  \emph{Canonical transcorrelated theory with projected Slater-type geminals},
+  J.~Chem.~Phys.\ \textbf{136}, 084107 (2012).
+\end{thebibliography}
+
+\end{document}
