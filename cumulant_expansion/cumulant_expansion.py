@@ -155,8 +155,8 @@ _TEMPLATE_GROUPS_W = None
 
 
 def template_groups_W():
-    """The grouped template in the w1..w6 symbols (row-canonical
-    operators, parity signs in the piece coefficients)."""
+    """The grouped template in the w1..w6 symbols (pair-canonical
+    operators, all signs +1)."""
     global _TEMPLATE_GROUPS_W
     if _TEMPLATE_GROUPS_W is None:
         _TEMPLATE_GROUPS_W = group_fixed_letters(_template_terms(WS))
@@ -226,27 +226,26 @@ def final_blocks():
 # ---------------------------------------------------------------------------
 def _op_pattern_key(op):
     """Renaming-independent key of the operator over its exact symmetries:
-    the two rows are permuted independently (row antisymmetry, parity sign
-    absorbed into the coefficient).  Returns (key, sign, (upper, lower))
+    the index pairs are permuted together (the diagonal pair-permutation
+    symmetry of the spin-summed E; no sign -- a single row alone is not a
+    symmetry).  Returns (key, sign, (upper, lower)) with sign always +1,
     where (upper, lower) is the achieving arrangement in the ORIGINAL
     letters -- the operator shown in a group is one that literally appears
     in the block, so the labels match the ungrouped equation."""
     n = op.rank
     best = None
-    for up in itertools.permutations(range(n)):
-        for lo in itertools.permutations(range(n)):
-            cu = [op.upper_index[k] for k in up]
-            cl = [op.lower_index[k] for k in lo]
-            tag = {}
-            pattern = []
-            for x in cu + cl:
-                if x not in tag:
-                    tag[x] = len(tag)
-                pattern.append((mbe.SPACE[x], tag[x]))
-            key = tuple(pattern)
-            sign = mbe._parity(up) * mbe._parity(lo)
-            if best is None or key < best[0]:
-                best = (key, sign, (cu, cl))
+    for perm in itertools.permutations(range(n)):
+        cu = [op.upper_index[k] for k in perm]
+        cl = [op.lower_index[k] for k in perm]
+        tag = {}
+        pattern = []
+        for x in cu + cl:
+            if x not in tag:
+                tag[x] = len(tag)
+            pattern.append((mbe.SPACE[x], tag[x]))
+        key = tuple(pattern)
+        if best is None or key < best[0]:
+            best = (key, 1, (cu, cl))
     return best
 
 
@@ -254,9 +253,9 @@ def group_by_operator(terms):
     """Collect the coefficient pieces multiplying the same operator.
 
     Two terms land in the same group iff their operators agree up to the
-    exact operator identities (row antisymmetry and renaming of the
-    summation labels).  The group's operator keeps the letters of the
-    first term that defines the group (no fresh normalization: the
+    exact operator identities (the diagonal pair permutation and renaming
+    of the summation labels).  The group's operator keeps the letters of
+    the first term that defines the group (no fresh normalization: the
     operator appears on the left of the bracket and its labels must match
     the ungrouped block); the other members are renamed onto those
     letters, with tensor dummies keeping their own letters unless they
@@ -347,23 +346,20 @@ def grouped_rows(lhs, terms, width=140):
 # grouping of the spin_free template (operator identity: fixed labels)
 # ---------------------------------------------------------------------------
 def _canonical_rows(op):
-    """Min form of the operator over row permutations only, letters FIXED
-    (operator identity: no renaming); the parity sign of the achieving
-    permutation converts the original into the canonical arrangement."""
+    """Min form of the operator over diagonal pair permutations only,
+    letters FIXED (operator identity: no renaming); no sign is involved:
+    the two rows of the spin-summed E may only be permuted together."""
     n = op.rank
     best = None
-    best_sign = 1
     best_op = op
-    for up in itertools.permutations(range(n)):
-        for lo in itertools.permutations(range(n)):
-            cu = [op.upper_index[k] for k in up]
-            cl = [op.lower_index[k] for k in lo]
-            key = (tuple(str(x) for x in cu), tuple(str(x) for x in cl))
-            if best is None or key < best:
-                best = key
-                best_sign = mbe._parity(up) * mbe._parity(lo)
-                best_op = Operator(cu, cl)
-    return best_sign, best_op
+    for perm in itertools.permutations(range(n)):
+        cu = [op.upper_index[k] for k in perm]
+        cl = [op.lower_index[k] for k in perm]
+        key = (tuple(str(x) for x in cu), tuple(str(x) for x in cl))
+        if best is None or key < best:
+            best = key
+            best_op = Operator(cu, cl)
+    return 1, best_op
 
 
 def _template_terms(six):
@@ -385,9 +381,9 @@ def template_terms():
 
 def group_fixed_letters(terms):
     """Group terms by their operator WITHOUT renaming any index (operator
-    identity: the labels are fixed on both sides); only the operator rows
-    are reordered, the parity sign going into the coefficient.  Pieces
-    with identical tensor multisets are merged."""
+    identity: the labels are fixed on both sides); only the index pairs of
+    each operator are permuted together (diagonal pair permutation, no
+    sign).  Pieces with identical tensor multisets are merged."""
     groups = {}
     for coeff, tensors, op in terms:
         sign, op_c = _canonical_rows(op)
@@ -626,8 +622,9 @@ def template_latex():
 
 
 def check_template_grouping():
-    """The fixed-letter grouping of the template (row reordering only, no
-    renaming) flattened again must reproduce the 51 terms exactly."""
+    """The fixed-letter grouping of the template (diagonal pair
+    permutation only, no renaming, no signs) flattened again must
+    reproduce the 51 terms exactly."""
     def norm(c, t, op):
         sign, op_c = _canonical_rows(op)
         sig = tuple(sorted((x.signature() for x in t), key=str))
@@ -672,9 +669,10 @@ def write_tex(blocks):
     add(rows[-1])
     add(r"\end{align}")
     add(r"This is an operator identity: the labels $p,q,r,s,t,u$ are fixed"
-        r" on both sides, so no index may be renamed; only the rows of"
-        r" each operator can be reordered (the parity sign goes into the"
-        r" coefficient).  With the terms grouped by the operator in this"
+        r" on both sides, so no index may be renamed; only the index pairs"
+        r" of each operator can be permuted together (the diagonal"
+        r" pair-permutation symmetry of the spin-summed $\hat{E}$, no"
+        r" sign).  With the terms grouped by the operator in this"
         r" sense, the decomposition reads")
     tgroups = group_fixed_letters(template_terms())
     rows = _groups_to_rows(r"\hat{E}^{pqr}_{stu}", tgroups, 140)
