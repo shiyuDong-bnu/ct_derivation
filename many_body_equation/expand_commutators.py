@@ -20,7 +20,8 @@ and applying the simplify rules of readme.md:
        (p,q,r,s whole space;  i,j,k,l occupied;  a,b,c,d virtual;
        delta(whole, vir) -> the whole-space index becomes the virtual one;
        delta(whole, occ) -> occupied;  delta(occ, vir) -> 0;
-       same-space dummies contract;  delta(whole, whole) is kept);
+       same-space dummies contract;  delta(whole, whole) raises
+       (unreachable with the three spaces of this truncation));
     2. canonicalization:  the operator is invariant under a simultaneous
        permutation of its index pairs, with NO sign (Operator.canonical,
        applied in merge);
@@ -120,6 +121,15 @@ for sp, letters in FAMILY.items():
     for x in letters:
         SPACE[x] = sp
 
+# canonical index order: general > occupied > virtual, lexical within a
+# space (flip the ranks here to change the convention)
+SPACE_ORDER = {"v": 0, "o": 1, "g": 2}
+
+
+def index_key(x):
+    """Total order on index symbols: orbital space first, then the letter."""
+    return (SPACE_ORDER[SPACE[x]], str(x))
+
 
 class Tensor:
     """A coefficient tensor, e.g. f^q_p, g^{pq}_{rs}, t^{ab}_{ij}.
@@ -171,28 +181,33 @@ def resolve_delta(coeff, tensors, deltas, op):
             subs[y] = x
         elif sx == sy:                       # same-space dummies: contract
             subs[y] = x
-        else:                                # delta(whole, whole): kept
-            leftover.append((x, y))
+        else:                                # unreachable with three spaces
+            raise ValueError(f"unresolved delta ({x}, {y})")
     if subs:
         tensors = tuple(t.substitute(subs) for t in tensors)
         op = Operator([subs.get(x, x) for x in op.upper_index],
                       [subs.get(x, x) for x in op.lower_index])
-    # Pauli: a repeated index within one row makes the operator vanish
-    if (len(set(op.upper_index)) != op.rank
-            or len(set(op.lower_index)) != op.rank):
-        return None
     return (coeff, tensors, op, tuple(leftover))
+
+
+def op_canonical(op):
+    """Canonical pair order (rule 2): the index pairs sorted by the upper
+    index under ``index_key``, each (upper, lower) pair kept together, no
+    sign -- the full pair-level symmetry of the spin-summed E."""
+    order = sorted(range(op.rank), key=lambda k: index_key(op.upper_index[k]))
+    return Operator([op.upper_index[k] for k in order],
+                    [op.lower_index[k] for k in order])
 
 
 def merge(terms):
     """Merge like terms (simplify rule 2 of readme.md: the operator is
     invariant under a simultaneous permutation of its index pairs, with
-    no sign; canonical order = pairs sorted by the upper index, via
-    ``Operator.canonical``; tensors as a multiset)."""
+    no sign; canonical order = pairs sorted by the upper index under
+    ``index_key``, via ``op_canonical``; tensors as a multiset)."""
     merged = {}
     keep = {}
     for coeff, tensors, op, leftover in terms:
-        op = op.canonical()
+        op = op_canonical(op)
         sigs = tuple(sorted((t.signature() for t in tensors), key=str))
         dlts = tuple(sorted(leftover, key=str))
         key = (op.upper_index, op.lower_index, sigs, dlts)
@@ -263,7 +278,8 @@ def _term_orbit_min(tensors, op):
     representative.  sign is always +1: no orbit move carries a sign in
     the spin-integrated convention."""
     allidx = sorted({x for t in tensors for x in t.upper + t.lower}
-                    | set(op.upper_index) | set(op.lower_index), key=str)
+                    | set(op.upper_index) | set(op.lower_index),
+                    key=index_key)
     by_space = {}
     for x in allidx:
         by_space.setdefault(SPACE[x], []).append(x)
@@ -299,11 +315,11 @@ def _term_orbit_min(tensors, op):
             for tcombo in itertools.product(*t_opts):
                 ts = tuple(sorted(
                     (t.name,
-                     tuple(str(mapping[x]) for x in u),
-                     tuple(str(mapping[x]) for x in l))
+                     tuple(index_key(mapping[x]) for x in u),
+                     tuple(index_key(mapping[x]) for x in l))
                     for t, (u, l) in zip(tensors, tcombo)))
-                key = ((tuple(str(x) for x in mup),
-                        tuple(str(x) for x in mlo)), ts)
+                key = ((tuple(index_key(x) for x in mup),
+                        tuple(index_key(x) for x in mlo)), ts)
                 if best is None or key < best:
                     best = key
                     best_sign = osign
@@ -490,8 +506,8 @@ def terms_latex(terms):
     def key(term):
         _, tensors, op, _ = term
         return (op.rank,
-                [str(u) for u in op.upper_index],
-                [str(l) for l in op.lower_index],
+                [index_key(u) for u in op.upper_index],
+                [index_key(l) for l in op.lower_index],
                 [t.latex() for t in tensors])
     ordered = sorted(terms, key=key)
     return [term_latex(c, t, op, lo, n == 0)

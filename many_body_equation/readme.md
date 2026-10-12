@@ -34,9 +34,7 @@ simplify rules, as implemented in `expand_commutators.py`:
    delta(whole, occ) -> the whole-space index becomes the occupied one;
    delta(occ, vir)   -> 0 (the term vanishes);
    same-space dummies contract (the einsum convention);
-   delta(whole, whole) is kept (never fires in this truncation).
-   Pauli rule: a repeated index within one row of E makes the term
-   vanish.
+   delta(whole, whole) raises (unreachable with these three spaces).
 
 2. canonicalization -- the operator is invariant under a simultaneous
    (diagonal) permutation of its index pairs,
