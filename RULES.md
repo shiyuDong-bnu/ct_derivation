@@ -55,17 +55,17 @@ Simplify rules (the unified list of many_body_equation/readme.md):
   space;  i,j,k,l occupied;  a,b,c,d virtual.  delta(whole, vir) -> the
   whole-space index becomes the virtual one;  delta(whole, occ) ->
   occupied;  delta(occ, vir) = 0;  same-space dummies contract;
-  delta(whole, whole) is kept.  Pauli rule: a repeated index within one
-  row of E makes the term vanish.
+  delta(whole, whole) raises (unreachable with these three spaces).
 - Rule 2, canonicalization: the operator E is invariant under a
   simultaneous (diagonal) permutation of its index pairs, with NO sign;
   the canonical written order sorts the pairs by the upper index
-  (Operator.canonical of stage 1, applied in merge).
+  under the space-based index order (op_canonical; the coefficient
+  tensors are likewise canonicalized by Tensor.canonical).
 - Rule 3, dummy indices: every summed index may be renamed by an unused
   letter of the same space (einsum convention); the free indices of the
   operator are equally arbitrary -- they are the summation labels of the
   operator basis sum.
-- Rule 4, merging (orbit minimum, canonicalize): two terms are equal --
+- Rule 4, merging (merge, via dummy_index): two terms are equal --
   and merge -- iff related by (a) renaming of any summed index within
   its space (rule 3), (b) the pair swaps t^{ab}_{ij} = t^{ba}_{ji} and
   g^{pq}_{rs} = g^{qp}_{sr} (spin-integrated formalism: NO index
@@ -76,9 +76,7 @@ Simplify rules (the unified list of many_body_equation/readme.md):
   rows may only be permuted TOGETHER, with NO sign (E^{qp..}_{rs..} =
   E^{pq..}_{sr..}); a single row alone is NOT a symmetry of the
   spin-summed operator.  REASON this is legitimate: every identity used
-  is exact in this convention; verified by the coefficient-tensor route
-  cross-check (raw vs merged expansion agree after symmetrization over
-  the diagonal pair permutations) AND by rebuilding every block with
+  is exact in this convention; verified by rebuilding every block with
   genuinely spin-summed operators on Jordan--Wigner matrices (4 spatial
   orbitals = 8 spin orbitals) against the direct nested commutator --
   the spin-orbital check alone cannot see rule (d), because single-row

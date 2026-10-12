@@ -7,78 +7,84 @@
 \begin{document}
 \maketitle
 
-In the CF-F12 construction of Yanai the virtual space splits into the OBS virtual space and the CABS$+\infty$ remainder.  We restrict the virtual space to OBS-vir: every virtual index is an OBS-vir index, and the amplitude $t^{ab}_{ij}$ vanishes when both of its indices are OBS-vir.  In the many-body expansions of \texttt{many\_body\_equations.tex} this means:
+In the CF-F12 construction of Yanai the virtual space splits into the OBS virtual space and the CABS$+\infty$ remainder.  We restrict the virtual space to OBS-vir: every external virtual index is an OBS-vir index, and the amplitude $t^{ab}_{ij}$ vanishes when both of its indices are OBS-vir.  In the many-body expansions of \texttt{many\_body\_equations.tex} (taken from the \texttt{expanded\_blocks()} API of \texttt{expand\_commutators.py}) this means:
 \begin{itemize}
-\item a virtual index contracted with another tensor is OK;
-\item a term is zero iff both virtual indices of \emph{one and the same} $t^{ab}_{ij}$ amplitude (or $t^{*}$) sit on the operator $\hat{E}$ -- the term then carries the vanishing amplitude. Two free virtual indices stemming from \emph{different} amplitudes do not kill the term.
+\item a virtual index contracted with another tensor is OK -- the contraction sum still runs over the full virtual space;
+\item a term is zero iff both virtual indices of \emph{one and the same} $t^{ab}_{ij}$ amplitude sit on the operator $\hat{E}$ -- the free indices of the operator are the external (OBS-vir) indices of the equation, so the term carries the vanishing amplitude.  Two free virtual indices stemming from \emph{different} amplitudes do not kill the term.
 \end{itemize}
 Each block is shown first as the original expansion with the vanishing terms \underline{underlined}, then as the restricted expansion gathering the nonzero terms.  Blocks still containing operators of rank higher than two are marked; their cumulant expansion is done later.
 
 \section{First-order commutators}
 \subsection*{$\left[\hat{h},\, \hat{T}_{1}\right]$\quad(2 terms, 0 vanish)}
 \begin{align}
-\left[\hat{h},\, \hat{T}_{1}\right] &= - h^{i}_{p} t^{a}_{i} \hat{E}^{a}_{p} + h^{a}_{p} t^{a}_{i} \hat{E}^{p}_{i}
+\left[\hat{h},\, \hat{T}_{1}\right] &= - h^{i_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} + h^{a_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}}_{i_{1}}
 \end{align}
 restricted:
 \begin{align}
-\left[\hat{h},\, \hat{T}_{1}\right] &= - h^{i}_{p} t^{a}_{i} \hat{E}^{a}_{p} + h^{a}_{p} t^{a}_{i} \hat{E}^{p}_{i}
+\left[\hat{h},\, \hat{T}_{1}\right] &= - h^{i_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} + h^{a_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}}_{i_{1}}
 \end{align}
 \subsection*{$\left[\hat{h},\, \hat{T}_{2}\right]$\quad(2 terms, 1 vanish)}
 \begin{align}
-\left[\hat{h},\, \hat{T}_{2}\right] &= \underline{- h^{j}_{p} t^{ab}_{ij} \hat{E}^{ab}_{ip}} + h^{b}_{p} t^{ab}_{ij} \hat{E}^{ap}_{ij}
+\left[\hat{h},\, \hat{T}_{2}\right] &= \underline{- h^{i_{2}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}a_{2}}_{i_{1}p_{1}}} \\
+&\quad + h^{a_{2}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}}
 \end{align}
 restricted:
 \begin{align}
-\left[\hat{h},\, \hat{T}_{2}\right] &= h^{b}_{p} t^{ab}_{ij} \hat{E}^{ap}_{ij}
+\left[\hat{h},\, \hat{T}_{2}\right] &= h^{a_{2}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}}
 \end{align}
 \subsection*{$\left[\hat{V},\, \hat{T}_{1}\right]$\quad(2 terms, 0 vanish)}
 \begin{align}
-\left[\hat{V},\, \hat{T}_{1}\right] &= - g^{ip}_{qr} t^{a}_{i} \hat{E}^{ap}_{qr} + g^{ar}_{pq} t^{a}_{i} \hat{E}^{pq}_{ir}
+\left[\hat{V},\, \hat{T}_{1}\right] &= - g^{i_{1}p_{1}}_{p_{2}p_{3}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}p_{1}}_{p_{2}p_{3}} \\
+&\quad + g^{a_{1}p_{3}}_{p_{1}p_{2}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}p_{2}}_{i_{1}p_{3}}
 \end{align}
 restricted:
 \begin{align}
-\left[\hat{V},\, \hat{T}_{1}\right] &= - g^{ip}_{qr} t^{a}_{i} \hat{E}^{ap}_{qr} + g^{ar}_{pq} t^{a}_{i} \hat{E}^{pq}_{ir}
+\left[\hat{V},\, \hat{T}_{1}\right] &= - g^{i_{1}p_{1}}_{p_{2}p_{3}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}p_{1}}_{p_{2}p_{3}} \\
+&\quad + g^{a_{1}p_{3}}_{p_{1}p_{2}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}p_{2}}_{i_{1}p_{3}}
 \end{align}
 \subsection*{$\left[\hat{V},\, \hat{T}_{2}\right]$\quad(4 terms, 2 vanish)}
 \begin{align}
-\left[\hat{V},\, \hat{T}_{2}\right] &= \underline{- \tfrac{1}{2}\, g^{ij}_{pq} t^{ab}_{ij} \hat{E}^{ab}_{pq}} + \tfrac{1}{2}\, g^{ab}_{pq} t^{ab}_{ij} \hat{E}^{pq}_{ij} \\
-&\quad \underline{- g^{jp}_{qr} t^{ab}_{ij} \hat{E}^{abp}_{iqr}} + g^{br}_{pq} t^{ab}_{ij} \hat{E}^{apq}_{ijr}
+\left[\hat{V},\, \hat{T}_{2}\right] &= \underline{- \tfrac{1}{2}\, g^{i_{1}i_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}a_{2}}_{p_{1}p_{2}}} \\
+&\quad + \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{p_{1}p_{2}}_{i_{1}i_{2}} \\
+&\quad \underline{- g^{i_{2}p_{1}}_{p_{2}p_{3}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}a_{2}p_{1}}_{i_{1}p_{2}p_{3}}} \\
+&\quad + g^{a_{2}p_{3}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}p_{1}p_{2}}_{i_{1}i_{2}p_{3}}
 \end{align}
 restricted:
 \begin{align}
-\left[\hat{V},\, \hat{T}_{2}\right] &= \tfrac{1}{2}\, g^{ab}_{pq} t^{ab}_{ij} \hat{E}^{pq}_{ij} + g^{br}_{pq} t^{ab}_{ij} \hat{E}^{apq}_{ijr}\quad (\text{three-body terms})
+\left[\hat{V},\, \hat{T}_{2}\right] &= \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{p_{1}p_{2}}_{i_{1}i_{2}} \\
+&\quad + g^{a_{2}p_{3}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}p_{1}p_{2}}_{i_{1}i_{2}p_{3}}\quad (\text{three-body terms})
 \end{align}
 
 \section{Second order: Fock blocks}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right]$\quad(1 terms, 0 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] &= - 2\, f^{b}_{j} t^{b}_{i} t^{a}_{j} \hat{E}^{a}_{i}
+\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] &= - 2\, f^{a_{2}}_{i_{2}} t^{a_{1}}_{i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{i_{1}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] &= - 2\, f^{b}_{j} t^{b}_{i} t^{a}_{j} \hat{E}^{a}_{i}
+\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{1}\right] &= - 2\, f^{a_{2}}_{i_{2}} t^{a_{1}}_{i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{i_{1}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right]$\quad(2 terms, 1 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] &= - f^{c}_{k} t^{a}_{k} t^{bc}_{ji} \hat{E}^{ab}_{ij} \\
-&\quad \underline{- f^{c}_{k} t^{c}_{j} t^{ab}_{ik} \hat{E}^{ab}_{ij}}
+\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] &= \underline{- f^{a_{3}}_{i_{3}} t^{a_{1}a_{2}}_{i_{1}i_{3}} t^{a_{3}}_{i_{2}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}} \\
+&\quad - f^{a_{3}}_{i_{3}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] &= - f^{c}_{k} t^{a}_{k} t^{bc}_{ji} \hat{E}^{ab}_{ij}
+\left[\left[\hat{F},\, \hat{T}_{1}\right],\, \hat{T}_{2}\right] &= - f^{a_{3}}_{i_{3}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right]$\quad(2 terms, 1 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right] &= \underline{- f^{c}_{k} t^{ab}_{ik} t^{c}_{j} \hat{E}^{ab}_{ij}} \\
-&\quad - f^{c}_{k} t^{bc}_{ji} t^{a}_{k} \hat{E}^{ab}_{ij}
+\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right] &= \underline{- f^{a_{3}}_{i_{3}} t^{a_{1}a_{2}}_{i_{1}i_{3}} t^{a_{3}}_{i_{2}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}} \\
+&\quad - f^{a_{3}}_{i_{3}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right] &= - f^{c}_{k} t^{bc}_{ji} t^{a}_{k} \hat{E}^{ab}_{ij}
+\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{1}\right] &= - f^{a_{3}}_{i_{3}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{2}\right]$\quad(1 terms, 1 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{2}\right] &= \underline{- 2\, f^{d}_{l} t^{cd}_{kj} t^{ab}_{il} \hat{E}^{abc}_{ijk}}
+\left[\left[\hat{F},\, \hat{T}_{2}\right],\, \hat{T}_{2}\right] &= \underline{- 2\, f^{a_{4}}_{i_{4}} t^{a_{1}a_{2}}_{i_{1}i_{4}} t^{a_{3}a_{4}}_{i_{3}i_{2}} \hat{E}^{a_{1}a_{2}a_{3}}_{i_{1}i_{2}i_{3}}}
 \end{align}
 restricted:
 \begin{align}
@@ -86,54 +92,71 @@ restricted:
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right]$\quad(4 terms, 0 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right] &= f^{i}_{j} t^{b}_{j} t^{a}_{i} \hat{E}^{a}_{b} - f^{b}_{p} t^{b}_{i} t^{a}_{i} \hat{E}^{a}_{p} \\
-&\quad + f^{a}_{b} t^{a}_{i} t^{b}_{j} \hat{E}^{i}_{j} - f^{j}_{p} t^{a}_{j} t^{a}_{i} \hat{E}^{p}_{i}
+\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right] &= f^{i_{1}}_{i_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{a_{1}}_{a_{2}} \\
+&\quad - f^{a_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} + f^{a_{1}}_{a_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}}_{i_{2}} \\
+&\quad - f^{i_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{1}}_{i_{2}} \hat{E}^{p_{1}}_{i_{1}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right] &= f^{i}_{j} t^{b}_{j} t^{a}_{i} \hat{E}^{a}_{b} - f^{b}_{p} t^{b}_{i} t^{a}_{i} \hat{E}^{a}_{p} \\
-&\quad + f^{a}_{b} t^{a}_{i} t^{b}_{j} \hat{E}^{i}_{j} - f^{j}_{p} t^{a}_{j} t^{a}_{i} \hat{E}^{p}_{i}
+\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{1}\right] &= f^{i_{1}}_{i_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{a_{1}}_{a_{2}} \\
+&\quad - f^{a_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} + f^{a_{1}}_{a_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}}_{i_{2}} \\
+&\quad - f^{i_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{1}}_{i_{2}} \hat{E}^{p_{1}}_{i_{1}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right]$\quad(4 terms, 2 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right] &= \underline{f^{j}_{k} t^{c}_{k} t^{ab}_{ji} \hat{E}^{ab}_{ci}} \\
-&\quad \underline{- f^{c}_{p} t^{c}_{j} t^{ab}_{ij} \hat{E}^{ab}_{ip}} + f^{b}_{c} t^{c}_{i} t^{ab}_{jk} \hat{E}^{ai}_{jk} \\
-&\quad - f^{k}_{p} t^{b}_{k} t^{ab}_{ij} \hat{E}^{ap}_{ij}
+\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right] &= \underline{f^{i_{2}}_{i_{3}} t^{a_{1}a_{2}}_{i_{2}i_{1}} t^{a_{3}}_{i_{3}} \hat{E}^{a_{1}a_{2}}_{a_{3}i_{1}}} \\
+&\quad \underline{- f^{a_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{3}}_{i_{2}} \hat{E}^{a_{1}a_{2}}_{i_{1}p_{1}}} \\
+&\quad + f^{a_{2}}_{a_{3}} t^{a_{1}a_{2}}_{i_{2}i_{3}} t^{a_{3}}_{i_{1}} \hat{E}^{a_{1}i_{1}}_{i_{2}i_{3}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right] &= f^{b}_{c} t^{c}_{i} t^{ab}_{jk} \hat{E}^{ai}_{jk} \\
-&\quad - f^{k}_{p} t^{b}_{k} t^{ab}_{ij} \hat{E}^{ap}_{ij}
+\left[\left[\hat{F},\, \hat{T}_{1}\right]^{\dagger},\, \hat{T}_{2}\right] &= f^{a_{2}}_{a_{3}} t^{a_{1}a_{2}}_{i_{2}i_{3}} t^{a_{3}}_{i_{1}} \hat{E}^{a_{1}i_{1}}_{i_{2}i_{3}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right]$\quad(8 terms, 2 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right] &= \underline{f^{j}_{k} t^{bc}_{ki} t^{a}_{j} \hat{E}^{ai}_{bc}} \\
-&\quad - f^{c}_{p} t^{bc}_{ji} t^{a}_{j} \hat{E}^{ai}_{bp} - f^{c}_{p} t^{bc}_{ij} t^{a}_{j} \hat{E}^{ai}_{pb} \\
-&\quad \underline{+ f^{i}_{p} t^{bc}_{ji} t^{a}_{j} \hat{E}^{ap}_{bc}} + f^{b}_{c} t^{ab}_{ij} t^{c}_{k} \hat{E}^{ij}_{ak} \\
-&\quad + f^{a}_{p} t^{ab}_{ji} t^{b}_{k} \hat{E}^{ij}_{kp} - f^{k}_{p} t^{ab}_{ik} t^{b}_{j} \hat{E}^{ip}_{aj} - f^{k}_{p} t^{ab}_{ki} t^{b}_{j} \hat{E}^{ip}_{ja}
+\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right] &= \underline{f^{i_{2}}_{i_{3}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{3}i_{1}} \hat{E}^{a_{1}i_{1}}_{a_{2}a_{3}}} \\
+&\quad - f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}}_{a_{2}p_{1}} \\
+&\quad - f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{1}i_{2}} \hat{E}^{a_{1}i_{1}}_{p_{1}a_{2}} \\
+&\quad \underline{+ f^{i_{1}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}}_{a_{2}a_{3}}} \\
+&\quad + f^{a_{2}}_{a_{3}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{3}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{a_{1}i_{3}} \\
+&\quad + f^{a_{1}}_{p_{1}} t^{a_{1}a_{2}}_{i_{2}i_{1}} t^{a_{2}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{i_{3}p_{1}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{3}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{a_{1}i_{2}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{3}i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{i_{2}a_{1}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right] &= - f^{c}_{p} t^{bc}_{ji} t^{a}_{j} \hat{E}^{ai}_{bp} \\
-&\quad - f^{c}_{p} t^{bc}_{ij} t^{a}_{j} \hat{E}^{ai}_{pb} + f^{b}_{c} t^{ab}_{ij} t^{c}_{k} \hat{E}^{ij}_{ak} + f^{a}_{p} t^{ab}_{ji} t^{b}_{k} \hat{E}^{ij}_{kp} \\
-&\quad - f^{k}_{p} t^{ab}_{ik} t^{b}_{j} \hat{E}^{ip}_{aj} - f^{k}_{p} t^{ab}_{ki} t^{b}_{j} \hat{E}^{ip}_{ja}
+\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{1}\right] &= - f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}}_{a_{2}p_{1}} \\
+&\quad - f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{2}a_{3}}_{i_{1}i_{2}} \hat{E}^{a_{1}i_{1}}_{p_{1}a_{2}} \\
+&\quad + f^{a_{2}}_{a_{3}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{3}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{a_{1}i_{3}} \\
+&\quad + f^{a_{1}}_{p_{1}} t^{a_{1}a_{2}}_{i_{2}i_{1}} t^{a_{2}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{i_{3}p_{1}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{3}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{a_{1}i_{2}} \\
+&\quad - f^{i_{3}}_{p_{1}} t^{a_{1}a_{2}}_{i_{3}i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{i_{2}a_{1}}
 \end{align}
 \subsection*{$\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right]$\quad(12 terms, 6 vanish)}
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right] &= \underline{f^{i}_{j} t^{cd}_{jk} t^{ab}_{ik} \hat{E}^{ab}_{cd}} \\
-&\quad \underline{- f^{d}_{p} t^{cd}_{ij} t^{ab}_{ij} \hat{E}^{ab}_{cp}} + f^{a}_{b} t^{ac}_{ij} t^{bc}_{kl} \hat{E}^{ij}_{kl} \\
-&\quad - f^{l}_{p} t^{ab}_{il} t^{ab}_{jk} \hat{E}^{ip}_{jk} \underline{+ f^{k}_{l} t^{cd}_{li} t^{ab}_{kj} \hat{E}^{abi}_{cjd}} \\
-&\quad \underline{- f^{d}_{p} t^{cd}_{ki} t^{ab}_{kj} \hat{E}^{abi}_{cjp}} \underline{- f^{d}_{p} t^{cd}_{ik} t^{ab}_{jk} \hat{E}^{abi}_{jpc}} \\
-&\quad \underline{+ f^{j}_{p} t^{cd}_{kj} t^{ab}_{ki} \hat{E}^{abp}_{cid}} + f^{c}_{d} t^{bd}_{ij} t^{ac}_{kl} \hat{E}^{aij}_{kbl} \\
-&\quad + f^{b}_{p} t^{bc}_{ji} t^{ac}_{kl} \hat{E}^{aij}_{klp} - f^{l}_{p} t^{bc}_{il} t^{ac}_{jk} \hat{E}^{aip}_{jbk} \\
-&\quad - f^{l}_{p} t^{bc}_{li} t^{ac}_{jk} \hat{E}^{aip}_{jkb}
+\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right] &= \underline{f^{i_{1}}_{i_{2}} t^{a_{1}a_{2}}_{i_{1}i_{3}} t^{a_{3}a_{4}}_{i_{2}i_{3}} \hat{E}^{a_{1}a_{2}}_{a_{3}a_{4}}} \\
+&\quad \underline{- f^{a_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{3}a_{4}}_{i_{1}i_{2}} \hat{E}^{a_{1}a_{2}}_{a_{3}p_{1}}} \\
+&\quad + f^{a_{1}}_{a_{2}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}a_{3}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}i_{4}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{4}} t^{a_{1}a_{2}}_{i_{2}i_{3}} \hat{E}^{i_{1}p_{1}}_{i_{2}i_{3}} \\
+&\quad \underline{+ f^{i_{3}}_{i_{4}} t^{a_{1}a_{2}}_{i_{3}i_{2}} t^{a_{3}a_{4}}_{i_{4}i_{1}} \hat{E}^{a_{1}a_{2}i_{1}}_{a_{3}i_{2}a_{4}}} \\
+&\quad \underline{- f^{a_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{3}i_{2}} t^{a_{3}a_{4}}_{i_{3}i_{1}} \hat{E}^{a_{1}a_{2}i_{1}}_{a_{3}i_{2}p_{1}}} \\
+&\quad \underline{- f^{a_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{2}i_{3}} t^{a_{3}a_{4}}_{i_{1}i_{3}} \hat{E}^{a_{1}a_{2}i_{1}}_{i_{2}p_{1}a_{3}}} \\
+&\quad \underline{+ f^{i_{2}}_{p_{1}} t^{a_{1}a_{2}}_{i_{3}i_{1}} t^{a_{3}a_{4}}_{i_{3}i_{2}} \hat{E}^{a_{1}a_{2}p_{1}}_{a_{3}i_{1}a_{4}}} \\
+&\quad + f^{a_{3}}_{a_{4}} t^{a_{1}a_{3}}_{i_{3}i_{4}} t^{a_{2}a_{4}}_{i_{1}i_{2}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}i_{4}} \\
+&\quad + f^{a_{2}}_{p_{1}} t^{a_{1}a_{3}}_{i_{3}i_{4}} t^{a_{2}a_{3}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}i_{4}p_{1}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{3}}_{i_{2}i_{3}} t^{a_{2}a_{3}}_{i_{1}i_{4}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}a_{2}i_{3}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{3}}_{i_{2}i_{3}} t^{a_{2}a_{3}}_{i_{4}i_{1}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}i_{3}a_{2}}
 \end{align}
 restricted:
 \begin{align}
-\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right] &= f^{a}_{b} t^{ac}_{ij} t^{bc}_{kl} \hat{E}^{ij}_{kl} \\
-&\quad - f^{l}_{p} t^{ab}_{il} t^{ab}_{jk} \hat{E}^{ip}_{jk} + f^{c}_{d} t^{bd}_{ij} t^{ac}_{kl} \hat{E}^{aij}_{kbl} \\
-&\quad + f^{b}_{p} t^{bc}_{ji} t^{ac}_{kl} \hat{E}^{aij}_{klp} - f^{l}_{p} t^{bc}_{il} t^{ac}_{jk} \hat{E}^{aip}_{jbk} \\
-&\quad - f^{l}_{p} t^{bc}_{li} t^{ac}_{jk} \hat{E}^{aip}_{jkb}\quad (\text{three-body terms})
+\left[\left[\hat{F},\, \hat{T}_{2}\right]^{\dagger},\, \hat{T}_{2}\right] &= f^{a_{1}}_{a_{2}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}a_{3}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}i_{4}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{4}} t^{a_{1}a_{2}}_{i_{2}i_{3}} \hat{E}^{i_{1}p_{1}}_{i_{2}i_{3}} \\
+&\quad + f^{a_{3}}_{a_{4}} t^{a_{1}a_{3}}_{i_{3}i_{4}} t^{a_{2}a_{4}}_{i_{1}i_{2}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}i_{4}} \\
+&\quad + f^{a_{2}}_{p_{1}} t^{a_{1}a_{3}}_{i_{3}i_{4}} t^{a_{2}a_{3}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}i_{4}p_{1}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{3}}_{i_{2}i_{3}} t^{a_{2}a_{3}}_{i_{1}i_{4}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}a_{2}i_{3}} \\
+&\quad - f^{i_{4}}_{p_{1}} t^{a_{1}a_{3}}_{i_{2}i_{3}} t^{a_{2}a_{3}}_{i_{4}i_{1}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}i_{3}a_{2}}\quad (\text{three-body terms})
 \end{align}
 
 \end{document}

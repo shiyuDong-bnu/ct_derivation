@@ -143,7 +143,7 @@ def decompose(term):
     out = []
     for tcoef, dms, (up, lo) in TEMPLATE:
         dm_sub = tuple(t.substitute(mapping) for t in dms)
-        if any(mbe.SPACE[x] == "v" for t in dm_sub for x in t.upper + t.lower):
+        if any(mbe.space_of(x) == "v" for t in dm_sub for x in t.upper + t.lower):
             continue                      # density matrix with virtual index
         out.append((coeff * Rational(tcoef), tensors + dm_sub,
                     Operator([mapping[x] for x in up],
@@ -182,7 +182,7 @@ def decompose_grouped(term):
         kept = []
         for c, dms in pieces:
             dm_sub = tuple(t.substitute(mapping) for t in dms)
-            if any(mbe.SPACE[x] == "v" for t in dm_sub
+            if any(mbe.space_of(x) == "v" for t in dm_sub
                    for x in t.upper + t.lower):
                 continue                  # density matrix with virtual index
             kept.append((coeff * c, tensors + dm_sub))
@@ -212,9 +212,9 @@ def final_blocks():
         decomposed = []
         for t in three:
             decomposed.extend(decompose(t))
-        final = mbe.canonicalize(small + decomposed) if three else keep
+        final = mbe.merge(small + decomposed) if three else keep
         out.append({"n": n, "lhs": lhs, "keep": keep, "three_body": three,
-                    "decomposed": mbe.canonicalize(decomposed)
+                    "decomposed": mbe.merge(decomposed)
                     if decomposed else [],
                     "final": final})
     _FINAL = out
@@ -242,7 +242,7 @@ def _op_pattern_key(op):
         for x in cu + cl:
             if x not in tag:
                 tag[x] = len(tag)
-            pattern.append((mbe.SPACE[x], tag[x]))
+            pattern.append((mbe.space_of(x), tag[x]))
         key = tuple(pattern)
         if best is None or key < best[0]:
             best = (key, 1, (cu, cl))
@@ -280,7 +280,7 @@ def group_by_operator(terms):
                 if y in used:
                     # dummy letter collides with an operator letter of the
                     # representative: take a fresh letter of its space
-                    y = next(z for z in mbe.FAMILY[mbe.SPACE[x]]
+                    y = next(z for z in mbe.FAMILY[mbe.space_of(x)]
                              if z not in used)
                 mapping[x] = y
                 used.add(y)
@@ -418,10 +418,10 @@ def check_grouping(blocks):
                 flat.append((c, t, op, ()))
         a = sorted(str((c, [x.signature() for x in t], op.upper_index,
                         op.lower_index))
-                   for c, t, op, _ in mbe.canonicalize(flat))
+                   for c, t, op, _ in mbe.merge(flat))
         b = sorted(str((c, [x.signature() for x in t], op.upper_index,
                         op.lower_index))
-                   for c, t, op, _ in mbe.canonicalize(list(blk["final"])))
+                   for c, t, op, _ in mbe.merge(list(blk["final"])))
         same = a == b
         ok &= same
         print(f"  [{'OK ' if same else 'FAIL'}] block {blk['n']:2d}: "
@@ -594,7 +594,7 @@ def check_template():
     ok = True
     for blk in final_blocks():
         for coeff, tensors, op, _ in blk["three_body"]:
-            ranges = [{"o": occ_v, "v": vir_v, "g": all_v}[mbe.SPACE[x]]
+            ranges = [{"o": occ_v, "v": vir_v, "g": all_v}[mbe.space_of(x)]
                       for x in op.upper_index + op.lower_index]
             assignments = list(itertools.product(*ranges))
             sample = [assignments[k] for k in
