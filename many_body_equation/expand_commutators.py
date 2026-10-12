@@ -29,10 +29,10 @@ and applying the simplify rules of readme.md:
     3. dummy indices:  every summed index (including the operator's free
        indices, which are the summation labels of the operator basis sum)
        may be renamed by an unused letter of the same space;
-    4. merging (merge, via dummy_index):  two terms are equal iff
-       related by exact identities (renaming, the pair symmetries of t
-       and g, real
-       symmetric h/f and pair-exchange-symmetric g, and the diagonal
+    4. merging (merge, via dummy_index_sub):  two terms are equal
+       iff related by exact identities (renaming, the pair symmetries
+       of t and g, real symmetric h/f and pair-exchange-symmetric g,
+       and the diagonal
        pair-permutation symmetry of the spin-summed E -- the two rows may
        only be permuted together, with NO sign);  the representative is
        the renaming-orbit minimum of the canonical written form
@@ -269,9 +269,9 @@ def tensors_canonical(tensors):
 
 def comm_terms(terms_a, terms_b):
     """Commutator of two sums of terms, expanded with the generalized Wick
-    theorem, simplified with the index-space rules (rule 1,
-    ``resolve_delta``) and merged over the exact identities (rules 2 and
-    3, ``merge``)."""
+    theorem and simplified with the index-space rules (rule 1,
+    ``resolve_delta``).  NOT merged: merging (``merge``) happens once per
+    block in ``expanded_blocks``, after the full commutator is expanded."""
     out = []
     for ca, ta, opa, _ in terms_a:
         for cb, tb, opb, _ in terms_b:
@@ -280,18 +280,19 @@ def comm_terms(terms_a, terms_b):
                                      Operator(up, lo))
                 if term is not None:
                     out.append(term)
-    return merge(out)
+    return out
 
 
 def dagger_terms(terms):
-    """Term-by-term Hermitian conjugate of an expanded block."""
+    """Term-by-term Hermitian conjugate of an expanded block.  NOT merged:
+    merging (``merge``) happens once per block in ``expanded_blocks``."""
     out = []
     for coeff, tensors, op, leftover in terms:
         if leftover:
             raise ValueError("dagger with unresolved deltas")
         out.append((coeff, tuple(t.dagger() for t in tensors),
                     Operator(op.lower_index, op.upper_index), ()))
-    return merge(out)
+    return out
 
 
 def ranks_of(terms):
@@ -315,7 +316,7 @@ def ranks_of(terms):
 #   * renaming of any summed index within its space (rule 3).  ALL indices
 #     are summed: the free indices of the operator are the summation labels
 #     of the operator basis sum, so they can be renamed like tensor dummies
-#     -- applied by dummy_index via _rename_min.
+#     -- applied by merge via dummy_index_sub.
 # No index antisymmetry of t or g is used.  All orbit moves carry sign +1.
 # ---------------------------------------------------------------------------
 def _normalize_letters(tensors, op):
@@ -336,12 +337,14 @@ def _normalize_letters(tensors, op):
                      [mapping[x] for x in op.lower_index]))
 
 
-def _rename_min(tensors, op):
-    """Min canonical written form over the dummy-renaming orbit (rule 3):
+def dummy_index_sub(tensors, op):
+    """Minimum lettering of a term over the dummy-renaming orbit (rule 3):
     the indices are first re-lettered onto the numbered pool
     (``_normalize_letters``), then every within-space permutation is
-    tried, each followed by the ``op_canonical``/``tensors_canonical``
-    forms.  Returns (key, (canonical tensors, canonical operator))."""
+    tried and the minimum under ``index_key`` wins.  Pure renaming: no
+    tensor or operator canonicalization is done here (that is rule 2,
+    applied by ``merge`` before calling this).  Returns the re-lettered
+    (tensors, op)."""
     tensors, op = _normalize_letters(tensors, op)
     allidx = sorted({x for t in tensors for x in t.upper + t.lower}
                     | set(op.upper_index) | set(op.lower_index),
@@ -356,48 +359,41 @@ def _rename_min(tensors, op):
         mapping = {}
         for xs, tgt in zip(by_space.values(), combo):
             mapping.update(zip(xs, tgt))
-        o = op_canonical(Operator([mapping[x] for x in op.upper_index],
-                                  [mapping[x] for x in op.lower_index]))
-        ts = tensors_canonical(tuple(t.substitute(mapping)
-                                     for t in tensors))
+        o = Operator([mapping[x] for x in op.upper_index],
+                     [mapping[x] for x in op.lower_index])
+        ts = tuple(t.substitute(mapping) for t in tensors)
         key = (tuple(index_key(x) for x in o.upper_index),
                tuple(index_key(x) for x in o.lower_index),
                tuple(str(t.signature()) for t in ts))
         if best is None or key < best:
             best = key
             best_term = (ts, o)
-    return best, best_term
-
-
-def dummy_index(terms):
-    """Merge terms equal up to dummy-index renaming (rule 3 of readme.md):
-    every summed index may be renamed by an unused letter of the same
-    space (the free indices of the operator are the summation labels of
-    the operator basis sum, so they can be renamed like tensor dummies).
-    The representative is the renaming-orbit minimum of the canonical
-    written form (``_rename_min``)."""
-    merged = {}
-    keep = {}
-    for coeff, tensors, op, leftover in terms:
-        if leftover:
-            raise ValueError("dummy_index with unresolved deltas")
-        key, canon = _rename_min(tensors, op)
-        if key not in merged:
-            merged[key] = Rational(0)
-            keep[key] = canon
-        merged[key] += coeff
-    return [(coeff, keep[key][0], keep[key][1], ())
-            for key, coeff in merged.items() if coeff]
+    return best_term
 
 
 def merge(terms):
     """Merge equal terms -- the merging entry point of the stage,
-    combining the simplify rules of readme.md: terms are simplified by
-    ``resolve_delta`` (rule 1) during the expansion, put in canonical
-    form by ``Tensor.canonical`` and ``op_canonical`` (rule 2), and
-    merged over the dummy-renaming orbit by ``dummy_index`` (rules 3
-    and 4, via ``_rename_min``)."""
-    return dummy_index(terms)
+    applied once per block (``expanded_blocks``) after the full
+    commutator is expanded.  Combines the simplify rules of readme.md:
+    terms are simplified by ``resolve_delta`` (rule 1) during the
+    expansion, put in canonical form by ``Tensor.canonical`` and
+    ``op_canonical`` (rule 2), and re-lettered to the dummy-renaming
+    minimum by ``dummy_index_sub`` (rule 3); two terms merge iff the
+    results agree (rule 4)."""
+    merged = {}
+    keep = {}
+    for coeff, tensors, op, leftover in terms:
+        if leftover:
+            raise ValueError("merge with unresolved deltas")
+        tensors, op = dummy_index_sub(tensors_canonical(tensors),
+                                      op_canonical(op))
+        key = (op, tensors)
+        if key not in merged:
+            merged[key] = Rational(0)
+            keep[key] = (tensors, op)
+        merged[key] += coeff
+    return [(coeff, keep[key][0], keep[key][1], ())
+            for key, coeff in merged.items() if coeff]
 
 
 # ---------------------------------------------------------------------------
@@ -433,8 +429,9 @@ def expand_expr(expr, counter=None):
     Walks the nested Commutator/Dagger expression returned by
     ``commutator_blocks()`` and evaluates it with the generalized Wick
     theorem; ``counter`` hands out fresh dummy letters for the excitation
-    operators (inner excitation first).  Every step is merged with
-    ``merge``.
+    operators (inner excitation first).  No merging happens during the
+    walk: the fully expanded block is merged once (``merge``) in
+    ``expanded_blocks``.
     """
     if counter is None:
         counter = [0]
@@ -484,8 +481,9 @@ def expanded_blocks():
         r, s    excitation ranks (s is None at first order)
         is_dag  True for the [[F, T_r]^dagger, T_s] blocks
         terms   [(coeff, tensors, op, leftover), ...], merged over rules
-                1-4 (``merge`` at every expansion step and once
-                more over the whole block)
+                1-4: ``resolve_delta`` is applied term by term during
+                the expansion, and the fully expanded block is merged
+                once by ``merge``
         ranks   sorted operator ranks present
 
     A term is an exact operator identity: coeff a Rational, tensors a
@@ -629,7 +627,8 @@ def write_tex():
         r" is done separately.  The expanded blocks are available"
         r" programmatically through \texttt{expanded\_blocks()}.")
     add("")
-    add(r"Equal terms are merged (\texttt{merge}) over every"
+    add(r"Equal terms are merged once per block, after the full expansion"
+        r" (\texttt{merge}), over every"
         r" identity that is exact in this convention (\texttt{readme.md},"
         r" rules 2--4): the diagonal pair-permutation symmetry of the"
         r" spin-summed"
@@ -855,8 +854,9 @@ def check_blocks_spin_summed():
     the spin-summed operator the only row-level symmetry is the diagonal
     pair permutation (E^{qp..}_{rs..} = E^{pq..}_{sr..}, no sign); the
     sanity assertions below verify both statements.  A fresh re-expansion
-    of every block (``expand_expr``) is checked alongside the stored
-    terms, so a failure is attributed unambiguously.
+    of every block (``expand_expr``, never merged) is checked alongside
+    the merged terms, so a failure is attributed to the merging
+    unambiguously.
     """
     import numpy as np
 

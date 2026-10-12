@@ -88,14 +88,14 @@ included, is driven by `../run_all.sh`.
 - `Tensor` — a coefficient tensor (h, f, g, t); `Tensor.canonical()` is
   the minimum arrangement under the exact tensor symmetries.
 - Simplify rules: `resolve_delta` (rule 1), `op_canonical` /
-  `tensors_canonical` (rule 2), `dummy_index` / `_rename_min` /
+  `tensors_canonical` (rule 2), `dummy_index_sub` /
   `_normalize_letters` (rules 3-4), all gathered in `merge()`.
 - Expansion: `comm_terms`, `dagger_terms`, `expand_expr`, plus the
   operator pools `H_OP`, `F_OP`, `V_OP`, `_excitation_pool`.
 - Public API for later stages: `expanded_blocks()` (list of 12 dicts with
   keys `kind, expr, lhs, x_name, r, s, is_dag, terms, ranks`),
   `build_blocks()`/`BLOCKS` (legacy tuple view), and the term machinery
-  (`Tensor`, `Operator`, `SPACE`, `FAMILY`, `merge`, `dummy_index`,
+  (`Tensor`, `Operator`, `SPACE`, `FAMILY`, `merge`, `dummy_index_sub`,
   `term_latex`, `terms_latex`, `pack_rows`, `ranks_of`).
 - LaTeX: `term_latex`, `terms_latex`, `pack_rows`, `write_tex`,
   `compile_tex`.

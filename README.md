@@ -48,7 +48,7 @@ fourth and sixth are **the derivation process**, applied in order.
 3. `many_body_equation/` -- expand all 12 blocks with the generalized Wick
    theorem; apply the index-space delta rules (numbered indices:
    p1,p2,... whole space; i1,i2,... occupied; a1,a2,... virtual);
-   merge equal terms over every exact identity (dummy_index: index
+   merge equal terms over every exact identity (merge: index
    renaming, pair symmetries, diagonal pair permutation of E).
    Checks: Jordan--Wigner matrix check per block, both with
    spin-orbital operators and with genuinely spin-summed operators.

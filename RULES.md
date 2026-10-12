@@ -65,7 +65,8 @@ Simplify rules (the unified list of many_body_equation/readme.md):
   letter of the same space (einsum convention); the free indices of the
   operator are equally arbitrary -- they are the summation labels of the
   operator basis sum.
-- Rule 4, merging (merge, via dummy_index): two terms are equal --
+- Rule 4, merging (merge, via dummy_index_sub): two terms are equal
+  --
   and merge -- iff related by (a) renaming of any summed index within
   its space (rule 3), (b) the pair swaps t^{ab}_{ij} = t^{ba}_{ji} and
   g^{pq}_{rs} = g^{qp}_{sr} (spin-integrated formalism: NO index

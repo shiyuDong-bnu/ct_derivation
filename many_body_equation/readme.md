@@ -21,7 +21,8 @@ Public API for later stages (`expand_commutators.py`):
 * `build_blocks()` / `BLOCKS` -- the legacy tuple view
   (kind, x_name, r, s, is_dag, lhs, terms).
 * the term machinery: `Tensor`, `Operator`, `SPACE`, `FAMILY`,
-  `merge`, `dummy_index`, `term_latex`, `terms_latex`, `pack_rows`,
+  `merge`, `dummy_index_sub`, `term_latex`, `terms_latex`,
+  `pack_rows`,
   `ranks_of`.
 
 Used by `space_restriction/space_restriction.py` and
@@ -61,7 +62,8 @@ simplify rules, as implemented in `expand_commutators.py`:
    the free indices of the operator are equally arbitrary, because the
    operator basis sum makes them summation labels.
 
-4. merging (`merge`, via `dummy_index`) -- two terms are equal, and
+4. merging (`merge`, via `dummy_index_sub`) -- two terms are equal,
+   and
    merge, iff they are related by identities that are exact in the
    spin-integrated, real-coefficient convention:
    a. renaming of any summed index within its space (rule 3);
