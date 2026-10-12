@@ -14,7 +14,7 @@ expanded with the generalized Wick theorem of
     T1 = t^a_i E^a_i                    (a virtual, i occupied)
     T2 = (1/2) t^{ab}_{ij} E^{ab}_{ij}
 
-and applying the simplify rules of readme.md:
+and applying the simplification steps of readme.md:
 
     1. resolve_delta:  the index-space delta rules (indices are numbered
        per space: p1,p2,... whole space; i1,i2,... occupied; a1,a2,...
@@ -23,20 +23,26 @@ and applying the simplify rules of readme.md:
        delta(whole, occ) -> occupied;  delta(occ, vir) -> 0;
        same-space dummies contract;  delta(whole, whole) raises
        (unreachable with the three spaces of this truncation));
-    2. canonicalization:  the operator is invariant under a simultaneous
-       permutation of its index pairs, with NO sign (op_canonical,
-       applied inside merge);
-    3. dummy indices:  every summed index (including the operator's free
-       indices, which are the summation labels of the operator basis sum)
-       may be renamed by an unused letter of the same space;
-    4. merging (merge, via dummy_index_sub):  two terms are equal
-       iff related by exact identities (renaming, the pair symmetries
-       of t and g, real symmetric h/f and pair-exchange-symmetric g,
-       and the diagonal
-       pair-permutation symmetry of the spin-summed E -- the two rows may
-       only be permuted together, with NO sign);  the representative is
-       the renaming-orbit minimum of the canonical written form
-       (op_canonical, Tensor.canonical).
+    2. op_canonical:  the operator's index pairs are sorted, each
+       (upper, lower) pair kept together, with NO sign (the diagonal
+       pair-permutation symmetry of the spin-summed E);
+    3. substitute_outer:  the operator's (outer) indices are re-lettered
+       onto the numbered pool of their space in appearance order, the
+       same substitution applied to the tensor part simultaneously;
+    4. sort_tensors:  the tensor product is sorted by the tensor head
+       name (the tensors are scalars and commute -- a multiset);
+    5. Tensor.canonical:  each tensor's indices are reordered to the
+       minimum over its symmetry orbit under the index order:  space
+       (whole > occ > vir), outer index > dummy index, lexical;
+    6. substitute_dummies:  the dummy indices are re-lettered onto the
+       numbered pool of their space, continuing after the outer letters.
+
+    Steps 2-6 alone are not letter-invariant (steps 2 and 5 sort by the
+    index order of the term's current letters);  the canonical
+    representative of a term is the minimum of the steps-2-6 form over
+    the renaming orbit (``orbit_canonical``).  Terms whose canonical
+    representatives agree are equal and are merged (``merge``, applied
+    once per block in ``expanded_blocks``).
 
 The truncation is by perturbation order (Moller-Plesset counting
 h ~ O(1), V ~ O(lambda), T ~ O(lambda); the Fock operator F differs from
@@ -76,7 +82,8 @@ Every expanded block is verified numerically against the direct (nested)
 matrix commutator with random real tensors of these symmetry classes,
 twice: on Jordan-Wigner spin-orbital matrices (4 modes, 2 occupied + 2
 virtual) and with genuinely spin-summed operators (4 spatial orbitals =
-8 spin orbitals) -- the spin-orbital check alone cannot see rule 4d,
+8 spin orbitals) -- the spin-orbital check alone cannot see the merging
+over the diagonal pair permutation of the spin-summed E,
 because single-row antisymmetry IS exact for a spin-orbital string.  The
 checks live in test/check_many_body_equation.py at the repo root and are
 run by this script.  The blocks are then written to
@@ -117,7 +124,8 @@ ALL = (0, 1, 2, 3)
 RANGE = {"o": OCC, "v": VIR, "g": ALL}
 
 # numbered dummy letters per space, handed out by _excitation_pool and
-# _normalize_letters; the space of a symbol is read off its base letter
+# the substitution steps (substitute_outer / substitute_dummies); the
+# space of a symbol is read off its base letter
 # by space_of, so p, p1, p2, ... are all whole-space
 FAMILY = {"g": symbols("p1:9"),
           "o": symbols("i1:9"),
@@ -176,10 +184,18 @@ class Tensor:
     def __hash__(self):
         return hash(self.signature())
 
-    def canonical(self):
+    def canonical(self, outer=frozenset()):
         """Canonical index arrangement under the exact symmetries of the
-        tensor.  The canonical arrangement is the minimum under
-        ``index_key`` over the symmetry orbit:
+        tensor (step 5 of readme.md).  The canonical arrangement is the
+        minimum over the symmetry orbit under the index order
+
+            space:  whole (total) > occupied > virtual
+            then:   outer index > dummy index
+            then:   lexical order (base letter, then number)
+
+        where an "outer" index is one that also sits on the operator
+        (``outer`` is the operator's index set; the default empty set
+        recovers the plain ``index_key`` order).  The symmetry orbits:
 
             tensor          pair swap            pair exchange
                             (within pairs)       (upper <-> lower)
@@ -194,6 +210,13 @@ class Tensor:
         Hermiticity with real coefficients.  For a rank-1 tensor pair
         exchange is the upper/lower swap (h^q_p = h^p_q).  No index
         antisymmetry is used anywhere."""
+        def key(x):
+            name = str(x)
+            base = name.rstrip("0123456789")
+            num = name[len(base):]
+            return (SPACE_ORDER[space_of(x)], x in outer, base,
+                    int(num) if num else 0)
+
         opts = [(self.upper, self.lower)]
         if self.name in ("f", "h", "D") and len(self.upper) == 1:
             opts.append((self.lower, self.upper))
@@ -203,9 +226,7 @@ class Tensor:
             opts.append(sw)
             if self.name in ("g", "D"):
                 opts += [(self.lower, self.upper), (sw[1], sw[0])]
-        up, lo = min(opts,
-                     key=lambda ul: tuple(index_key(x)
-                                          for x in ul[0] + ul[1]))
+        up, lo = min(opts, key=lambda ul: tuple(key(x) for x in ul[0] + ul[1]))
         return Tensor(self.name, up, lo, self.star)
 
     def latex(self):
@@ -220,7 +241,7 @@ class Tensor:
 # terms: (Rational coeff, (Tensor, ...), Operator, leftover deltas)
 # ---------------------------------------------------------------------------
 def resolve_delta(coeff, tensors, deltas, op):
-    """Simplify rule 1 of readme.md: the index-space delta rules.
+    """Simplification step 1 of readme.md: the index-space delta rules.
     Returns the term or None (zero)."""
     subs = {}
     leftover = []
@@ -244,7 +265,7 @@ def resolve_delta(coeff, tensors, deltas, op):
 
 
 def op_canonical(op):
-    """Canonical pair order (rule 2): the index pairs sorted by the upper
+    """Canonical pair order (step 2): the index pairs sorted by the upper
     index under ``index_key``, each (upper, lower) pair kept together, no
     sign -- the full pair-level symmetry of the spin-summed E."""
     order = sorted(range(op.rank), key=lambda k: index_key(op.upper_index[k]))
@@ -252,17 +273,9 @@ def op_canonical(op):
                     [op.lower_index[k] for k in order])
 
 
-def tensors_canonical(tensors):
-    """Canonical form of the coefficient tensors: each tensor in its
-    ``Tensor.canonical`` index arrangement, then sorted into a fixed order
-    (the tensors are scalars and commute -- a multiset)."""
-    return tuple(sorted((t.canonical() for t in tensors),
-                        key=lambda t: str(t.signature())))
-
-
 def comm_terms(terms_a, terms_b):
     """Commutator of two sums of terms, expanded with the generalized Wick
-    theorem and simplified with the index-space rules (rule 1,
+    theorem and simplified with the index-space rules (step 1,
     ``resolve_delta``).  NOT merged: merging (``merge``) happens once per
     block in ``expanded_blocks``, after the full commutator is expanded."""
     out = []
@@ -293,97 +306,168 @@ def ranks_of(terms):
 
 
 # ---------------------------------------------------------------------------
-# merging (simplify rules 2-4 of readme.md): two terms are equal -- and
-# merge -- iff they are related by identities that are exact in the
-# spin-integrated, real-coefficient convention:
+# canonicalization and merging (steps 2-6 of readme.md): two terms are
+# equal -- and merge -- iff they reach the same canonical form by moves
+# that are exact identities in the spin-integrated, real-coefficient
+# convention (the "Exact symmetries" section of readme.md):
 #   * the diagonal pair-permutation symmetry of the spin-summed E: the two
 #     index rows may only be permuted TOGETHER, with NO sign
 #     (E^{qp...}_{rs...} = E^{pq...}_{sr...}).  A single row alone is NOT a
 #     symmetry of the spin-summed operator (that antisymmetry belongs to
 #     the spin-orbital string, not to the spin-integrated E)
-#     -- applied by op_canonical;
+#     -- step 2, op_canonical;
 #   * the pair symmetry of the amplitudes, t^{ab}_{ij} = t^{ba}_{ji} and
 #     g^{pq}_{rs} = g^{qp}_{sr} (simultaneous swap of both index pairs),
 #     and real symmetric h, f and pair-exchange-symmetric g
-#     -- applied by Tensor.canonical;
-#   * renaming of any summed index within its space (rule 3).  ALL indices
-#     are summed: the free indices of the operator are the summation labels
-#     of the operator basis sum, so they can be renamed like tensor dummies
-#     -- applied by merge via dummy_index_sub.
-# No index antisymmetry of t or g is used.  All orbit moves carry sign +1.
+#     -- step 5, Tensor.canonical;
+#   * renaming of any summed index within its space.  ALL indices are
+#     summed: the free (outer) indices of the operator are the summation
+#     labels of the operator basis sum, so they can be renamed like tensor
+#     dummies -- steps 3 and 6, substitute_outer / substitute_dummies.
+# No index antisymmetry of t or g is used.  All moves carry sign +1.
 # ---------------------------------------------------------------------------
-def _normalize_letters(tensors, op):
-    """Replace every index by the next canonical letter of its space in
-    encounter order (operator upper, operator lower, then tensors), so that
-    all terms draw on the same letter pool before the orbit minimum."""
-    scan = list(op.upper_index) + list(op.lower_index)
-    for t in tensors:
-        scan += list(t.upper) + list(t.lower)
+def substitute_outer(tensors, op):
+    """Step 3: re-letter the outer indices (the indices of the operator)
+    onto the numbered pool of their space, in order of appearance (upper
+    row, then lower row); the same substitution is applied to the tensor
+    part simultaneously, since the tensors share indices with the
+    operator.  A tensor-only (dummy) letter that collides with a new
+    outer letter is first moved to a scratch letter of its space; all
+    dummy indices are re-lettered canonically in step 6
+    (substitute_dummies)."""
     mapping, count = {}, {}
-    for x in scan:
+    for x in list(op.upper_index) + list(op.lower_index):
         if x not in mapping:
             sp = space_of(x)
             mapping[x] = FAMILY[sp][count.get(sp, 0)]
             count[sp] = count.get(sp, 0) + 1
-    return (tuple(t.substitute(mapping) for t in tensors),
+    targets = set(mapping.values())
+    aside = {}
+    for t in tensors:
+        for x in t.upper + t.lower:
+            if x not in mapping and x in targets and x not in aside:
+                base = str(x).rstrip("0123456789")
+                aside[x] = symbols("%s%d" % (base, 1000 + len(aside)))
+    sub = {**aside, **mapping}
+    return (tuple(t.substitute(sub) for t in tensors),
             Operator([mapping[x] for x in op.upper_index],
                      [mapping[x] for x in op.lower_index]))
 
 
-def dummy_index_sub(tensors, op):
-    """Minimum lettering of a term over the dummy-renaming orbit (rule 3):
-    the indices are first re-lettered onto the numbered pool
-    (``_normalize_letters``), then every within-space permutation is
-    tried and the minimum under ``index_key`` wins.  Pure renaming: no
-    tensor or operator canonicalization is done here (that is rule 2,
-    applied by ``merge`` before calling this).  Returns the re-lettered
-    (tensors, op)."""
-    tensors, op = _normalize_letters(tensors, op)
-    allidx = sorted({x for t in tensors for x in t.upper + t.lower}
-                    | set(op.upper_index) | set(op.lower_index),
-                    key=index_key)
+def sort_tensors(tensors, outer):
+    """Step 4: order the tensor product by the tensor head name (the
+    tensors are scalars and commute -- the product is a multiset).  Ties
+    (same head name) are broken by the canonical index arrangement of
+    step 5, so the order does not depend on the written arrangement of
+    the tensors."""
+    return tuple(sorted(
+        tensors, key=lambda t: (t.name, str(t.canonical(outer).signature()))))
+
+
+def substitute_dummies(tensors, op):
+    """Step 6: re-letter the dummy indices (those not on the operator)
+    onto the numbered pool of their space, skipping the outer letters, in
+    order of appearance over the canonical tensor product.  The
+    operator's letters are already canonical (step 3) and are not
+    touched."""
+    outer = set(op.upper_index) | set(op.lower_index)
+    used = {}
+    for x in outer:
+        used.setdefault(space_of(x), set()).add(x)
+    free = {sp: iter([y for y in FAMILY[sp] if y not in used.get(sp, ())])
+            for sp in FAMILY}
+    mapping = {}
+    for t in tensors:
+        for x in t.upper + t.lower:
+            if x not in outer and x not in mapping:
+                mapping[x] = next(free[space_of(x)])
+    return tuple(t.substitute(mapping) for t in tensors)
+
+
+def canonical_form(tensors, op):
+    """The canonical written form of one term: steps 2-6 of readme.md
+    applied in order (op_canonical, substitute_outer, sort_tensors,
+    Tensor.canonical with the operator's index set, substitute_dummies).
+    Returns (tensors, op).  NOT letter-invariant by itself: steps 2 and 5
+    sort by the index order of the term's current letters, so two
+    renamings of the same term can give different forms -- the canonical
+    representative is the minimum over the renaming orbit
+    (``orbit_canonical``)."""
+    op = op_canonical(op)                        # step 2
+    tensors, op = substitute_outer(tensors, op)  # step 3
+    outer = set(op.upper_index) | set(op.lower_index)
+    tensors = sort_tensors(tensors, outer)       # step 4
+    tensors = tuple(t.canonical(outer) for t in tensors)  # step 5
+    return substitute_dummies(tensors, op), op   # step 6
+
+
+def orbit_canonical(tensors, op):
+    """The canonical representative of a term: the minimum of
+    ``canonical_form`` (steps 2-6) over the renaming orbit -- every
+    within-space renaming of the term's indices is tried and the minimum
+    under the index order (then the tensor signatures) wins.  The term's
+    letters are first brought onto the numbered pool prefix (any
+    deterministic injective map), so that two renamings of the same term
+    enumerate permutations of the SAME letter set; then the orbit minimum
+    is letter-invariant by construction: the renaming orbit of a term is
+    the same set for two terms that differ by a renaming, so their
+    minima agree.  Returns the minimizing (tensors, op)."""
     by_space = {}
-    for x in allidx:
+    for x in sorted({x for t in tensors for x in t.upper + t.lower}
+                    | set(op.upper_index) | set(op.lower_index),
+                    key=str):
         by_space.setdefault(space_of(x), []).append(x)
+    norm = {}
+    for sp, xs in by_space.items():
+        norm.update(zip(xs, FAMILY[sp]))
+    tensors = tuple(t.substitute(norm) for t in tensors)
+    op = Operator([norm[x] for x in op.upper_index],
+                  [norm[x] for x in op.lower_index])
+    pools = {sp: [norm[x] for x in xs] for sp, xs in by_space.items()}
+    best_key = None
     best = None
-    best_term = None
     for combo in itertools.product(
-            *(itertools.permutations(xs) for xs in by_space.values())):
-        mapping = {}
-        for xs, tgt in zip(by_space.values(), combo):
-            mapping.update(zip(xs, tgt))
-        o = Operator([mapping[x] for x in op.upper_index],
-                     [mapping[x] for x in op.lower_index])
-        ts = tuple(t.substitute(mapping) for t in tensors)
-        key = (tuple(index_key(x) for x in o.upper_index),
-               tuple(index_key(x) for x in o.lower_index),
-               tuple(str(t.signature()) for t in ts))
-        if best is None or key < best:
-            best = key
-            best_term = (ts, o)
-    return best_term
+            *(itertools.permutations(xs) for xs in pools.values())):
+        sub = {}
+        for xs, perm in zip(pools.values(), combo):
+            sub.update(zip(xs, perm))
+        ts = tuple(t.substitute(sub) for t in tensors)
+        o = Operator([sub.get(x, x) for x in op.upper_index],
+                     [sub.get(x, x) for x in op.lower_index])
+        cand_t, cand_o = canonical_form(ts, o)
+        key = (tuple(index_key(x) for x in cand_o.upper_index),
+               tuple(index_key(x) for x in cand_o.lower_index),
+               tuple(str(t.signature()) for t in cand_t))
+        if best_key is None or key < best_key:
+            best_key = key
+            best = (cand_t, cand_o)
+    return best
 
 
 def merge(terms):
     """Merge equal terms -- the merging entry point of the stage,
     applied once per block (``expanded_blocks``) after the full
-    commutator is expanded.  Combines the simplify rules of readme.md:
-    terms are simplified by ``resolve_delta`` (rule 1) during the
-    expansion, put in canonical form by ``Tensor.canonical`` and
-    ``op_canonical`` (rule 2), and re-lettered to the dummy-renaming
-    minimum by ``dummy_index_sub`` (rule 3); two terms merge iff the
-    results agree (rule 4)."""
+    commutator is expanded.  Every term is put in canonical form by the
+    steps of readme.md: the deltas are resolved during the expansion
+    (step 1, ``resolve_delta``), then the operator is canonicalized
+    (step 2, ``op_canonical``), the outer indices are substituted (step
+    3, ``substitute_outer``), the tensor product is sorted (step 4,
+    ``sort_tensors``), each tensor's indices are canonicalized (step 5,
+    ``Tensor.canonical``), and the dummy indices are substituted (step 6,
+    ``substitute_dummies``); the canonical representative of the term is
+    the minimum of steps 2-6 over the renaming orbit
+    (``orbit_canonical``).  Two terms merge iff the canonical
+    representatives agree."""
     merged = {}
     keep = {}
     for coeff, tensors, op, leftover in terms:
         if leftover:
             raise ValueError("merge with unresolved deltas")
-        tensors, op = dummy_index_sub(tensors_canonical(tensors),
-                                      op_canonical(op))
-        key = (op, tensors)
+        canon_t, canon_op = orbit_canonical(tensors, op)
+        key = (canon_op, canon_t)
         if key not in merged:
             merged[key] = Rational(0)
-            keep[key] = (tensors, op)
+            keep[key] = (canon_t, canon_op)
         merged[key] += coeff
     return [(coeff, keep[key][0], keep[key][1], ())
             for key, coeff in merged.items() if coeff]
@@ -473,10 +557,10 @@ def expanded_blocks():
         x_name  "h" | "V" (first order), "F" (second order)
         r, s    excitation ranks (s is None at first order)
         is_dag  True for the [[F, T_r]^dagger, T_s] blocks
-        terms   [(coeff, tensors, op, leftover), ...], merged over rules
-                1-4: ``resolve_delta`` is applied term by term during
-                the expansion, and the fully expanded block is merged
-                once by ``merge``
+        terms   [(coeff, tensors, op, leftover), ...], merged over steps
+                1-6 of readme.md: ``resolve_delta`` is applied term by
+                term during the expansion, and the fully expanded block
+                is merged once by ``merge``
         ranks   sorted operator ranks present
 
     A term is an exact operator identity: coeff a Rational, tensors a
@@ -623,7 +707,7 @@ def write_tex():
     add(r"Equal terms are merged once per block, after the full expansion"
         r" (\texttt{merge}), over every"
         r" identity that is exact in this convention (\texttt{readme.md},"
-        r" rules 2--4): the diagonal pair-permutation symmetry of the"
+        r" simplification steps 2--6): the diagonal pair-permutation symmetry of the"
         r" spin-summed"
         r" $\hat{E}$ (the two index rows may only be permuted together,"
         r" with no sign,"
@@ -639,7 +723,7 @@ def write_tex():
         r" operators (4 modes, 2 occupied $+$ 2 virtual) and with the"
         r" genuinely spin-summed operators (4 spatial orbitals $=$ 8 spin"
         r" orbitals); the second check is the one that sees the merging"
-        r" rules.")
+        r" steps.")
     add("")
 
     sections = [("First-order commutators", "first"),

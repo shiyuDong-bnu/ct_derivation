@@ -33,9 +33,11 @@ operator identity; no reference-state information enters here.
 - `expand_commutators.py` — the entire stage: expansion engine, term
   machinery, LaTeX writer, and numerical checks, in one file (~1000
   lines). Running it executes the checks and regenerates the tex/pdf.
-- `readme.md` — the authoritative statement of the simplify rules
-  (1. resolve_delta, 2. canonicalization, 3. dummy indices, 4. merging)
-  and the public API. Keep it in sync with the code.
+- `readme.md` — the authoritative statement of the simplification steps
+  (1. resolve_delta, 2. op_canonical, 3. substitute_outer,
+  4. sort_tensors, 5. Tensor.canonical, 6. substitute_dummies, then
+  merging via the renaming-orbit minimum) and the public API. Keep it in
+  sync with the code.
 - `many_body_equations.tex` / `.pdf` — GENERATED output (by `write_tex()`);
   never edit by hand. `.aux`, `.fdb_latexmk`, `.fls`, `.log` are latexmk
   build artifacts.
@@ -98,16 +100,19 @@ included, is driven by `../run_all.sh`.
   read off its base letter (p, p1, p2, ... are all whole-space).
 - `Tensor` — a coefficient tensor (h, f, g, t); `Tensor.canonical()` is
   the minimum arrangement under the exact tensor symmetries.
-- Simplify rules: `resolve_delta` (rule 1), `op_canonical` /
-  `tensors_canonical` (rule 2), `dummy_index_sub` /
-  `_normalize_letters` (rules 3-4), all gathered in `merge()`.
+- Simplify steps: `resolve_delta` (step 1), `op_canonical` (2),
+  `substitute_outer` (3), `sort_tensors` (4), `Tensor.canonical` (5),
+  `substitute_dummies` (6), gathered per term in `canonical_form`; the
+  canonical representative is the renaming-orbit minimum
+  `orbit_canonical`; `merge()` merges terms whose representatives agree.
 - Expansion: `comm_terms`, `dagger_terms`, `expand_expr`, plus the
   operator pools `H_OP`, `F_OP`, `V_OP`, `_excitation_pool`.
 - Public API for later stages: `expanded_blocks()` (list of 12 dicts with
   keys `kind, expr, lhs, x_name, r, s, is_dag, terms, ranks`),
   `build_blocks()`/`BLOCKS` (legacy tuple view), and the term machinery
-  (`Tensor`, `Operator`, `SPACE`, `FAMILY`, `merge`, `dummy_index_sub`,
-  `term_latex`, `terms_latex`, `pack_rows`, `ranks_of`).
+  (`Tensor`, `Operator`, `SPACE`, `FAMILY`, `merge`, `canonical_form`,
+  `orbit_canonical`, `term_latex`, `terms_latex`, `pack_rows`,
+  `ranks_of`).
 - LaTeX: `term_latex`, `terms_latex`, `pack_rows`, `write_tex`
   (`compile_tex` and `idx_latex` are shared, from
   `../utils/latex_utils.py`).
