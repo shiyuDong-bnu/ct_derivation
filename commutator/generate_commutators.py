@@ -34,7 +34,8 @@ second-order term, (1/2)[[f, a], a].  The valence double commutator
 (1/2)[[v, a], a] is O(lambda^3) and is not generated.
 
 Running the script also checks every reduction identity numerically on
-random matrices, writes commutators.tex, and (if latexmk is available)
+random matrices (the check lives in test/check_commutator.py at the repo
+root), writes commutators.tex, and (if latexmk is available)
 commutators.pdf.
 
 Public API for the many-body equations:
@@ -45,8 +46,7 @@ Public API for the many-body equations:
                                        "second_order": 8 blocks}
 """
 
-import shutil
-import subprocess
+import sys
 from pathlib import Path
 
 from sympy import Add, Mul, Rational, S, Symbol, latex, sympify
@@ -55,6 +55,9 @@ from sympy.physics.quantum import Commutator, Dagger, Operator
 
 HERE = Path(__file__).resolve().parent
 TEX_PATH = HERE / "commutators.tex"
+
+sys.path.insert(0, str(HERE.parent / "utils"))
+from latex_utils import compile_tex  # noqa: E402
 
 
 class NCommutator(Commutator):
@@ -295,98 +298,6 @@ def ct_latex(expr):
 
 
 # ---------------------------------------------------------------------------
-# Numerical check of every reduction identity on random matrices
-# ---------------------------------------------------------------------------
-def check_identities():
-    import numpy as np
-
-    rng = np.random.default_rng(20260409)
-    n = 6
-
-    def rand_matrix():
-        return (rng.uniform(-1, 1, (n, n))
-                + 1j * rng.uniform(-1, 1, (n, n)))
-
-    def rand_hermitian():
-        m = rand_matrix()
-        return m + m.conj().T
-
-    subs = {H: rand_hermitian(), V: rand_hermitian(), F: rand_hermitian(),
-            T1: rand_matrix(), T2: rand_matrix()}
-
-    def to_matrix(expr):
-        if isinstance(expr, Commutator):
-            a, b = (to_matrix(x) for x in expr.args)
-            return a @ b - b @ a
-        if is_dagger(expr):
-            return to_matrix(expr.args[0]).conj().T
-        if isinstance(expr, Operator):
-            return subs[expr]
-        if isinstance(expr, Add):
-            out = np.zeros((n, n), dtype=complex)
-            for term in expr.args:
-                out = out + to_matrix(term)
-            return out
-        if isinstance(expr, Mul):
-            coeff, rest = split_mul(expr)
-            return float(coeff) * to_matrix(rest)
-        raise TypeError(f"cannot evaluate {expr!r}")
-
-    def deviation(lhs, rhs):
-        return float(np.max(np.abs(to_matrix(lhs) - to_matrix(rhs))))
-
-    checks = []
-
-    # [X, A] = [X, T1] + [X, T2] + h.c.  (X elementary and Hermitian)
-    with evaluate(False):
-        for X, blocks, tag in ((H, (B1, B2), "h"),
-                               (V, (D1, D2), "V"),
-                               (F, (C1, C2), "F")):
-            lhs = NCommutator(X, A)
-            rhs = blocks[0] + blocks[1] + Dagger(blocks[0]) + Dagger(blocks[1])
-            checks.append((f"[{tag}, A] = [{tag}, T1] + [{tag}, T2] + h.c.",
-                           deviation(lhs, rhs)))
-
-        # [H_b, A] = [h, A] + [V, A]  (composite bare Hamiltonian)
-        checks.append(("[H_b, A] = [h, A] + [V, A]",
-                       deviation(NCommutator(HB, A), B + D)))
-
-        # (1/2)[[F, A], A] = (1/2)([C, T] + [C, T]^dagger) over the 8 blocks
-        lhs = CT_second_F
-        s8 = np.zeros((n, n), dtype=complex)
-        for b in second_order_F:
-            s8 = s8 + to_matrix(b)
-        rhs_mat = 0.5 * (s8 + s8.conj().T)
-        diff = to_matrix(lhs) - rhs_mat
-        checks.append(("(1/2)[[F, A], A] = (1/2)(sum of 8 blocks + h.c.)",
-                       float(np.max(np.abs(diff)))))
-
-        # the expanded target operator agrees with the nested definition
-        checks.append(("bar H (nested) = bar H (expanded elementary blocks)",
-                       deviation(BAR_H, BAR_H_EXPANDED)))
-
-        # the two mixed blocks are different operators (no Jacobi shortcut)
-        diff = to_matrix(NCommutator(C1, T2)) - to_matrix(NCommutator(C2, T1))
-        mixed = float(np.max(np.abs(diff)))
-        checks.append(("[[F, T1], T2] != [[F, T2], T1] (mixed blocks differ)",
-                       mixed))
-
-    print("numerical checks (random 6x6 matrices, h, V and F Hermitian):")
-    ok = True
-    for name, dev in checks:
-        if name.startswith("[["):
-            status = "OK " if dev > 1e-6 else "FAIL"
-            ok &= dev > 1e-6
-        else:
-            status = "OK " if dev < 1e-10 else "FAIL"
-            ok &= dev < 1e-10
-        print(f"  [{status}] {name}: {dev:.3e}")
-    if not ok:
-        raise SystemExit("identity check failed")
-    print()
-
-
-# ---------------------------------------------------------------------------
 # LaTeX document
 # ---------------------------------------------------------------------------
 def write_tex():
@@ -563,22 +474,12 @@ def write_tex():
     print(f"wrote {TEX_PATH}")
 
 
-def compile_tex():
-    if shutil.which("latexmk") is None:
-        print("latexmk not found, skipping PDF build")
-        return
-    proc = subprocess.run(
-        ["latexmk", "-pdf", "-interaction=nonstopmode", TEX_PATH.name],
-        cwd=HERE, capture_output=True, text=True)
-    if proc.returncode == 0:
-        print(f"built {TEX_PATH.with_suffix('.pdf')}")
-    else:
-        print("latexmk failed:")
-        print("\n".join(proc.stdout.splitlines()[-15:]))
-        raise SystemExit(1)
-
-
 if __name__ == "__main__":
+    # register the running script under its module name, so that the check
+    # module imports this very instance and not a second copy
+    sys.modules.setdefault("generate_commutators", sys.modules["__main__"])
+    sys.path.insert(0, str(HERE.parent / "test"))
+    from check_commutator import check_identities  # noqa: E402
     check_identities()
     write_tex()
-    compile_tex()
+    compile_tex(TEX_PATH)

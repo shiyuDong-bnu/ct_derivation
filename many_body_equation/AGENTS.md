@@ -44,9 +44,20 @@ Cross-stage imports (via `sys.path` insertion of the sibling directories):
 - `../generalized_wick_theorem/generalized_wick_commutator.py` — the Wick
   engine: `Operator`, `commutator`, and the Jordan-Wigner helpers
   `_jw_matrices`, `_matmul`.
-- `../commutator/generate_commutators.py` (imported as `gc`) — the block
+- `../commutator/generate_commutators.py` (imported as `gen_commutator`) — the block
   inventory: `commutator_blocks()`, the symbols `H, F, V, T1, T2`,
   `is_dagger()`, `ct_latex()`.
+- `../utils/latex_utils.py` — the shared LaTeX helpers: `compile_tex`
+  (the pdf build of every stage) and `idx_latex`.
+
+The numerical checks of every stage live in `../test/check_<stage>.py`
+(this stage: `../test/check_many_body_equation.py`); each stage script
+imports and runs them from its `__main__`, so the workflow below is
+unchanged. The `sys.modules.setdefault(...)` line in each `__main__`
+registers the running script under its module name so the check module
+imports the same instance — the term machinery relies on `Tensor`/
+`Operator` class identity. The check modules are also runnable
+standalone.
 
 Downstream consumers of this stage's API: `../space_restriction/` and
 `../cumulant_expansion/`.
@@ -97,9 +108,12 @@ included, is driven by `../run_all.sh`.
   `build_blocks()`/`BLOCKS` (legacy tuple view), and the term machinery
   (`Tensor`, `Operator`, `SPACE`, `FAMILY`, `merge`, `dummy_index_sub`,
   `term_latex`, `terms_latex`, `pack_rows`, `ranks_of`).
-- LaTeX: `term_latex`, `terms_latex`, `pack_rows`, `write_tex`,
-  `compile_tex`.
-- Verification: `check_blocks`, `check_blocks_spin_summed`.
+- LaTeX: `term_latex`, `terms_latex`, `pack_rows`, `write_tex`
+  (`compile_tex` and `idx_latex` are shared, from
+  `../utils/latex_utils.py`).
+- Verification: `check_blocks`, `check_blocks_spin_summed` — in
+  `../test/check_many_body_equation.py`, imported and run by the stage
+  script's `__main__`.
 
 A term is a tuple `(coeff, tensors, op, leftover)`: `coeff` a sympy
 Rational, `tensors` a tuple of `Tensor`, `op` an `Operator`, `leftover`
@@ -135,10 +149,12 @@ unresolved Kronecker deltas (empty for every block of this truncation).
 
 ## Code style
 
-- Single-file stages, stdlib + sympy + numpy only; dense docstrings and
-  section banner comments (`# ---...---`) stating the physics reason for
-  each rule. Follow the existing style: lowercase prose comments that
-  explain WHY a rule is valid, not what the code does.
+- Single-file stages for the derivation logic (shared LaTeX helpers in
+  `../utils/latex_utils.py`, numerical checks in `../test/`), stdlib +
+  sympy + numpy only; dense docstrings and section banner comments
+  (`# ---...---`) stating the physics reason for each rule. Follow the
+  existing style: lowercase prose comments that explain WHY a rule is
+  valid, not what the code does.
 - When a simplify rule or the public API changes, update `readme.md`, the
   module docstring, and (if the tex prose mentions it) the strings in
   `write_tex()` — the generated tex repeats the rules for the reader.

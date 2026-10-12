@@ -20,16 +20,16 @@ the vanishing terms underlined, then the restricted expansion gathering the
 nonzero terms, and reports per block how many terms vanish.
 """
 
-import shutil
-import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 MBE = HERE.parent / "many_body_equation"
 sys.path.insert(0, str(MBE))
+sys.path.insert(0, str(HERE.parent / "utils"))
 
 import expand_commutators as mbe  # noqa: E402
+from latex_utils import compile_tex  # noqa: E402
 
 TEX_PATH = HERE / "space_restriction.tex"
 
@@ -180,21 +180,6 @@ def write_tex(blocks):
     print(f"wrote {TEX_PATH}")
 
 
-def compile_tex():
-    if shutil.which("latexmk") is None:
-        print("latexmk not found, skipping PDF build")
-        return
-    proc = subprocess.run(
-        ["latexmk", "-pdf", "-interaction=nonstopmode", TEX_PATH.name],
-        cwd=HERE, capture_output=True, text=True)
-    if proc.returncode == 0:
-        print(f"built {TEX_PATH.with_suffix('.pdf')}")
-    else:
-        print("latexmk failed:")
-        print("\n".join(proc.stdout.splitlines()[-15:]))
-        raise SystemExit(1)
-
-
 if __name__ == "__main__":
     blocks = build()
     print("space restriction (zero = both virtuals of one and the same t2 "
@@ -205,4 +190,4 @@ if __name__ == "__main__":
               f"{len(keep):3d} survive   {blk['lhs'][:60]}")
     print()
     write_tex(blocks)
-    compile_tex()
+    compile_tex(TEX_PATH)

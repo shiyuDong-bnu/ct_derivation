@@ -104,6 +104,9 @@ or each stage separately, in order:
 
 Each stage regenerates its .tex and builds the .pdf (latexmk required for
 the pdf; the checks themselves need only python3 with sympy and numpy).
+The check code lives in `test/check_<stage>.py` (imported and run by each
+stage script, also runnable standalone) and the shared pdf-build and
+index-LaTeX helpers in `utils/latex_utils.py`.
 
 Expected block term counts (blocks: 1-4 first order [F,T1] [F,T2] [V,T1]
 [V,T2]; 5-12 the eight second-order Fock blocks, [[F,T_r],T_s] then
