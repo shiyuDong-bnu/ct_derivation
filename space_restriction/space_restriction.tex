@@ -159,4 +159,68 @@ restricted:
 &\quad - f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{2}} t^{a_{3}a_{2}}_{i_{1}i_{4}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}i_{3}a_{2}}\quad (\text{three-body terms})
 \end{align}
 
+\section{The full expression in the OBS-vir restriction}
+The commutator stage assembles the blocks into the transcorrelated Hamiltonian through $O(\lambda^2)$ as the blocks plus their Hermitian conjugates (the anti-Hermitian generator $\hat A = \hat T - \hat T^\dagger$), the Fock double-commutator blocks carrying the factor $1/2$ (see the Assembly section of \texttt{many\_body\_equations.tex}).  Assembling the \emph{restricted} blocks the same way and merging over the exact identities (conjugate pairs with equal canonical form fold into one term, self-conjugate terms keeping coefficient 1 through the $1/2$) gives the transcorrelated Hamiltonian in the OBS-vir restriction:
+\begin{align}
+\bar H - \hat H &= f^{i_{1}}_{i_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{a_{1}}_{a_{2}} \\
+&\quad - f^{a_{2}}_{i_{2}} t^{a_{1}}_{i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{i_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} - h^{i_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}}_{p_{1}} \\
+&\quad - f^{a_{2}}_{i_{2}} t^{a_{1}}_{i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{i_{1}}_{a_{1}} + f^{a_{1}}_{a_{2}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}}_{i_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{1}}_{i_{2}} \hat{E}^{i_{1}}_{p_{1}} + h^{a_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{i_{1}}_{p_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{2}}_{i_{1}} \hat{E}^{p_{1}}_{a_{1}} - h^{i_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}}_{a_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{2}}_{p_{1}} t^{a_{1}}_{i_{1}} t^{a_{1}}_{i_{2}} \hat{E}^{p_{1}}_{i_{1}} + h^{a_{1}}_{p_{1}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}}_{i_{1}} \\
+&\quad - f^{a_{3}}_{i_{3}} t^{a_{1}}_{i_{3}} t^{a_{3}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}a_{2}}_{i_{1}i_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{3}a_{2}}_{i_{1}i_{2}} \hat{E}^{a_{1}i_{1}}_{a_{2}p_{1}} \\
+&\quad + f^{a_{2}}_{a_{3}} t^{a_{2}a_{1}}_{i_{3}i_{2}} t^{a_{3}}_{i_{1}} \hat{E}^{a_{1}i_{1}}_{i_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{3}i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}i_{1}}_{i_{2}p_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{3}}_{p_{1}} t^{a_{1}}_{i_{2}} t^{a_{3}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}}_{p_{1}a_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{3}} t^{a_{2}}_{i_{1}} \hat{E}^{a_{1}i_{1}}_{p_{1}i_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{3}}_{p_{1}} t^{a_{2}}_{i_{2}} t^{a_{3}a_{1}}_{i_{1}i_{2}} \hat{E}^{a_{1}p_{1}}_{a_{2}i_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{a_{3}}_{p_{1}} t^{a_{2}}_{i_{2}} t^{a_{3}a_{1}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}}_{i_{1}a_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} t^{a_{2}}_{i_{3}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}} \\
+&\quad + h^{a_{2}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}} - g^{i_{1}p_{1}}_{p_{2}p_{3}} t^{a_{1}}_{i_{1}} \hat{E}^{a_{1}p_{1}}_{p_{2}p_{3}} \\
+&\quad - f^{a_{3}}_{i_{3}} t^{a_{1}}_{i_{3}} t^{a_{3}a_{2}}_{i_{1}i_{2}} \hat{E}^{i_{1}i_{2}}_{a_{1}a_{2}} \\
+&\quad + f^{a_{2}}_{a_{3}} t^{a_{2}a_{1}}_{i_{2}i_{1}} t^{a_{3}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{a_{1}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} t^{a_{2}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{a_{1}p_{1}} \\
+&\quad + h^{a_{2}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}}_{a_{1}p_{1}} \\
+&\quad + f^{a_{1}}_{a_{2}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}a_{3}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}i_{4}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{1}}_{p_{1}} t^{a_{1}a_{2}}_{i_{2}i_{1}} t^{a_{2}}_{i_{3}} \hat{E}^{i_{1}i_{2}}_{i_{3}p_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{1}a_{2}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}p_{1}} \\
+&\quad + \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{i_{1}i_{2}}_{p_{1}p_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{3}i_{1}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{a_{1}i_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{3}}_{p_{1}} t^{a_{2}a_{1}}_{i_{1}i_{3}} t^{a_{2}}_{i_{2}} \hat{E}^{i_{1}p_{1}}_{i_{2}a_{1}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{1}}_{p_{1}} t^{a_{1}a_{2}}_{i_{3}i_{2}} t^{a_{2}}_{i_{1}} \hat{E}^{i_{1}p_{1}}_{i_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{4}} t^{a_{1}a_{2}}_{i_{2}i_{3}} \hat{E}^{i_{1}p_{1}}_{i_{2}i_{3}} \\
+&\quad + g^{a_{1}p_{1}}_{p_{2}p_{3}} t^{a_{1}}_{i_{1}} \hat{E}^{i_{1}p_{1}}_{p_{2}p_{3}} - g^{i_{1}p_{3}}_{p_{1}p_{2}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}p_{2}}_{a_{1}p_{3}} \\
+&\quad + \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{p_{1}p_{2}}_{i_{1}i_{2}} \\
+&\quad + g^{a_{1}p_{3}}_{p_{1}p_{2}} t^{a_{1}}_{i_{1}} \hat{E}^{p_{1}p_{2}}_{i_{1}p_{3}} \\
+&\quad + f^{a_{3}}_{a_{4}} t^{a_{3}a_{1}}_{i_{4}i_{3}} t^{a_{4}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}i_{4}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{4}i_{3}} t^{a_{3}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}p_{1}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{2}a_{3}}_{i_{2}i_{1}} t^{a_{3}a_{1}}_{i_{4}i_{3}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}i_{4}p_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{4}} t^{a_{3}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{p_{1}a_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{2}} t^{a_{3}a_{2}}_{i_{4}i_{1}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}a_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{2}} t^{a_{3}a_{2}}_{i_{1}i_{4}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}i_{3}a_{2}} \\
+&\quad + g^{a_{2}p_{3}}_{p_{1}p_{2}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}p_{2}}_{i_{1}i_{2}p_{3}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{2}a_{3}}_{i_{4}i_{3}} t^{a_{3}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}p_{1}}_{a_{1}i_{3}i_{4}} \\
+&\quad + g^{a_{2}p_{1}}_{p_{2}p_{3}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}p_{1}}_{a_{1}p_{2}p_{3}}
+\end{align}
+Keeping only the pure-$T_2$ blocks (the F12 geminal operator $\hat A^{F12} = \hat T_2 - \hat T_2^\dagger$;  the geminal amplitudes carry the pair-exchange symmetry $G^{\alpha\beta}_{ij} = G^{ij}_{\alpha\beta}$ and vanish with both indices OBS-vir) this is eq. (S1) of the Supplemental Material of Masteran et al., J. Chem. Phys. 158, 057101 (2023), the complete transcorrelated Hamiltonian obtained without the cumulant decomposition -- verified term by term and numerically in \texttt{test/check\_reference\_s1.py}:
+\begin{align}
+\bar H^{F12} - \hat H &= h^{a_{2}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}}_{i_{1}i_{2}} \\
+&\quad + h^{a_{2}}_{p_{1}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}}_{a_{1}p_{1}} \\
+&\quad + f^{a_{1}}_{a_{2}} t^{a_{1}a_{3}}_{i_{1}i_{2}} t^{a_{2}a_{3}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}i_{4}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{2}} t^{a_{1}a_{2}}_{i_{3}i_{4}} \hat{E}^{i_{1}i_{2}}_{i_{3}p_{1}} \\
+&\quad + \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{i_{1}i_{2}}_{p_{1}p_{2}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{1}a_{2}}_{i_{1}i_{4}} t^{a_{1}a_{2}}_{i_{2}i_{3}} \hat{E}^{i_{1}p_{1}}_{i_{2}i_{3}} \\
+&\quad + \tfrac{1}{2}\, g^{a_{1}a_{2}}_{p_{1}p_{2}} t^{a_{1}a_{2}}_{i_{1}i_{2}} \hat{E}^{p_{1}p_{2}}_{i_{1}i_{2}} \\
+&\quad + f^{a_{3}}_{a_{4}} t^{a_{3}a_{1}}_{i_{4}i_{3}} t^{a_{4}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}i_{4}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{4}i_{3}} t^{a_{3}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}a_{2}p_{1}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{2}a_{3}}_{i_{2}i_{1}} t^{a_{3}a_{1}}_{i_{4}i_{3}} \hat{E}^{a_{1}i_{1}i_{2}}_{i_{3}i_{4}p_{1}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{4}} t^{a_{3}a_{2}}_{i_{2}i_{1}} \hat{E}^{a_{1}i_{1}i_{2}}_{p_{1}a_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{2}} t^{a_{3}a_{2}}_{i_{4}i_{1}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}a_{2}i_{3}} \\
+&\quad - \tfrac{1}{2}\, f^{i_{4}}_{p_{1}} t^{a_{3}a_{1}}_{i_{3}i_{2}} t^{a_{3}a_{2}}_{i_{1}i_{4}} \hat{E}^{a_{1}i_{1}p_{1}}_{i_{2}i_{3}a_{2}} \\
+&\quad + g^{a_{2}p_{3}}_{p_{1}p_{2}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{a_{1}p_{1}p_{2}}_{i_{1}i_{2}p_{3}} \\
+&\quad + \tfrac{1}{2}\, f^{a_{2}}_{p_{1}} t^{a_{2}a_{3}}_{i_{4}i_{3}} t^{a_{3}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}p_{1}}_{a_{1}i_{3}i_{4}} \\
+&\quad + g^{a_{2}p_{1}}_{p_{2}p_{3}} t^{a_{2}a_{1}}_{i_{2}i_{1}} \hat{E}^{i_{1}i_{2}p_{1}}_{a_{1}p_{2}p_{3}}
+\end{align}
 \end{document}

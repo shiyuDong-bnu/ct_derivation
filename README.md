@@ -56,7 +56,16 @@ fourth and sixth are **the derivation process**, applied in order.
 4. `space_restriction/` -- the CF-F12 (Yanai) OBS-virtual restriction: a
    term is zero iff both virtual indices of ONE AND THE SAME t2 amplitude
    sit on the E operator (contracted virtuals are fine).  Killed terms are
-   underlined in the pdf, survivors gathered.
+   underlined in the pdf, survivors gathered.  `full_expression()` then
+   assembles the restricted blocks into the full transcorrelated
+   Hamiltonian (blocks + h.c., 1/2 on the Fock double commutator, merged);
+   its doubles-only part is eq. (S1) of the Supplemental Material of
+   Masteran et al., J. Chem. Phys. 158, 057101 (2023)
+   (`reference/supporting.pdf`).  Check (`test/check_reference_s1.py`):
+   the assembled doubles expression equals the printed 16-term (S1)
+   exactly (spin-summed Jordan--Wigner matrices, OBS-vir/CABS split), the
+   killed terms vanish, and the assembly equals the direct nested
+   commutator with the anti-Hermitian generator A = T - T^dagger.
 
 6. `cumulant_expansion/` -- decompose the surviving three-body terms with
    the grouped template.  Every template index appears in exactly one
@@ -69,10 +78,23 @@ fourth and sixth are **the derivation process**, applied in order.
    block grouping.  Output: the final blocks, flat and grouped by
    operator.
 
-7. `f12_special_term/` -- the final piece, PENDING DEFINITION: the
-   contribution of the fixed F12 geminal amplitudes (CABS space) that
-   compensates the stage-4 space restriction.  See its readme.md for the
-   candidate formulas; not yet implemented, not part of run_all.sh.
+7. `f12_special_term/` -- the final piece: the contribution of the fixed
+   F12 geminal amplitudes (CABS space, SP/cusp coefficients) that
+   compensates the stage-4 space restriction.  The stage-4 killed terms
+   are resurrected, folded with the same cumulant template, and
+   substituted into the stage-6 blocks; the assembled special term (32
+   terms, 24 doubles-only) and the substituted final formula (166 terms,
+   126 doubles-only) are written to `f12_special_term.tex/.pdf`.
+   Checks: the killed terms are exactly the complement of the stage-4
+   survivors; the cumulant folding of the killed three-body patterns is
+   exact (SD reference, Jordan--Wigner); the assembled special term
+   vanishes in the F12 setting (so (S1) is untouched).  The substituted
+   doubles formula is compared with eqs. (S3)/(S4) of the reference SI
+   (`test/check_reference_s34.py`, parser `test/si_parse.py` on
+   `reference/supporting.tex`): the bare and all first-order content
+   match EXACTLY; the second-order f.G.G residual (the SI's
+   F12-intermediate/screening content) is reported in three tensor
+   setups.  See its readme.md for the details.
 
 ## Conventions in force
 
@@ -101,6 +123,7 @@ or each stage separately, in order:
     cd many_body_equation       && python3 expand_commutators.py
     cd space_restriction        && python3 space_restriction.py
     cd cumulant_expansion       && python3 cumulant_expansion.py
+    cd f12_special_term         && python3 f12_special_term.py
 
 Each stage regenerates its .tex and builds the .pdf (latexmk required for
 the pdf; the checks themselves need only python3 with sympy and numpy).

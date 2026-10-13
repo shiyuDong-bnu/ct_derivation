@@ -20,4 +20,7 @@ echo
 echo "=== 6. cumulant expansion (also verifies the stage-5 formula) ==="
 (cd cumulant_expansion && python3 cumulant_expansion.py)
 echo
+echo "=== 7. F12 special term and substitution (also the (S3)/(S4) comparison) ==="
+(cd f12_special_term && python3 f12_special_term.py)
+echo
 echo "All stages passed."

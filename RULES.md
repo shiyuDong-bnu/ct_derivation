@@ -150,11 +150,29 @@ information enters.
   group-vs-flat decomposition equivalence per three-body term; block
   grouping check.
 
-## Stage 7 -- f12_special_term (PENDING DEFINITION)
+## Stage 7 -- f12_special_term (the F12 special term)
 
-- The final piece: the contribution of the fixed F12 geminal amplitudes
-  (CABS space, SP/cusp coefficients t~^{ab}_{ij} = (3/8)<ab|Q12 f12|ij> +
-  (1/8)<ab|Q12 f12|ji>) that compensates the stage-4 space restriction.
-- The exact formula is not yet decided; see f12_special_term/readme.md
-  for the candidate forms (resurrected geminal commutators /
-  Yanai--Shiozaki V,X,B intermediates / deexcitation part of A^F12).
+- The stage-4 kill rule removed exactly the terms carrying a t2 amplitude
+  with both virtual indices on the E operator -- the amplitudes that in
+  the CF-F12 construction are the fixed F12 geminal (SP/cusp
+  coefficients t~^{ab}_{ij} = (3/8)<ab|Q12 f12|ij> +
+  (1/8)<ab|Q12 f12|ji>).  Those terms are the F12 special term: they are
+  resurrected and substituted back into the stage-6 result.
+- The killed three-body terms are folded with the same grouped cumulant
+  template and virtual rule as stage 6.  The all-virtual-upper pattern
+  E^{abc}_{ijk} (block 8) folds to zero: no template group carries all
+  three virtual indices (every piece would need a virtual density
+  matrix).
+- Assembly: blocks + h.c., 1/2 on the second-order Fock blocks, merged
+  once -- the stage-4 assembly applied to the special blocks and to the
+  substituted totals.
+- Checks: killed + survivors = the stage-3 block per block; the template
+  identity with the virtual rule holds on the killed three-body patterns
+  (SD reference, Jordan--Wigner); the assembled special term vanishes
+  exactly in the F12 setting (free virtuals OBS-vir, geminal with zero
+  both-OBS-vir block), so the substitution is compatible with eq. (S1).
+- SI comparison (test/check_reference_s34.py, eqs. (S3)/(S4) parsed from
+  reference/supporting.tex): bare and ALL first-order content match
+  EXACTLY; the second-order f.G.G residual is the SI's
+  F12-intermediate/screening content (SeQuant driver steps), reported in
+  three tensor setups, not an error of the truncation.

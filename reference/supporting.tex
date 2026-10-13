@@ -1,0 +1,240 @@
+
+\documentclass[aip,onecolumn,preprint]{revtex4-1} 
+
+\usepackage{natbib}
+\usepackage[version=3]{mhchem} %
+\usepackage{bm} %
+\usepackage{threeparttable} %
+\usepackage{dcolumn}
+\usepackage{booktabs} %
+\usepackage{xspace}
+\usepackage{braket}
+\usepackage{comment}
+\usepackage{color, colortbl}
+	\newcommand{\chl}{\cellcolor{yellow}} %
+\usepackage{soul}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad}
+\usepackage{extarrows}
+\usepackage{mathtools}
+\usepackage{multirow}
+
+
+\usepackage{todonotes}
+\newcommand{\efvsays}[1]{\todo{EFV: #1}}
+
+\usepackage{hyperref} %
+\hypersetup{colorlinks=true, citecolor=blue, urlcolor=blue, linkcolor=blue}
+\usepackage{cleveref}
+  	\crefname{figure}{Gigure}{Gigures}
+  	\crefname{table}{Table}{Tables}
+  	\crefname{equation}{Eq.}{Eqs.}
+  	\crefname{section}{Section}{Sections}
+  	\crefname{subsection}{Section}{Sections}
+  	\crefname{subsubsection}{Section}{Sections}
+  	\crefname{algorithm}{Algorithm}{Algorithms}
+
+\newcommand*{\etal}{\xspace et al.\xspace}
+\DeclareMathOperator{\ext}{ext}
+\newcommand{\gbk}[2]{\ensuremath{\left( #1 \middle| #2 \right)}}
+
+\begin{document}
+
+
+\newtagform{suppeqtag}{(S}{)}
+\usetagform{suppeqtag}
+
+\title{Supplemental Material for 'Comment on ``Canonical transcorrelated theory with projected Slater-type geminals''  [J. Chem. Phys. 136, 084107 (2012)]'} %
+
+\author{Conner Masteran}
+\affiliation{Department of Chemistry, Virginia Tech, Blacksburg, Virginia 24061, USA}
+
+\author{Ashutosh Kumar}
+\affiliation{Theoretical Division, Los Alamos National Laboratory, Los Alamos, New Mexico 87545, United States}
+
+\author{Nakul Teke}
+\affiliation{Department of Chemistry, Virginia Tech, Blacksburg, VA 24061, USA}
+
+\author{Bimal Gaudel}
+\affiliation{Department of Chemistry, Virginia Tech, Blacksburg, VA 24061, USA}
+
+\author{Takeshi Yanai}
+\affiliation{Institute of Transformative Bio-Molecules (WPI-ITbM), Nagoya University, Furocho, Chikusa Ward, Nagoya, Aichi 464-8601, Japan}
+
+\author{Edward~G.~Valeev}
+\email{efv@vt.edu}
+\affiliation{Department of Chemistry, Virginia Tech, Blacksburg, Virginia 24061, USA}
+
+\date{\today}
+
+
+\maketitle %
+
+Here we document the reference expressions for the transcorrelated Hamiltonian described in \onlinecite{VRG:yanai:2012:JCP}.
+All notation and definitions used here exactly match Ref. \onlinecite{VRG:yanai:2012:JCP}, with one extension: primed indices $p'_1, p'_2, \dots$ denote orbital basis set (OBS) that includes core orbitals even if the frozen-core (valence-only) approximation is invoked. As discussed in the main manuscript, the OBS range in Ref. \onlinecite{VRG:yanai:2012:JCP} excludes core orbitals in the valence-only (frozen-core) computations. Both here and in Ref. \onlinecite{VRG:yanai:2012:JCP} the definition of geminal operators involves valence occupied orbitals only (i.e., the geminal excitations do not occur from the core orbitals).
+
+A complete expression for the transcorrelated Hamiltonian
+obtained {\em without the use of the cumulant decomposition} is:
+\begin{align}
+\label{eq:H}
+\hat{H} + [\hat{H}, \hat{A}^\mathrm{F12}] + \frac{1}{2} [[\hat{F}, \hat{A}^\mathrm{F12}], \hat{A}^\mathrm{F12}] & = {{{\frac{1}{2}}}{g^{{{p^\prime}_1}{{p^\prime}_2}}_{{\alpha_1}{\alpha_2}}}{G^{{\alpha_1}{\alpha_2}}_{{i_1}{i_2}}}{\hat{E}^{{i_1}{i_2}}_{{{p^\prime}_1}{{p^\prime}_2}}}} + {{h^{{{p^\prime}_1}}_{{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{\hat{E}^{{i_1}{i_2}}_{{a_1}{{p^\prime}_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{g^{{\alpha_1}{\alpha_2}}_{{{p^\prime}_1}{{p^\prime}_2}}}{G^{{i_1}{i_2}}_{{\alpha_1}{\alpha_2}}}{\hat{E}^{{{p^\prime}_1}{{p^\prime}_2}}_{{i_1}{i_2}}}} + {{h^{{x_1}}_{{{p^\prime}_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{\hat{E}^{{a_1}{{p^\prime}_1}}_{{i_1}{i_2}}}} \nonumber \\
+  & + {{g^{{{p^\prime}_1}{x_1}}_{{{p^\prime}_2}{{p^\prime}_3}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{\hat{E}^{{{p^\prime}_3}{a_1}{{p^\prime}_2}}_{{i_1}{i_2}{{p^\prime}_1}}}} + {{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{\hat{E}^{{i_2}{{p^\prime}_2}{i_1}}_{{a_1}{{p^\prime}_1}{{p^\prime}_3}}}}  \nonumber \\
+  & + {{f^{{x_2}}_{{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{G^{{i_4}{i_3}}_{{a_2}{x_2}}}{\hat{E}^{{i_2}{a_2}{i_1}}_{{i_3}{i_4}{a_1}}}} - {{{\frac{1}{2}}}{f^{{i_1}}_{{{p^\prime}_1}}}{G^{{\alpha_1}{\alpha_2}}_{{i_1}{i_2}}}{G^{{i_3}{i_4}}_{{\alpha_1}{\alpha_2}}}{\hat{E}^{{{p^\prime}_1}{i_2}}_{{i_3}{i_4}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{f^{{{p^\prime}_1}}_{{i_1}}}{G^{{\alpha_1}{\alpha_2}}_{{i_2}{i_3}}}{G^{{i_4}{i_1}}_{{\alpha_1}{\alpha_2}}}{\hat{E}^{{i_2}{i_3}}_{{i_4}{{p^\prime}_1}}}} + {{{\frac{1}{2}}}{f^{{\alpha_1}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{G^{{i_3}{i_4}}_{{x_1}{\alpha_1}}}{\hat{E}^{{i_2}{{p^\prime}_1}{i_1}}_{{i_3}{i_4}{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{f^{{{p^\prime}_1}}_{{\alpha_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{G^{{x_1}{\alpha_1}}_{{i_3}{i_4}}}{\hat{E}^{{a_1}{i_3}{i_4}}_{{i_1}{i_2}{{p^\prime}_1}}}} - {{{\frac{1}{2}}}{f^{{{p^\prime}_1}}_{{i_2}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{G^{{a_2}{x_1}}_{{i_3}{i_4}}}{\hat{E}^{{a_1}{i_3}{i_4}}_{{i_1}{a_2}{{p^\prime}_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{f^{{{p^\prime}_1}}_{{i_2}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{G^{{i_2}{i_4}}_{{a_2}{x_1}}}{\hat{E}^{{i_3}{i_1}{a_2}}_{{i_4}{a_1}{{p^\prime}_1}}}} - {{{\frac{1}{2}}}{f^{{i_2}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{G^{{i_3}{i_4}}_{{a_2}{x_1}}}{\hat{E}^{{a_2}{{p^\prime}_1}{i_1}}_{{i_3}{i_4}{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{f^{{i_2}}_{{{p^\prime}_1}}}{G^{{i_1}{i_3}}_{{a_1}{x_1}}}{G^{{a_2}{x_1}}_{{i_2}{i_4}}}{\hat{E}^{{a_1}{i_4}{{p^\prime}_1}}_{{i_1}{i_3}{a_2}}}} + {{f^{{\alpha_2}}_{{\alpha_1}}}{G^{{\alpha_1}{\alpha_3}}_{{i_1}{i_2}}}{G^{{i_4}{i_3}}_{{\alpha_2}{\alpha_3}}}{\hat{E}^{{i_2}{i_1}}_{{i_3}{i_4}}}}.
+\end{align}
+Note the appearance of the core-including OBS indices ($p'$) in this expression.
+These expressions are identical to the spin-orbital expressions modulo the replacement of the spin-free normal-ordered (with respect to genuine vacuum) replacement operators $\hat{E}$ with the spin-orbital normal-ordered operators ($a$ in the notation of Ref. \onlinecite{VRG:kutzelnigg:1982:JCP}), and can be used as to obtain cumulant-approximated transformed Hamiltonian expressions applicable to relativistic Hamiltonians and/or odd numbers of electrons.
+
+Use of the spin-free cumulant-based approximation to the 3-body operator components produces the approximate transcorrelated Hamiltonian (Eq. (9) in Ref. \onlinecite{VRG:yanai:2012:JCP}):
+\begin{align}
+\label{eq:H-approx}
+\hat{\bar{H}}^\mathrm{F12} \equiv \hat{H} + [\hat{H}, \hat{A}^\mathrm{F12}]_{1,2} + \frac{1}{2} [[\hat{F}, \hat{A}^\mathrm{F12}]_{1,2}, \hat{A}^\mathrm{F12}]_{1,2} = \bar{h}^{p^\prime}_{q^\prime} \hat{E}^{q^\prime}_{p^\prime} + \frac{1}{2}\bar{g}^{p^\prime r^\prime}_{q^\prime s^\prime } \hat{E}^{q^\prime s^\prime}_{p^\prime r^\prime} 
+\end{align}
+Expressions for the 1- and 2-body matrix elements of the approximate transcorrelated Hamiltonian (Eqs. (14-15) in Ref. \onlinecite{VRG:yanai:2012:JCP}, respectively) are:
+\begin{align}
+\label{eq:h}
+\bar{h}_{q^\prime}^{p^\prime} = 
+  &  {{h_{q^\prime}^{p^\prime}}} - {{{\frac{1}{2}}}{D^{{{p^\prime}_3}}_{{{p^\prime}_2}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{{p^\prime}_2}{x_1}}_{{{p^\prime}_1}{{p^\prime}_3}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} \nonumber \\
+  & - {{{2}}{D^{{{p^\prime}_2}}_{{{p^\prime}_3}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} + {{D^{{{p^\prime}_2}}_{{{p^\prime}_3}}}{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{{p^\prime}_2}}_{{i_2}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{{p^\prime}_3}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{{p^\prime}_2}}}{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_1}}_{{{p^\prime}_3}{x_1}}}{\delta^{{{p^\prime}_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{{p^\prime}_2}}}{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_1}}_{{{p^\prime}_3}{x_1}}}{\delta^{{{p^\prime}_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{{p^\prime}_2}}_{{{p^\prime}_3}}}{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{D^{{i_1}}_{{{p^\prime}_3}}}{D^{{{p^\prime}_1}}_{{{p^\prime}_2}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_3}}_{{{p^\prime}_1}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} + {{D^{{{p^\prime}_2}}_{{i_2}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{{p^\prime}_3}}}} \nonumber \\
+  & + {{D^{{{p^\prime}_2}}_{{{p^\prime}_3}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} - {{{2}}{D^{{i_1}}_{{{p^\prime}_3}}}{D^{{{p^\prime}_1}}_{{{p^\prime}_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_3}}_{{{p^\prime}_1}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{D^{{{p^\prime}_3}}_{{{p^\prime}_2}}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{{p^\prime}_2}{x_1}}_{{{p^\prime}_1}{{p^\prime}_3}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} - {{{\frac{1}{2}}}{D^{{{p^\prime}_1}{i_1}}_{{{p^\prime}_2}{{p^\prime}_3}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_3}}_{{{p^\prime}_1}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{D^{{{p^\prime}_1}{{p^\prime}_2}}_{{i_1}{{p^\prime}_3}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} - {{{\frac{1}{2}}}{D^{{{p^\prime}_1}{{p^\prime}_2}}_{{i_1}{i_2}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{{p^\prime}_3}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{{p^\prime}_1}{{p^\prime}_2}}_{{i_1}{{p^\prime}_3}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_3}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{a_1}}_{q^\prime}}{\delta^{p^\prime}_{{i_2}}}} - {{{\frac{1}{2}}}{D^{{i_1}{i_2}}_{{{p^\prime}_1}{{p^\prime}_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_1}}_{{{p^\prime}_3}{x_1}}}{\delta^{{{p^\prime}_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{D^{{{p^\prime}_1}{i_1}}_{{{p^\prime}_2}{{p^\prime}_3}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_3}}_{{{p^\prime}_1}{x_1}}}{\delta^{{i_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{4}}}{G^{{i_4}{i_2}}_{{a_3}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_2}}}} - {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_4}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} - {{{\frac{1}{4}}}{G^{{i_2}{i_4}}_{{a_1}{x_1}}}{G^{{x_1}{a_3}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_3}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_2}}}} + {{{\frac{1}{4}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} + {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_1}{x_1}}}{G^{{a_3}{x_1}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_3}}}} \nonumber \\
+  & + {{{\frac{1}{4}}}{G^{{i_4}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} - {{{\frac{1}{2}}}{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{4}}}{G^{{i_2}{i_4}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} + {{G^{{i_4}{i_2}}_{{a_2}{x_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_4}{i_2}}_{{a_2}{x_2}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} + {{{\frac{1}{4}}}{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_4}{i_2}}_{{a_2}{x_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_1}{i_3}}_{{i_2}{i_4}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} - {{{\frac{1}{4}}}{G^{{i_2}{i_4}}_{{a_3}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_1}{i_3}}_{{i_2}{i_4}}}{\delta^{{a_3}}_{q^\prime}}{\delta^{p^\prime}_{{a_2}}}} \nonumber \\
+  & - {{{\frac{1}{4}}}{G^{{i_2}{i_4}}_{{a_1}{x_1}}}{G^{{a_3}{x_1}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_1}{i_3}}_{{i_2}{i_4}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_3}}}} + {{{\frac{1}{4}}}{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_1}{i_4}}_{{i_2}{i_3}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{4}}}{G^{{i_2}{i_4}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_1}{i_3}}_{{i_2}{i_4}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} + {{{\frac{1}{4}}}{G^{{i_4}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_3}{i_5}}}{f^{{i_5}}_{{i_1}}}{D^{{i_1}{i_3}}_{{i_2}{i_4}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{4}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_4}}}{f^{{i_3}}_{{i_5}}}{D^{{i_1}{i_4}}_{{i_2}{i_3}}}{\delta^{{a_2}}_{q^\prime}}{\delta^{p^\prime}_{{a_1}}}}
+  \end{align}
+  \begin{align}
+  \label{eq:g}
+{{\bar{g}^{p^\prime q^\prime}_{r^\prime s^\prime}}} = 
+  & \hat{S} (  {{g^{p^\prime q^\prime }_{r^\prime s^\prime}}} - {{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{\delta^{{i_2}}_{r^\prime}}{\delta^{{{p^\prime}_2}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_3}}}} \nonumber \\
+  & - {{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{{p^\prime}_3}{x_1}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{{p^\prime}_2}}_{r^\prime}}{\delta^{{a_1}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{{p^\prime}_3}}}} - {{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{{p^\prime}_3}{x_1}}_{{{p^\prime}_1}{{p^\prime}_2}}}{\delta^{{{p^\prime}_2}}_{r^\prime}}{\delta^{{a_1}}_{s^\prime}}{\delta^{p^\prime}_{{{p^\prime}_3}}}{\delta^{q^\prime}_{{i_2}}}} \nonumber \\
+  & + {{{2}}{D^{{{p^\prime}_2}}_{{{p^\prime}_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{\delta^{{i_2}}_{r^\prime}}{\delta^{{i_1}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_3}}}} - {{D^{{{p^\prime}_1}}_{{{p^\prime}_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_3}{{p^\prime}_2}}_{{{p^\prime}_1}{x_1}}}{\delta^{{i_2}}_{r^\prime}}{\delta^{{i_1}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_3}}}} \nonumber \\
+  & - {{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_1}}_{{{p^\prime}_3}{x_1}}}{\delta^{{{p^\prime}_3}}_{r^\prime}}{\delta^{{i_2}}_{s^\prime}}{\delta^{p^\prime}_{{{p^\prime}_2}}}{\delta^{q^\prime}_{{a_1}}}} + {{{2}}{D^{{{p^\prime}_1}}_{{{p^\prime}_2}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{{p^\prime}_2}{x_1}}_{{{p^\prime}_1}{{p^\prime}_3}}}{\delta^{{{p^\prime}_3}}_{r^\prime}}{\delta^{{a_1}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{i_1}}}} \nonumber \\
+  & + {{{2}}{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_2}{{p^\prime}_1}}_{{{p^\prime}_3}{x_1}}}{\delta^{{i_2}}_{r^\prime}}{\delta^{{{p^\prime}_3}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_2}}}} - {{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_2}}_{{{p^\prime}_1}{{p^\prime}_3}}}{\delta^{{a_1}}_{r^\prime}}{\delta^{{{p^\prime}_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{{p^\prime}_2}}}} \nonumber \\
+  & - {{D^{{{p^\prime}_2}}_{{{p^\prime}_1}}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_1}}_{{{p^\prime}_2}{{p^\prime}_3}}}{\delta^{{a_1}}_{r^\prime}}{\delta^{{{p^\prime}_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_1}}}{\delta^{q^\prime}_{{i_2}}}} + {{{2}}{D^{{{p^\prime}_1}}_{{i_1}}}{G^{{i_2}{i_1}}_{{a_1}{x_1}}}{g^{{x_1}{{p^\prime}_2}}_{{{p^\prime}_1}{{p^\prime}_3}}}{\delta^{{a_1}}_{r^\prime}}{\delta^{{{p^\prime}_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{{p^\prime}_2}}}} \nonumber \\
+  & - {{D^{{i_1}}_{{{p^\prime}_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{g^{{{p^\prime}_1}{{p^\prime}_3}}_{{{p^\prime}_2}{x_1}}}{\delta^{{{p^\prime}_2}}_{r^\prime}}{\delta^{{i_2}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_3}}}} + {{{2}}{G^{{a_1}{x_1}}_{{i_1}{i_2}}}{h^{{{p^\prime}_1}}_{{x_1}}}{\delta^{{i_1}}_{r^\prime}}{\delta^{{i_2}}_{s^\prime}}{\delta^{p^\prime}_{{a_1}}}{\delta^{q^\prime}_{{{p^\prime}_1}}}} \nonumber \\
+  & + {{V^{{p^{\prime}_1}{p^{\prime}_2}}_{{i_1}{i_2}}}{\delta^{{i_1}}_{r^\prime}}{\delta^{{i_2}}_{s^\prime}}{\delta^{p^\prime}_{{p^{\prime}_1}}}{\delta^{q^\prime}_{{p^{\prime}_2}}}} + {{\tilde{V}^{{i_1}{i_2}}_{{p^{\prime}_1}{p^{\prime}_2}}}{\delta^{{p^{\prime}_1}}_{r^\prime}}{\delta^{{{p^\prime}_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_1}}}{\delta^{q^\prime}_{{i_2}}}} \nonumber \\
+  & + {{{2}}{G^{{i_1}{i_2}}_{{a_1}{x_1}}}{h^{{x_1}}_{{{p^\prime}_1}}}{\delta^{{a_1}}_{r^\prime}}{\delta^{{{p^\prime}_1}}_{s^\prime}}{\delta^{p^\prime}_{{i_1}}}{\delta^{q^\prime}_{{i_2}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_3}{i_4}}}{f^{{i_3}}_{{i_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} + {{{\frac{1}{2}}}{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & - {{G^{{i_4}{i_2}}_{{a_2}{x_2}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} 
+  - {{G^{{i_2}{i_4}}_{{a_2}{x_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_5}{i_3}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_2}{i_4}}}{f^{{i_1}}_{{i_3}}}{D^{{i_2}}_{{i_1}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} - {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_3}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_3}}_{r^\prime}}{\delta^{{a_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_2}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_2}{i_3}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_5}}}{f^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_5}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} - {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_1}{x_1}}}{G^{{a_3}{x_1}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_3}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_3}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_1}{x_1}}}{G^{{x_1}{a_3}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_3}}}} - {{G^{{i_5}{i_3}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_2}{i_4}}}{f^{{i_1}}_{{i_3}}}{D^{{i_2}}_{{i_1}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{G^{{i_4}{i_2}}_{{a_1}{x_1}}}{G^{{x_1}{a_3}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_3}}}} - {{{\frac{1}{2}}}{G^{{i_2}{i_4}}_{{a_3}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_3}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_2}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_4}{i_2}}_{{a_1}{x_1}}}{G^{{a_3}{x_1}}_{{i_1}{i_3}}}{f^{{a_1}}_{{a_2}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_3}}}} + {{{\frac{1}{2}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_4}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & - {{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_3}{i_4}}}{f^{{i_3}}_{{i_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} - {{G^{{i_3}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_5}}}{f^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_5}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_3}{i_4}}}{f^{{i_3}}_{{i_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} + {{{\frac{1}{2}}}{G^{{i_3}{i_5}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_2}{i_4}}}{f^{{i_1}}_{{i_3}}}{D^{{i_2}}_{{i_1}}}{\delta^{{i_4}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{G^{{i_4}{i_2}}_{{a_3}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_3}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_2}}}} - {{G^{{i_5}{i_2}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{G^{{i_4}{i_2}}_{{a_3}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{a_2}}_{{a_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_3}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_2}}}} + {{{\frac{1}{2}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_3}{i_4}}}{f^{{i_3}}_{{i_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_4}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_2}{i_3}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_5}}}{f^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_5}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} 
+  + {{{\frac{1}{2}}}{G^{{i_3}{i_5}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_2}{i_4}}}{f^{{i_1}}_{{i_3}}}{D^{{i_2}}_{{i_1}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{G^{{i_3}{i_2}}_{{a_2}{x_1}}}{G^{{a_1}{x_1}}_{{i_1}{i_5}}}{f^{{i_4}}_{{i_3}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_5}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} + {{{2}}{G^{{i_4}{i_2}}_{{a_2}{x_2}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_3}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & - {{G^{{i_2}{i_4}}_{{a_2}{x_2}}}{G^{{a_1}{x_1}}_{{i_1}{i_3}}}{f^{{x_2}}_{{x_1}}}{D^{{i_1}}_{{i_2}}}{\delta^{{i_3}}_{r^\prime}}{\delta^{{a_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_4}}}{\delta^{q^\prime}_{{a_1}}}} + {{{\frac{1}{2}}}{G^{{i_2}{i_5}}_{{a_2}{x_1}}}{G^{{x_1}{a_1}}_{{i_1}{i_3}}}{f^{{i_3}}_{{i_4}}}{D^{{i_1}}_{{i_2}}}{\delta^{{a_2}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_5}}}{\delta^{q^\prime}_{{a_1}}}} \nonumber \\
+  & - {{X^{{i_3}{i_1}}_{{i_4}{i_5}}}{f^{{i_2}}_{{i_1}}}{\delta^{{i_5}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{i_3}}}} - {{X^{{i_5}{i_3}}_{{i_1}{i_4}}}{f^{{i_1}}_{{i_2}}}{\delta^{{i_4}}_{r^\prime}}{\delta^{{i_2}}_{s^\prime}}{\delta^{p^\prime}_{{i_3}}}{\delta^{q^\prime}_{{i_5}}}} \nonumber \\
+  & + {{B^{{i_2}{i_3}}_{{i_1}{i_4}}}{\delta^{{i_1}}_{r^\prime}}{\delta^{{i_4}}_{s^\prime}}{\delta^{p^\prime}_{{i_2}}}{\delta^{q^\prime}_{{i_3}}}}),
+  \end{align}
+where $\hat{S}$ is the particle symmetrization operator:
+\begin{align}
+\hat{S}o^{p^\prime q^\prime}_{r^\prime s^\prime} \equiv \frac{1}{2}(o^{p^\prime q^\prime}_{r^\prime s^\prime} + o^{q^\prime p^\prime}_{s^\prime r^\prime})
+\end{align}
+and where we distinguish the usual nonhermitian F12 intermediate $V$ (Eq. (23) in Ref. \onlinecite{VRG:yanai:2012:JCP}),
+\begin{align}
+{V_{{i_1}{i_2}}^{{p^{\prime}_1}{p^{\prime}_2}}} \equiv \, & g_{\alpha \beta}^{p^{\prime}_1 p^{\prime}_2} G_{i_1 i_2}^{\alpha \beta} ,
+\end{align}
+from its adjoint
+\begin{align}
+{\tilde{V}^{{i_1}{i_2}}_{{p^{\prime}_1}{p^{\prime}_2}}} \equiv \, & g^{\alpha \beta}_{p^{\prime}_1 p^{\prime}_2} G^{i_1 i_2}_{\alpha \beta} = \left( {V_{{i_1}{i_2}}^{{p^{\prime}_1}{p^{\prime}_2}}} \right)^* \neq {V^{{i_1}{i_2}}_{{p^{\prime}_1}{p^{\prime}_2}}}.
+\end{align}
+\Cref{eq:H-approx,eq:h,eq:g} can be verified using the open-source {\tt SeQuant} software (see \url{https://github.com/ValeevGroup/SeQuant/blob/e8067c72c4d8e8d3b8ddbd9eea8775244aadd1fa/examples/uccf12/uccf12.cpp}).
+
+Note the appearance of the primed (core-including) OBS indices in \cref{eq:H-approx,eq:h,eq:g}. This is due to the exclusion of the core orbitals {\em only} in the definition of the geminal operator; this is referred to as frozen-core approach ({\bf a}) in the main text.
+Ref. \onlinecite{VRG:yanai:2012:JCP} implemented approach ({\bf a+b1}) in which core orbitals are eliminated from the normal-ordered replacement operators in \cref{eq:H} {\em before} invoking the cumulant decomposition. As a concrete example consider $\hat{E}_{p^{\prime}_{3}a_{1}p^{\prime}_{2}}^{i_1 i_2 p^{\prime}_1}$ appearing in the 6th term on the right-hand side of \cref{eq:H}.
+In approach ({\bf b1}) the initial elimination of the core orbitals (``fzc'') turns it into $\hat{E}_{p_{3}a_{1}p_{2}}^{i_1 i_2 p_1}$, whose subsequent cumulant decomposition (``cm'') yields
+ \begin{align}
+ \label{eq:E3-b1}
+\hat{E}_{p^{\prime}_{3}a_{1}p^{\prime}_{2}}^{i_1 i_2 p^{\prime}_1} \overset{\rm {\bf b1}=fzc+cm}{\approx}& \bigg( - {{{\frac{1}{2}}}{D^{{i_2}}_{{p_3}}}{\hat{E}^{{p_1}{i_1}}_{{p_2}{a_1}}}} + {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{D^{{p_1}{i_2}}_{{p_2}{p_3}}}} \nonumber \\
+  & + {{D^{{p_1}{i_2}}_{{p_2}{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p_2}}}{\hat{E}^{{p_1}{i_2}}_{{p_3}{a_1}}}} + {{D^{{i_1}}_{{p_3}}}{\hat{E}^{{p_1}{i_2}}_{{p_2}{a_1}}}} \nonumber \\
+  & - {{D^{{p_1}}_{{p_2}}}{D^{{i_1}{i_2}}_{{p_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}{p_1}}_{{p_3}{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} - {{D^{{i_1}}_{{p_3}}}{D^{{p_1}{i_2}}_{{p_2}{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_1}}_{{p_2}}}{D^{{p_1}{i_2}}_{{p_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p_2}}}{\hat{E}^{{i_1}{p_1}}_{{p_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p_1}{i_2}}_{{p_3}{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p_2}}}{D^{{i_1}{p_1}}_{{p_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p_1}{i_1}}_{{p_2}{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{i_2}{i_1}}_{{p_2}{p_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_1}{i_2}}_{{p_2}{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{p_1}}_{{a_1}}}{\hat{E}^{{i_2}{i_1}}_{{p_2}{p_3}}}} - {{{\frac{1}{2}}}{D^{{p_1}}_{{p_3}}}{\hat{E}^{{i_1}{i_2}}_{{p_2}{a_1}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}{i_1}}_{{p_2}{p_3}}}} + {{D^{{i_1}{i_2}}_{{p_3}{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}{i_2}}_{{p_2}{p_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p_3}}}{D^{{p_1}{i_1}}_{{p_2}{a_1}}}} + {{D^{{p_1}}_{{p_2}}}{\hat{E}^{{i_1}{i_2}}_{{p_3}{a_1}}}} + {{{\frac{1}{2}}}{D^{{p_1}}_{{a_1}}}{D^{{i_2}{i_1}}_{{p_2}{p_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{p_1}}_{{p_3}}}{D^{{i_1}{i_2}}_{{p_2}{a_1}}}} - {{D^{{i_2}}_{{a_1}}}{D^{{p_1}{i_1}}_{{p_2}{p_3}}}} + {{D^{{p_1}{i_1}}_{{p_2}{p_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{p_1}{i_2}}_{{p_2}{p_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} + {{{4}}{D^{{p_1}}_{{p_2}}}{D^{{i_1}}_{{p_3}}}{D^{{i_2}}_{{a_1}}}} - {{{2}}{D^{{p_1}}_{{p_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}} 
+ + {{D^{{p_1}}_{{p_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} - {{{2}}{D^{{i_1}}_{{p_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} \nonumber \\
+  & + {{D^{{p_1}}_{{p_2}}}{D^{{i_2}}_{{p_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p_2}}}{D^{{p_1}}_{{p_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p_2}}}{D^{{p_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} \nonumber \\
+  & - {{{2}}{D^{{i_2}}_{{p_2}}}{D^{{i_1}}_{{p_3}}}{D^{{p_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{p_1}}_{{p_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} + {{D^{{i_2}}_{{p_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p_2}}}{D^{{i_1}}_{{p_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} + {{D^{{p_1}}_{{p_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} + {{D^{{i_1}}_{{p_3}}}{D^{{p_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} \nonumber \\
+  & - {{{2}}{D^{{p_1}}_{{p_2}}}{D^{{i_1}}_{{p_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p_2}}}{D^{{i_2}}_{{p_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p_2}}}{D^{{i_2}}_{{p_3}}}{D^{{p_1}}_{{a_1}}}} \nonumber \\
+  & - {{{2}}{D^{{p_1}}_{{p_2}}}{D^{{i_2}}_{{p_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_2}}_{{p_2}}}{D^{{p_1}}_{{p_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p_2}}}{D^{{p_1}}_{{p_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p_3}}}{D^{{p_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} - {{{2}}{D^{{i_1}}_{{p_2}}}{D^{{p_1}}_{{p_3}}}{D^{{i_2}}_{{a_1}}}} + {{D^{{i_1}}_{{p_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p_2}}}{D^{{p_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}} \bigg)
+  \end{align}
+The other alternative, ({\bf a+b2}), is obtained by invoking the cumulant decomposition first:
+\begin{align}
+\hat{E}_{p^{\prime}_{3}a_{1}p^{\prime}_{2}}^{i_1 i_2 p^{\prime}_1} \overset{\rm cm}{\approx}&  \bigg( - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{a_1}}}} + {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{p^{\prime}_3}}}} \nonumber \\
+  & + {{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_3}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{\hat{E}^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} \nonumber \\
+  & - {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}{p^{\prime}_1}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_2}}}} - {{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{\hat{E}^{{i_1}{p^{\prime}_1}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_2}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}{p^{\prime}_1}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_3}}}} - {{{\frac{1}{2}}}{D^{{i_2}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{p^{\prime}_1}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_1}{i_2}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_3}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} + {{D^{{i_1}{i_2}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_2}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{p^{\prime}_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{a_1}}}} + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{\hat{E}^{{i_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} + {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{D^{{i_2}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} - {{D^{{i_2}}_{{a_1}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} + {{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} + {{{4}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}} - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_3}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_3}}}}  + {{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_2}}}} - {{{2}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_2}}}} \nonumber \\
+  & + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_3}}}} \nonumber \\
+  & - {{{2}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_2}}}} + {{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_2}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{p^{\prime}_1}}_{{a_1}}}} + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_3}}}} + {{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p^{\prime}_2}}}} \nonumber \\
+  & - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{p^{\prime}_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}} \nonumber \\
+  & - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_2}}}} - {{{2}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p^{\prime}_1}}_{{p^{\prime}_3}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p^{\prime}_3}}}}\bigg)
+  \end{align}
+The subsequent exclusion of the core orbitals replaces core-including OBS orbital indices on the $\hat{E}$ operators only, but not on the RDMs:
+ \begin{align}
+ \label{eq:E3-b2}
+\hat{E}_{p^{\prime}_{3}a_{1}p^{\prime}_{2}}^{i_1 i_2 p^{\prime}_1} \overset{\rm \mathbf{b2}=cm+fzc}{\approx}&  \bigg( - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{p_1}{i_1}}_{{p_2}{a_1}}}} + {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{p^{\prime}_3}}}} \nonumber \\
+  & + {{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{\hat{E}^{{p_1}{i_2}}_{{p_3}{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{p_1}{i_2}}_{{p_2}{a_1}}}} \nonumber \\
+  & - {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}{p^{\prime}_1}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} - {{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{\hat{E}^{{i_1}{p_1}}_{{p_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}{p^{\prime}_1}}_{{p^{\prime}_3}{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{i_2}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_1}{i_2}}_{{p^{\prime}_2}{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}{i_1}}_{{p_2}{p_3}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}{i_2}}_{{p_2}{a_1}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}{i_1}}_{{p_2}{p_3}}}} + {{D^{{i_1}{i_2}}_{{p^{\prime}_3}{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}{i_2}}_{{p_2}{p_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{a_1}}}} + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{\hat{E}^{{i_1}{i_2}}_{{p_3}{a_1}}}} + {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{D^{{i_2}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} \nonumber \\
+  & + {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}{i_2}}_{{p^{\prime}_2}{a_1}}}} - {{D^{{i_2}}_{{a_1}}}{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}} + {{D^{{p^{\prime}_1}{i_1}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}{i_2}}_{{p^{\prime}_2}{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} + {{{4}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}} - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}}  + {{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} - {{{2}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} \nonumber \\
+  & + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} \nonumber \\
+  & - {{{2}}{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} + {{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_2}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} + {{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_3}}}} + {{D^{{i_1}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_2}}_{{p_2}}}} \nonumber \\
+  & - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} - {{{\frac{1}{2}}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{\hat{E}^{{p_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}} \nonumber \\
+  & - {{{2}}{D^{{p^{\prime}_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_1}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{\hat{E}^{{i_2}}_{{a_1}}}} \nonumber \\
+  & - {{{\frac{1}{2}}}{D^{{i_2}}_{{p^{\prime}_3}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_2}}}} - {{{2}}{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{p^{\prime}_3}}}{D^{{i_2}}_{{a_1}}}} + {{D^{{i_1}}_{{p^{\prime}_2}}}{D^{{i_2}}_{{a_1}}}{\hat{E}^{{p_1}}_{{p_3}}}} \nonumber \\
+  & + {{D^{{i_2}}_{{p^{\prime}_2}}}{D^{{p^{\prime}_1}}_{{a_1}}}{\hat{E}^{{i_1}}_{{p_3}}}}\bigg)
+  \end{align}
+Note the appearance of the core-including OBS indices in the ({\bf b2}) approximant for $\hat{E}_{p^{\prime}_{3}a_{1}p^{\prime}_{2}}^{i_1 i_2 p^{\prime}_1}$ (\cref{eq:E3-b2}) but not in the in the corresponding ({\bf b1}) expression (\cref{eq:E3-b1}).
+
+\bibliography{vrgrefs}
+
+\end{document}

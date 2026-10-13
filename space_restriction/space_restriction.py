@@ -18,10 +18,22 @@ public API, ``expand_commutators.expanded_blocks()``):
 For every commutator block this script writes the original expansion with
 the vanishing terms underlined, then the restricted expansion gathering the
 nonzero terms, and reports per block how many terms vanish.
+
+``full_expression()`` then assembles the surviving blocks into the full
+transcorrelated Hamiltonian through O(lambda^2) the way the commutator
+stage defines it: blocks + Hermitian conjugates (the anti-Hermitian
+generator A = T - T^dagger), the second-order Fock blocks carrying the
+1/2 of the double commutator, merged once.  Its doubles-only part is eq.
+(S1) of the Supplemental Material of Masteran et al., J. Chem. Phys. 158,
+057101 (2023) (reference/supporting.pdf);  the identity is verified
+numerically in test/check_reference_s1.py, which this script runs before
+writing the tex.
 """
 
 import sys
 from pathlib import Path
+
+from sympy import Rational
 
 HERE = Path(__file__).resolve().parent
 MBE = HERE.parent / "many_body_equation"
@@ -73,6 +85,47 @@ def build():
         blocks.append({"kind": blk["kind"], "lhs": blk["lhs"],
                        "terms": terms, "zero": zero, "keep": keep})
     return blocks
+
+
+# ---------------------------------------------------------------------------
+# the full expression: restricted blocks + h.c.
+# ---------------------------------------------------------------------------
+def full_expression(blocks, doubles_only=False, field="keep"):
+    """The transcorrelated Hamiltonian through O(lambda^2), assembled from
+    the blocks the way the commutator stage defines it
+
+        H_bar = H + [H_b, A] + (1/2)[[F, A], A],   A = T - T^dagger
+              = H + sum(first-order blocks) + h.c.
+                + (1/2) (sum of the 8 second-order Fock blocks) + h.c.,
+
+    i.e. every block is added together with its Hermitian conjugate (the
+    anti-Hermitian generator of the commutator stage), the second-order
+    Fock blocks carrying the 1/2 of the double commutator.  ``field``
+    picks which term list of each block dict is assembled ("keep" for the
+    restricted expression, "terms" for the unrestricted stage-3 one).  The
+    assembled sum is merged once (``mbe.merge``): Hermitian-conjugate
+    pairs with equal canonical form fold into one term, self-conjugate
+    terms keeping coefficient 1 through the 1/2 -- exactly the term
+    structure of eq. (S1) of Masteran et al. (see below).
+
+    ``doubles_only=True`` keeps only the pure-T2 blocks (r = 2, s in
+    (None, 2)) -- the F12 geminal operator A^F12 = T2 - T2^dagger;  the
+    assembled restricted expression is then eq. (S1) of the Supplemental
+    Material of Masteran, Kumar, Teke, Gaudel, Yanai and Valeev,
+    J. Chem. Phys. 158, 057101 (2023) (reference/supporting.pdf), the
+    complete transcorrelated Hamiltonian without the cumulant
+    decomposition.  Verified term by term and numerically in
+    test/check_reference_s1.py.
+    """
+    assembled = []
+    for blk, meta in zip(blocks, mbe.expanded_blocks()):
+        if doubles_only and not (meta["r"] == 2 and meta["s"] in (None, 2)):
+            continue
+        mult = Rational(1, 2) if blk["kind"] == "second" else Rational(1)
+        terms = [(mult * c, ts, op, lo) for c, ts, op, lo in blk[field]]
+        assembled.extend(terms)
+        assembled.extend(mbe.dagger_terms(terms))
+    return mbe.merge(assembled)
 
 
 # ---------------------------------------------------------------------------
@@ -174,6 +227,44 @@ def write_tex(blocks):
                 add(blk["lhs"] + r" &= 0")
                 add(r"\end{align}")
         add("")
+
+    add(r"\section{The full expression in the OBS-vir restriction}")
+    add(r"The commutator stage assembles the blocks into the transcorrelated"
+        r" Hamiltonian through $O(\lambda^2)$ as the blocks plus their"
+        r" Hermitian conjugates (the anti-Hermitian generator $\hat A ="
+        r" \hat T - \hat T^\dagger$), the Fock double-commutator blocks"
+        r" carrying the factor $1/2$ (see the Assembly section of"
+        r" \texttt{many\_body\_equations.tex}).  Assembling the"
+        r" \emph{restricted} blocks the same way and merging over the exact"
+        r" identities (conjugate pairs with equal canonical form fold into"
+        r" one term, self-conjugate terms keeping coefficient 1 through the"
+        r" $1/2$) gives the transcorrelated Hamiltonian in the OBS-vir"
+        r" restriction:")
+    full = full_expression(blocks)
+    lines = mbe.terms_latex(full)
+    rows = mbe.pack_rows(r"\bar H - \hat H", lines)
+    add(r"\begin{align}")
+    for row in rows[:-1]:
+        add(row + r" \\")
+    add(rows[-1])
+    add(r"\end{align}")
+    add(r"Keeping only the pure-$T_2$ blocks (the F12 geminal operator"
+        r" $\hat A^{F12} = \hat T_2 - \hat T_2^\dagger$;  the geminal"
+        r" amplitudes carry the pair-exchange symmetry"
+        r" $G^{\alpha\beta}_{ij} = G^{ij}_{\alpha\beta}$ and vanish with"
+        r" both indices OBS-vir) this is eq. (S1) of the Supplemental"
+        r" Material of Masteran et al., J. Chem. Phys. 158, 057101 (2023),"
+        r" the complete transcorrelated Hamiltonian obtained without the"
+        r" cumulant decomposition -- verified term by term and numerically"
+        r" in \texttt{test/check\_reference\_s1.py}:")
+    doubles = full_expression(blocks, doubles_only=True)
+    lines = mbe.terms_latex(doubles)
+    rows = mbe.pack_rows(r"\bar H^{F12} - \hat H", lines)
+    add(r"\begin{align}")
+    for row in rows[:-1]:
+        add(row + r" \\")
+    add(rows[-1])
+    add(r"\end{align}")
     add(r"\end{document}")
 
     TEX_PATH.write_text("\n".join(L) + "\n")
@@ -181,6 +272,13 @@ def write_tex(blocks):
 
 
 if __name__ == "__main__":
+    # register the running script under its module name, so that the check
+    # module imports this very instance and not a second copy (the term
+    # machinery relies on Tensor/Operator class identity)
+    sys.modules.setdefault("space_restriction", sys.modules["__main__"])
+    sys.path.insert(0, str(HERE.parent / "test"))
+    from check_reference_s1 import check_full_expression, check_s1
+
     blocks = build()
     print("space restriction (zero = both virtuals of one and the same t2 "
           "amplitude on the E operator):")
@@ -189,5 +287,7 @@ if __name__ == "__main__":
         print(f"  {n:2d}. {len(terms):3d} terms -> {len(zero):3d} vanish, "
               f"{len(keep):3d} survive   {blk['lhs'][:60]}")
     print()
+    check_s1()
+    check_full_expression()
     write_tex(blocks)
     compile_tex(TEX_PATH)

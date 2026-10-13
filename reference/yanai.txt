@@ -1,0 +1,1633 @@
+RESEARCH ARTICLE | FEBRUARY 28 2012
+
+Canonical transcorrelated theory with projected Slater-type
+geminals
+Takeshi Yanai; Toru Shiozaki
+
+J. Chem. Phys. 136, 084107 (2012)
+https://doi.org/10.1063/1.3688225
+
+ 
+View
+Online
+
+Export
+Citation
+
+Articles You May Be Interested In
+Energies and Expectation Values for Be by the Transcorrelated Method
+J. Chem. Phys. (October 1969)
+
+Variational transcorrelated method
+J. Chem. Phys. (October 2010)
+
+Assessment of multireference approaches to explicitly correlated full configuration interaction quantum
+Monte Carlo
+13 October 2026 02:28:59
+
+J. Chem. Phys. (August 2016)
+
+THE JOURNAL OF CHEMICAL PHYSICS 136, 084107 (2012)
+
+Canonical transcorrelated theory with projected Slater-type geminals
+Takeshi Yanai1,a) and Toru Shiozaki2
+1
+
+Department of Theoretical and Computational Molecular Science, Institute for Molecular Science,
+Okazaki, 444-8585 Aichi, Japan
+2
+Institut für Theoretische Chemie, Universität Stuttgart, Pfaffenwaldring 55, D-70569 Stuttgart, Germany
+
+(Received 9 November 2011; accepted 6 February 2012; published online 28 February 2012)
+An effective Hamiltonian perturbed with explicit interelectronic correlation is derived from similarity
+transformation of Hamiltonian using a unitary operator with Slater-type geminals. The Slater-type
+geminal is projected onto the excitation (and deexcitation) component as in the F12 theory. Simplification is made by truncating higher-body operators, resulting in a correlated Hamiltonian which is
+Hermitian and has exactly the same complexity as the original Hamiltonian in the second quantized
+form. It can thus be easily combined with arbitrary correlation models proposed to date. The present
+approach constructs a singularity-free Hamiltonian a priori, similarly to the so-called transcorrelated theory, while the use of the canonical transformation assures that the effective Hamiltonian is
+two-body and Hermite. Our theory is naturally extensible to multireference calculations on the basis
+of the generalized normal ordering. The construction of the effective Hamiltonian is non-iterative.
+The numerical assessments demonstrate that the present scheme improves the basis set convergence
+of the post-mean-field calculations at a similar rate to the explicitly correlated methods proposed
+by others that couple geminals and conventional excitations. © 2012 American Institute of Physics.
+[http://dx.doi.org/10.1063/1.3688225]
+I. INTRODUCTION
+
+H̄ˆ = eÂ† Ĥ eÂ
+1
+[[Ĥ , Â]1,2 , Â]1,2 + · · · , (1)
+2!
+which can be evaluated recursively (see also Ref. 55). Here
+[. . .]1,2 denotes that a commutator is approximated by an
+operator that contains only one- and two-body operators in
+the sense of the generalized normal ordering of Mukherjee
+≈ Ĥ + [Ĥ , Â]1,2 +
+
+a) Electronic mail: yanait@ims.ac.jp.
+
+0021-9606/2012/136(8)/084107/9/$30.00
+
+136, 084107-1
+
+© 2012 American Institute of Physics
+
+13 October 2026 02:28:59
+
+Explicit correlation methods, which include functions
+explicitly dependent on the interelectronic coordinate f(rij )
+into trial wave functions, have been developed to overcome
+the slow convergence of energies and properties with basis
+size in post-mean-field quantum chemical calculations. The
+improved convergence is ascribed to the proper description
+of cusped wave functions around electron–electron coalescence. The so-called F12 methods originating from the seminal work of Kutzelnigg1 have been extensively studied in the
+last decade using a Slater-type correlation factor of Ten-no2
+(see Refs. 2–46).
+In this work, we propose a new class of explicitly correlated theories using an effective Hamiltonian approach with
+the so-called canonical transformation (CT). The CT theory
+has been developed by Yanai, Chan, Neuscamman, and coworkers,47–54 in which dynamic electron correlation is described by a similarity transformation of the Hamiltonian Ĥ
+using a unitary operator eÂ with an operator Â = −Â† . The
+central idea is to use the operator and cumulant decompositions to define a two-body effective Hamiltonian through an
+approximate Baker–Campbell–Hausdorff (BCH) expansion,
+
+and Kutzelnigg.56–58 The CT is closely related to Kutzelnigg
+and Mukherjee’s general unitary transformation methods,58–66
+which encompass a rigorous formulation. In this work, we
+generalize this approach to explicitly correlated theories by
+introducing a unitary operator (Â) that depends on the interelectronic distances.
+Our approach bears close relation to analytic similarity transformations suggested by Hirschfelder and by
+Jankowski in as early as 1960s,67–69 which Boys and Handy
+have further studied and referred to as a “transcorrelated”
+Hamiltonian.70–75 Note that the transcorrelated Hamiltonian
+is a three-body non-Hermite operator. Ten-no has introduced
+a frozen Gaussian geminal76, 77 in the transcorrelated methods and applied post-mean-field correlation methods.78, 79 The
+transcorrelated scheme for periodic solids has been studied
+by Tsuneyuki et al.80 Imamura and Scuseria have developed
+a correlation functional in density functional theory from
+transcorrelated Hamiltonians.81 The obstacle in the transcorrelated approaches has nonetheless been the non-Hermicity of
+the transcorrelated Hamiltonian,82 leading to numerical instability. Recently Luo has proposed a variational variant83, 84 by
+neglecting the non-Hermite terms.
+Along these lines, the standard CC-F12 theory10 can also
+be seen as a similarity transformation that yields up to sixbody operators, as noted previously.15 The success of the F12
+theory should be ascribed to the use of projection that retains only the excitation part of a Slater-type geminal [f(r12 )
+= −γ −1 exp (−γ r12 )]. Our canonical transcorrelated theory
+uses the same projection to the Slater-type geminals, and the
+associated amplitudes are determined by the first-order cusp
+condition as Ten-no proposed in the F12 theory (SP or “fixed”
+Ansatz),15 so that the Â is given a priori. The present theory can, therefore, be viewed as a transcorrelation method
+
+084107-2
+
+T. Yanai and T. Shiozaki
+
+Hamiltonian can be plugged into any quantum chemical
+solvers. Section III demonstrates several single-reference dynamic correlation methods as well as the linearized CT singles and doubles theory based on the F12-dressed Hamiltonian. Finally, the summary is made in Sec. IV. Abbreviations
+are listed in Appendix.
+II. THEORY
+A. Notation
+
+We use the following notation for indices. {p, q, r, s, t, u}
+label any functions in the orbital basis set (OBS) spanned by
+a finite one-electron atomic-orbital basis, and {μ, ν, λ, κ} label functions in an infinite, complete orbital basis space. The
+doubly and partially occupied orbitals in the reference functions are both labeled by {i, j, k, l}. In addition, {α, β, γ }
+denotes external unoccupied orbitals in the complete orbital
+space, {a, b} those in the finite orbital space, and {x, y} those
+in the space spanned by the complementary auxiliary orbital
+basis set (CABS) of Valeev.14 All the orbitals are assumed to
+be orthonormal and spatial (i.e., spin-independent). Index notation is schematically summarized in Fig. 1.
+The molecular Hamiltonian is written as
+1 μλ νκ
+Êμλ ,
+Ĥ = hμν Êμν + gνκ
+(2)
+2
+μλ
+are one- and two-electron elements (or, inwhere hμν and gνκ
+tegrals), respectively. Hereafter, with the Einstein summation
+convention, repeated indices are always implicitly summed.
+We introduce the standard spin-summed excitation operators,
+
+†
+âμσ
+âνσ ,
+(3)
+Êνμ =
+σ =α,β
+μλ
+=
+Êνκ
+
+
+
+†
+
+†
+âμσ
+âλτ âκτ âνσ ,
+
+(4)
+
+σ τ =α,β
+
+and the corresponding RDMs,
+Dνμ = 
+
+μ
+0 |Êν |
+
+0 ,
+
+(5)
+
+μλ
+Dνκ
+=
+
+μλ
+0 |Êνκ |
+
+0 .
+
+(6)
+
+| 0  is generally an active-space multi-determinant reference wave function. Note that, in single reference closed-shell
+
+infinite complete
+basis { , , , }
+complementary
+auxiliary orbital basis
+(CABS) { x, y }
+
+orbital basis set
+(OBS)
+{ p, q, r, s, t, u }
+
+∞
+unoccupied orbitals
+{ , , }
+unoccupied orbitals
+in OBS { a, b }
+occupied orbitals
+{ i, j, k, l }
+
+FIG. 1. Schematic specification of notation for orbital indices in the defined
+orbital spaces.
+
+13 October 2026 02:28:59
+
+with a unitary transformation using projected Slater-type
+geminals.
+The effective Hamiltonian approach with H̄ˆ has the following features: (1) The complexity of explicit correlation
+is transferred from the wave function to the Hamiltonian;
+(2) Bare electrons are transformed into weakly correlated oneparticle elements, i.e., quasi-particles dressed in a field of the
+explicitly correlated interaction; (3) The high-rank perturbative correlation is all averaged to pair-wise interactions by
+recursively removing three-body connected cumulant terms;
+and (4) The Slater-type geminal acting on Hamiltonian effectively regularizes (or smoothes) the interelectronic Coulomb
+singularity in the original Hamiltonian (1/r12 ). This perturbthen-diagonalize approach has been also used in conventional
+(or, non-F12) methods in a slightly different context such
+as Van Vleck’s perturbation theory, Freed’s effective valence
+Hamiltonian theory,85 Kirtman’s86 and Hoffmann’s87, 88 generalized Van Vleck theory, the symmetry-adapted cluster configuration interaction theory,89 the equation-of-motion coupled cluster (CC) theory,90 the flow-renormalization group by
+Wegner91 and by Glazek and Wilson92 (see also Ref. 93) and
+White’s canonical diagonalization theory.94
+Since the effective Hamiltonian H̄ˆ remains Hermitian and has the same quartic complexity as the original
+Hamiltonian, we can directly use the existing electronic structure methods to solve the Schrödinger equation based on the
+a priori perturbatively correlated H̄ˆ for the determination of
+correlated wave functions (and density matrices).
+The present formalism is connected to multireference
+(MR) electronic structure theories through Mukherjee and
+Kutzelnigg’s generalized normal ordering,56–58 with which
+we approximate commutators [. . .]1,2 using one- and twobody reduced density matrices (RDMs) of an active-space
+MR wave function accounting for static correlation. The
+explicitly correlated MR approaches have been recently
+studied by a number of groups. Gdanitz has reported the
+first explicitly correlated MR method quite long time ago,
+combining a linear R12 correlation factor with the MR
+configuration interaction (MRCI) approaches.95, 96 A major
+improvement was brought by Ten-no, who has introduced
+the internally contracted geminal excitations in conjunction
+with a nonlinear F12 factor and the fixed amplitude ansatz
+using the MR Møller–Plesset perturbation method.19 An
+a posteriori F12 approach for arbitrary correlation models
+using the RDMs of the underlying models has been proposed
+by Torheyden and Valeev.38 There has been also an attempt
+to combine the F12 theory with the complete active space
+self-consistent field (CASSCF) by Varganov and Martínez.97
+Shiozaki and Werner have developed an efficient and accurate internally contracted explicitly correlated multireference
+perturbation method (CASPT2-F12),43 and then extended
+their formalism to MRCI-F12 and multireference averaged
+coupled pair functional (MRACPF-F12).44, 45 Kedžuch et al.
+have studied an explicitly correlated variant of the MR
+Brillouin–Wigner coupled cluster method.46 We will present
+a comparison of our method and some of these methods.
+This paper is organized as follows. Section II defines the F12-dressed Hamiltonian, which entails several approximations that significantly reduce its complexity. This
+
+J. Chem. Phys. 136, 084107 (2012)
+
+084107-3
+
+Canonical transcorrelated theory
+
+J. Chem. Phys. 136, 084107 (2012)
+
+cases, the RDMs are simply Dji = 2 δji and Djikl = 4 δji δlk
+− 2 δli δjk where δ refers to Kronecker’s delta. The Fock
+operator is
+F̂ = fνμ Êμν ,
+
+(7)
+
+in which the generalized Fock matrix fνμ is defined by
+
+
+fνμ = hμν + Dκλ
+
+1 μλ
+μλ
+gνκ
+− gκν
+
+
+
+2
+
+.
+
+(8)
+
+of tensor products as follows. Let us write the transformed
+Hamiltonian as
+1 pr qs
+Êpr .
+(14)
+H̄ˆ F12 = h̄pq Êpq + ḡqs
+2
+p
+
+p
+
+In single reference cases, fq in the canonical orbital basis
+becomes a diagonal matrix, whose diagonal elements are the
+orbital energies.
+
+
+1  pr
+qs
+sq
+C̄2 qs + C̄2 rp
+sq + C̄2 pr + C̄2 rp ,
+4
+
+pr
+pr
+ḡqs
+= gqs
++
+
+p
+
+C̄1 pq = c̄1 pq + c̄1 pq ,
+
+In this study, we propose a canonical transcorrelated
+Hamiltonian with the F12 operator:
+
+
+ aj
+trq aq
+− D̄istr 2 Uijtrsa − Ujtrs
+c̄1 pq = D̄ijtr Uij a δpq
+ia δpq ,
+
+(10)
+
+3
+1
+αβ|Q̂12 F12 |ij  + αβ|Q̂12 F12 |j i,
+8
+8
+
+(11)
+
+F12 = −γ
+
+exp(−γ r12 ),
+
+(19)
+
+pr
+
+The two-body perturbed elements {C̄2 qs } are given by
+pr
+
+p
+
+p xb pibj
+pirj
+kl
+pilj
+C̄2 pr
+qs = 4 hx Gij δpqrs + 2 Vij δpqrs − 2 Xij fk δpqrs
+kilj
+ pr
++ Bijkl δpqrs
++ c̄2 pr
+qs + c̄2 qs
+
+(20)
+
+pr
+pr
+with the intermediates c̄2 qs and c̄2 qs written as
+
+ trs
+ aj rs
+t
+trs
+rts
+c̄2 pr
+qs = Di 4 Uij a − 2 Uj ia − 2 Uij a δpqrs
+ptu
+
+tpu
+
+pts
+
+piaj
+pias
++ Dut (4 Uij a − 2 Uij a ) δpqrs
+− 2 Djt Uij a δpqrs
+,
+
+(21)
+ k lbaj
+
+klb
+k lbai
+l kbaj
+l kiab
+c̄2 pr
+qs = Sij a 2Di δpqrs − Dj δpqrs − Di δpqrs − Dj δpqrs .
+The analytic removals of singularities are accounted for by
+the F12 intermediates:
+pq
+
+(13)
+
+where Ô1 and V̂1 are projectors to the space spanned by occupied (i, j) and unoccupied (a, b) orbitals represented by the
+orbital basis set (OBS), respectively. This projector ensures
+ab|Q̂12 F12 |ij  = 0. Note that at the complete basis set limit
+Q̂12 is a projector to the null space, and hence exp(ÂF12 ) is
+one (i.e., 1̂).
+Inserting ÂF12 [Eq. (10)] into H̄ˆ F12 [Eq. (9)], one obtains
+an explicit formula for the transformed Hamiltonian in terms
+
+pq
+
+αβ
+
+(23)
+
+αβ
+
+αβ
+
+(24)
+
+Vij = gαβ Gij ,
+Xijkl = Gij Gkl ,
+
+(12)
+
+in which we have fixed the amplitudes by those determined
+by the first-order cusp condition.15 Q̂12 is the so-called strong
+orthogonality projector,
+Q̂12 = (1 − Ô1 )(1 − Ô2 ) − V̂1 V̂2 ,
+
+1 kl klb ab
+D̄ S δ .
+2 ij ij a pq
+
+(22)
+
+1 αβ  αβ
+ij 
+Gij Êij − Êαβ ,
+2
+
+−1
+
+c̄1 pq =
+
+(18)
+
+αβ
+
+γβ
+
+αβ
+
+αγ
+
+Bijkl = Gij fγα Gkl + Gij fγβ Gkl ,
+
+(25)
+
+which also appear in the MP2-F12 theory. The X and B terms
+arise from [[F̂ , ÂF12 ], ÂF12 ] in Eq. (9). The other intermediates are defined by
+prs
+
+pr xb
+Gij ,
+Uij b = gxs
+
+Sijklba =
+
+(26)
+
+
+1 xa yb  x
+j 
+Gij Gkl fy + δyx faa − fii − fj ,
+2
+
+
+pr
+D̄qs
+=2
+
+1
+Dqp Dsr − Dsp Dqr
+2
+
+(27)
+
+
+pr
+− Dqs
+,
+
+(28)
+
+13 October 2026 02:28:59
+
+αβ
+
+Gij =
+
+(17)
+
+p
+p
+where the intermediates c̄1 q and c̄1 q are expressed as
+
+1
+H̄ˆ F12 ≡ Ĥ + [Ĥ , ÂF12 ]1,2 + [[F̂ , ÂF12 ]1,2 , ÂF12 ]1,2 , (9)
+2
+which is derived by approximating Eq. (1) in two ways:
+(i) terminating the expansion at the second order and (ii) replacing Ĥ at the second order term (i.e., the double commutator) by the Fock operator F̂ . Note that F̂ is the effective one-particle approximation to Ĥ . This truncation of
+the infinite expansion is correct through the second order
+in perturbation.65, 66 Similar considerations are made in approximate CC-F12 models.41 The approximated Hamiltonian
+[Eq. (9)] covers all the terms that arise in the MP2-F12 theory,
+and the CCSD method based on this Hamiltonian is similar to
+the CCSD(F12) theory.16 The terms associated with the douμλ νκ
+Êμλ , ÂF12 ], ÂF12 ], which have been
+ble commutator [[ 21 gνκ
+included only in the full CC-F12 theory,11, 26 are neglected
+in Eq. (9). We use an anti-Hermitian generator with projected
+geminal functions to make H̄ˆ F12 Hermite:
+
+(16)
+
+in which the one-body perturbed elements (C̄1 q ) are
+
+B. Canonical transcorrelated Hamiltonian
+
+ÂF12 =
+
+pr
+
+One- and two-body perturbed elements (h̄q and ḡqs ) are given
+by
+
+1
+h̄pq = hpq + C̄1 pq + C̄1 qp ,
+(15)
+2
+
+084107-4
+
+T. Yanai and T. Shiozaki
+
+J. Chem. Phys. 136, 084107 (2012)
+
+p̄ q̄
+δpq
+= δpp̄ δqq̄ ,
+
+(29)
+
+p̄ q̄ r̄ s̄
+δpqrs
+= δpp̄ δqq̄ δrr̄ δss̄ .
+
+(30)
+
+All the F12 integrals [e.g., Eq. (11)] are computed by the
+Rys-like quadrature scheme98–100 on the basis of Ten-no’s
+formula.2, 20 The B intermediate [Eq. (25)] is computed using the so-called Approximation C of Kedžuch et al.17 The
+auxiliary basis set is used for the resolution of the identity
+approximation.12, 14
+It should be mentioned that the two-body elements
+pr
+pr
+rp
+qs
+v̄qs have a four-fold permutation symmetry, v̄qs = v̄sq = v̄pr
+sq
+pr
+rp
+= v̄rp , while the other symmetry v̄qs = v̄qs is not generally
+maintained, in contrast to the original Hamiltonian. It is also
+noted that most contributions to the perturbed four-index elpr
+ements C̄2 qs [Eq. (20)] are at most two-external quantity, expr
+cept for a small three-external contribution c̄2 qs [Eq. (21)].
+III. RESULTS AND DISCUSSIONS
+A. Multireference benchmark: Singlet-triplet
+separation of methylene
+
+F12−CT
+CT
+CT
+H̄ˆ
+= eÂ † H̄ˆ F12 eÂ .
+
+TABLE I. Total energies of the singlet (E(1 A1 )) and triplet (E(3 B1 )) methylene CH2 in Eh and the singlet-triplet separation in kcal/mol. CAS (6e, 6o)
+for all the methods. The CABS singles correction is not included.
+
+(31)
+
+The definition of the CTSD amplitude ÂCT does not differ
+from that of the past implementation represented in the finite
+OBS,
+ 1    
+
+
+ij 
+ÂCT = Aai Êia − Êai  + Aaij b Êija b − Êa  b , (32)
+2
+
+
+where a and b run over active and unoccupied orbitals. The
+CTSD stationary equation to determine ÂCT and the energy
+expression were evaluated using H̄ˆ F12 , instead of the uncorrelated Ĥ (see Refs. 47–54 for more details on the CTSD
+CT
+model). The transformation with eÂ introduces dynamic
+correlation that maps a MR reference wave function onto the
+CT
+target wave function |  as eÂ | 0 . Substantial portions
+of dynamic correlation energies associated with electron–
+electron cusps are recovered in H̄ˆ F12 , while the remaining
+correlation is described by CTSD, which are both essential to
+chemical applications. Note that the strong orthogonality projector Q̂12 [Eq. (13)] in H̄ˆ F12 avoid double counting of orbital
+correlation.
+We have applied our MR F12 scheme to a benchmark calculation of the adiabatic 1 A1 − 3 B1 separation of methylene
+(CH2 ). Peterson’s correlation consistent F12 basis sets101, 102
+[cc-pVXZ-F12 for OBS and cc-pVXZ-F12/OptRI for CABS,
+
+OBS
+
+E(1 A1 )
+
+E(3 B1 )
+
+S-T gap
+
+aDZ
+aTZ
+aQZ
+a5Z
+
+−38.94438
+−38.95523
+−38.95762
+−38.95816
+
+−38.96129
+−38.97127
+−38.97361
+−38.97416
+
+10.61
+10.06
+10.04
+10.04
+
+aDZ
+aTZ
+aQZ
+a5Z
+
+−39.03490
+−39.08113
+−39.10124
+−39.10962
+
+−39.05121
+−39.09635
+−39.11590
+−39.12414
+
+10.24
+9.55
+9.20
+9.11
+
+−39.11832
+−39.13005
+
+−39.13321
+−39.14433
+
+9.34
+8.96
+
+CASPT2-F12 (Shiozaki et al.)a
+VDZ-F12
+−39.05913
+VTZ-F12
+−39.06374
+VQZ-F12
+−39.06478
+
+−39.07986
+−39.08404
+−39.08509
+
+13.01
+12.74
+12.74
+
+MRCI+Q-F12 (Shiozaki et al.)b
+VDZ-F12
+−39.06987
+VTZ-F12
+−39.07651
+VQZ-F12
+−39.07813
+
+−39.08474
+−39.09026
+−39.09173
+
+9.33
+8.63
+8.53
+
+CASSCF
+
+CTSD
+
+F12-CTSD (present)
+VDZ-F12
+VTZ-F12
+
+a
+b
+
+Reference 43.
+Reference 44.
+
+13 October 2026 02:28:59
+
+The performance of the canonical transcorrelated theory
+in MR applications is assessed in this section. In our MR calculations, we first determine a zeroth-order MR wave function
+| 0  from a CASSCF calculation based on the uncorrelated
+Hamiltonian Ĥ . The resulting RDMs of the CASSCF wave
+function are then used to construct the canonical transcorrelated Hamiltonian H̄ˆ F12 [Eq. (14)]. Starting from the MR
+| 0  and H̄ˆ F12 , we perform canonical transformation with
+singles and doubles (CTSD)47–54 leading to a further transformed Hamiltonian,
+
+denoted hereafter as VXZ-F12, X = D(double-ζ ), T(triple-ζ ),
+and Q(quadruple-ζ )] were used. We used the full valence active space CAS(6e, 6o), correlating six electrons in three a1 ,
+two b2 , and one b1 orbitals. Each state was calculated at the
+same molecular geometries as in the earlier CASPT2-F1243
+and MRCI-F1244, 45 studies of Shiozaki et al. using the same
+basis sets, active space, and γ as just described, in order to
+compare directly. We note however that we have not included
+semi-internal geminal excitations so far, unlike the MRCIF12 of Shiozaki et al., which might change the results but
+only slightly for basis functions larger than double-ζ .19 For
+comparison, we performed conventional CTSD calculations
+with aug-cc-pVXZ basis103, 104 with X = D, T, Q, 5, which is
+abbreviated as aXZ in the following.
+The total energies of the singlet and triplet states of
+CH2 are shown in Table I together with the singlet–triplet
+separation energies. These energies do not include the
+CABS singles correction for the CASSCF energies.45, 105
+The experimental value for the singlet–triplet splitting
+is 9.1 ± 0.2 kcal/mol.106 The singlet–triplet energy gap
+from CTSD using H̄ˆ F12 , denoted F12-CTSD, was in best
+agreement with the experimental value among the VTZ-F12
+basis calculations we performed; the deviations from the
+observed were approximately 0.2, 3.6, and 0.5 kcal/mol for
+F12-CTSD, CASPT2-F12, and MRCI-F12, respectively.
+Although the VTZ-F12 and aTZ basis sets are of similar size
+(89 and 92 basis functions, respectively) and have functions
+of angular momentum functions up to f-type function, the
+F12-CTSD/VTZ-F12 energies were much more accurate than
+the CTSD/aTZ results. The computational costs of these two
+
+084107-5
+
+Canonical transcorrelated theory
+
+J. Chem. Phys. 136, 084107 (2012)
+
+CTSD calculations (starting from Ĥ and H̄ˆ F12 ) were virtually
+identical. Our current pilot implementation of generating
+canonical transcorrelated Hamiltonian (H̄ˆ F12 ) relies on incore memory to store all integrals and intermediates, whose
+sizes are O(N4 ), from which the F12-CTSD calculations
+are so far limited to small basis sets (e.g., VTZ-F12). This
+limitation will be lifted in the future; the CTSD calculation
+itself is capable of handling large basis functions since we
+have recently implemented an efficient parallelized code.
+B. Single-reference case: Higher-order perturbation
+and coupled-cluster theory
+
+Our theory can be combined with arbitrary single reference (SR) many-electron theory, with which we have benchmarked its performance on capturing dynamic correlation due
+to electron–electron cusps. We solve the Schrödinger equation H̄ˆ F12 ˆ | SR  = E ˆ | SR  based on the perturbed onep
+pr
+and two-electron integrals (Hamiltonian elements h̄q and v̄qs
+of H̄ˆ F12 [Eq. (14)]) where ˆ refers to the wave operator. In
+this way, we can simply reuse existing computer implementations of high-level SR correlation methods107–110 to investigate the performance of the F12 approach towards the limits of complete dynamic correlation. Here we have interfaced
+our correlated Hamiltonian to the TCE module107, 108, 111, 112
+
+available in UTCHEM program package,113 in which highlevel many-body algorithms [such as Møller–Plesset perturbation theory with up to fourth order (MP4) and the coupled
+cluster theory with up to quadruples (CCSDTQ)] have been
+implemented into a massively parallelized software through
+automatic derivation and computer-aided implementation.
+Automated implementation approaches to the development
+of F12 methods in conjunction with higher-order many-body
+models have been reported by Shiozaki et al. with the generator SMITH26, 31–33 and Köhn et al. with GECCO.30, 34, 35
+Generally speaking, it is convenient to assume the Brillouin condition in the many electron theories (especially for
+MPn methods). Therefore, just as F̂ given by Eq. (7), we introduce F̄ˆ F12 as a Fock operator whose Hamiltonian elements
+are replaced by those of H̄ˆ F12 . With the F12-correlated Fock
+matrix elements F F12 pq = φp |F̄ˆ F12 |φq , we define the Brillouin condition and canonical Hartree–Fock (HF) equation
+for the canonical transcorrelated theory as F F12 ia = 0 and
+p
+F F12 pq = p δq , respectively. Note that the conventional and
+F12-correlated canonical orbitals are not identical. To obtain
+the canonical orbitals for F̄ˆ F12 , we iteratively diagonalize the
+F12-correlated Fock matrix F F12 pq until the self-consistency
+is satisfied. In addition, since the TCE module assumes the
+eight-fold permutation symmetry, the two-particle elements
+pr
+rp
+of H̄ˆ F12 have been explicitly symmetrized [(v̄qs + v̄qs )/2
+
+Method
+
+aDZ
+
+HF total energy
+MP2
+MP3
+MP4
+CCSD
+QCISD
+CCSD(T)
+CCSD[T]
+LCCSD
+CCSDT
+CCSDTQ
+
+− 128.49635
+− 0.20687
+− 0.20842
+− 0.21411
+− 0.21015
+− 0.21078
+− 0.21294
+− 0.21341
+− 0.21216
+− 0.21307
+− 0.21312
+
+F12-HF
+F12-MP2
+F12-MP3
+F12-MP4
+F12-CCSD
+F12-QCISD
+F12-CCSD(T)
+F12-CCSD[T]
+F12-LCCSD
+F12-CCSDT
+F12-CCSDTQ
+
+− 0.11148
+− 0.31411
+− 0.31623
+− 0.32142
+− 0.31783
+− 0.31838
+− 0.32044
+− 0.32084
+− 0.31968
+− 0.32055
+− 0.32062
+
+Shiozaki et al.a
+CCSD-F12
+CCSDT-F12
+CCSDTQ-F12
+
+− 0.30652
+− 0.30896
+− 0.30905
+
+a
+
+Reference 32.
+
+aTZ
+
+aQZ
+
+a5Z
+
+Original uncorrelated Hamiltonian
+− 128.53327
+− 128.54376
+− 128.54679
+− 0.27252
+− 0.29724
+− 0.30797
+− 0.27273
+− 0.29684
+− 0.30610
+− 0.28052
+− 0.30490
+− 0.31425
+− 0.27409
+− 0.29776
+− 0.30680
+− 0.27452
+− 0.29811
+− 0.30713
+− 0.27938
+− 0.30370
+− 0.31305
+− 0.27966
+− 0.30395
+− 0.31328
+− 0.27702
+− 0.30110
+− 0.27939
+− 0.30367
+− 0.27946
+Canonical transcorrelated Hamiltonian (present)
+− 0.04356
+− 0.02025
+− 0.31171
+− 0.31478
+− 0.31226
+− 0.31450
+− 0.31970
+− 0.32244
+− 0.31356
+− 0.31542
+− 0.31395
+− 0.31577
+− 0.31867
+− 0.32129
+− 0.31894
+− 0.32153
+− 0.31634
+− 0.31868
+− 0.31870
+− 0.32126
+− 0.31876
+− 0.31152
+− 0.31664
+− 0.31670
+
+− 0.31410
+− 0.31994
+− 0.32004
+
+− 0.31499
+− 0.32113
+
+a6Z
+
+CBS
+
+− 128.54706
+− 0.31287
+− 0.30996
+− 0.31817
+− 0.31061
+− 0.31092
+− 0.31697
+− 0.31719
+
+− 0.31961
+− 0.31526
+− 0.32355
+− 0.31584
+− 0.31614
+− 0.32236
+− 0.32257
+
+13 October 2026 02:28:59
+
+TABLE II. Valence correlation energies (in Eh ) of the Ne atom with aug-cc-pVXZ for OBS and aug-cc-pVXZ/OptRI
+for CABS as denoted by aXZ. A Slater geminal with γ = 1.5 a.u. has been used.
+
+084107-6
+
+T. Yanai and T. Shiozaki
+
+J. Chem. Phys. 136, 084107 (2012)
+
+TABLE III. Reaction energies (in Eh ) of the dissociation C2 H2 + 3H2 → 2CH4 computed by CCSD(T), F12CCSD(T), and CCSD(T)(F12*).
+OBS
+
+HF
+
+MP2
+
+CCSD
+
+CCSD(T)
+
+aDZ
+aTZ
+aQZ
+a5Z
+a6Z
+
+0.18514
+0.17906
+0.17861
+0.17864
+0.17864
+
+0.17465
+0.16979
+0.16886
+0.16848
+0.16829
+
+0.17988
+0.17579
+0.17505
+0.17485
+0.17478
+
+0.17638
+0.17177
+0.17094
+0.17067
+0.17058
+
+F12-HF
+
+F12-MP2
+
+F12-CCSD
+
+F12-CCSD(T)
+
+aDZ
+aTZ
+
+0.17844
+0.17672
+
+0.17035
+0.16910
+
+0.17523
+0.17452
+
+0.17226
+0.17087
+
+HF(CS)
+
+MP2-F12
+
+CCSD(F12*)
+
+CCSD(T)(F12*)
+
+aDZ
+aTZ
+
+0.17875
+0.17806
+
+0.16927
+0.16828
+
+0.17570
+0.17490
+
+0.16688
+0.17078
+
+and a6Z energies) within 2–6 mEh for the aDZ basis set. As
+the basis set size increases, the correlation energies converge
+to the CBS limits, whereas the F12-HF model (neglecting the
+orbital correlation) to the HF basis limit. The F12-X correlation energies for the aDZ basis set has been found closer to
+the basis set limit compared to those for the aTZ basis set due
+to fortuitous error cancellation. The F12-CCSD, F12-CCSDT,
+and F12-CCSDTQ methods seem to have captured a larger
+portion of the correlation energy of Ne than the corresponding CC-F12 methods.
+C. CCSD(T) with canonical transcorrelated
+Hamiltonian
+
+The CCSD(T) method is widely used as a highly accurate method that is well balanced between efficiency and
+accuracy, sometimes referred to as the “gold standard.”
+Several approximate models to CCSD(T)-F12 have been
+proposed16, 23, 25, 29, 36, 40 to efficiently achieve near CBS limit
+CCSD(T) accuracy with small to medium-sized basis sets. In
+this section, the performance of our F12-CCSD(T) theory is
+presented for thermochemical applications to calculate energy
+differences and bonding potentials.
+
+TABLE IV. Equilibrium bond length Re (Å) and harmonic vibrational constant ωe (cm−1 ) of N2 computed by
+CCSD(T), F12-CCSD(T), and CCSD(T)(F12*).
+HF
+
+MP2
+
+CCSD
+
+CCSD(T)
+
+OBS
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+aDZ
+aTZ
+aQZ
+a5Z
+a6Z
+
+1.0783
+1.0670
+1.0656
+1.0654
+1.0654
+
+2735.0
+2726.0
+2728.5
+2729.9
+2730.1
+
+1.1318
+1.1141
+1.1107
+1.1098
+1.1096
+
+2156.1
+2185.2
+2200.0
+2204.6
+2205.8
+
+1.1143
+1.0967
+1.0932
+1.0923
+1.0920
+
+2391.0
+2417.2
+2432.9
+2438.1
+2439.6
+
+1.1209
+1.1040
+1.1005
+1.0995
+1.0993
+
+2317.6
+2337.8
+2352.9
+2357.8
+2359.0
+
+F12-HF
+
+aDZ
+aTZ
+aQZ
+
+F12-MP2
+
+F12-CCSD
+
+F12-CCSD(T)
+
+CCSD(T)(F12*)
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+Re
+
+ωe
+
+1.0624
+1.0638
+1.0644
+
+2750.7
+2739.0
+2735.7
+
+1.1082
+1.1081
+1.1085
+
+2247.8
+2226.4
+2218.4
+
+1.0944
+1.0922
+1.0916
+
+2440.7
+2442.5
+2444.1
+
+1.0997
+1.0989
+1.0986
+
+2379.7
+2368.1
+2366.3
+
+1.0994
+1.0989
+1.0988
+
+2364.3
+2364.4
+2363.6
+
+13 October 2026 02:28:59
+
+pr
+→ v̄qs ]. The transcorrelated Hamiltonian H̄ˆ F12 with such optimized orbitals were then used in a posteriori TCE calculations. We have tested a variety of SR models: MP2, MP3,
+MP4, CCSD, CCSDT, CCSDTQ, two variants of CCSD with
+perturbative triples, CCSD(T), CCSD[T], the quadratic configuration interaction with singles and doubles (QCISD), and
+the linearized CCSD (LCCSD).
+As a benchmark, we have computed the valence correlation energy of Ne as shown in Table II, where a canonical
+transcorrelated method with SR model X is denoted as F12-X.
+Dunning’s augmented correlation-consistent basis sets (aXZ)
+were used for OBS and the corresponding CABS functions by
+Peterson and co-workers (aug-cc-pVXZ/OptRI)114 for the F12
+intermediates. Table II also compiles the HF and valence correlation energies obtained by the conventional TCE calculations as well as those reported by Shiozaki et al.32 (the CCSDF12, CCSDT-F12, and CCSDTQ-F12 models with the same
+F12 correlation factor as in our calculations γ = 1.5 a.u.).
+For comparison, we have also used γ = 1.5 a.u. in this example. It has been shown that the canonical transcorrelation
+method gives a significant improvement in correlation energies for all the tested SR models, approaching the complete
+basis set (CBS) values (obtained by extrapolation from a5Z
+
+084107-7
+
+Canonical transcorrelated theory
+
+Table III shows the reaction energies computed by the
+explicitly correlated CCSD(T) methods with aXZ basis sets
+and γ = 1.0 a.u. for the dissociation C2 H2 + 3H2 → 2CH4 .
+The molecular geometries used were rCC =6.2991 a.u. and
+rCH = 2.0094 a.u. for C2 H2 , rCH = 2.0552 a.u. for CH4 ,
+and rHH = 1.4034 a.u. for H2 . The CABS singles (CS) correction was included in the energies of the F12 calculations.
+Here, we compare the results obtained with the CCSD(F12*)
+and CCSD(T)(F12*) models, developed by Hättig, Tew, and
+Köhn.40–42 With the aTZ basis set, the F12-CCSD(T) calculation has reproduced the CCSD(T)(F12*) results within
+0.1 mEh , while it is away from the basis set limit by approximately 0.3 mEh .
+We have also applied F12-CCSD(T) to the equilibrium
+bond length (Re ) and harmonic vibrational frequency (ωe )
+of the N2 molecule (Table IV). The CCSD(T)(F12*) reference data are taken from literature.115 These F12 calculations
+have taken into account the CABS singles correction. A close
+agreement was again found between the F12-CCSD(T) and
+CCSD(T)(F12*) results with errors of 0.0003 Å and 2.7 cm−1
+for Re and ωe , respectively. The deviation of the CBS limits
+of the CCSD(T) values from the experimentally observed (Re
+= 1.0977 Å and ωe = 2359 cm−1 ) was seen in the previous
+studies (e.g., Ref. 116).
+
+In this study, a canonical transcorrelated Hamiltonian has
+been proposed as an effective Hamiltonian approach. The explicit electron correlation with the projected Slater-type geminals is built into a Hamiltonian through the canonical transformation. The present approach provides a formulation to
+effectively remove high-energy orbital components by using
+the F12 factor as a regulator for renormalizing them into
+the smaller-size orbital space. The features of the canonical transcorrelated theory are: (1) The resulting effective
+Hamiltonian is already perturbed with a considerable amount
+of the dynamic correlation associated with the interelectronic
+Coulomb singularity; (2) It remains Hermitian and has exactly the same size, dimension, and quartic complexity as the
+bare Hamiltonian; (3) There is no adjustable parameter in the
+geminal excitations with Ten-no’s fixed amplitude ansatz,15
+since the F12 amplitudes for the present transformation
+are predetermined and calculated in a non-iterative manner;
+(4) The theory is extensible to multireference models on the
+basis of the generalized normal ordering of Mukherjee and
+Kutzelnigg; (5) In contrast to the standard F12 theories which couple the F12 and conventional excitations in
+the amplitude equations 3, 4, 6, 7 or Valeev’s a posteori F12
+corrections,24, 27, 29, 38 we have introduced an a priori F12
+transformed Hamiltonian that can be readily used in conjunction with arbitrary correlation models to describe the remaining orbital correlation.
+We have demonstrated its applications to various solvers
+in quantum chemical methods, such as CCSD(T), QCISD,
+MP4, CCSDT, CCSDTQ, and so forth. The benchmarks on
+small molecules have revealed that the numerical performance of our explicit correlation scheme is comparable to that
+of other F12 theories. In our method, the F12 correction and
+
+the orbital correlation are treated separately at different steps,
+and thus it is indicated that they are more or less additively
+separable.
+In comparison to the standard F12 methods, the
+present approach is particularly useful for explicit correlation in complicated theories such as ab initio density matrix renormalization group (DMRG),117–121 DMRG-CT,122, 123
+DMRG-CASPT2,124 and tensor-network strong correlation
+methods.125–127 The method can be also readily applied to
+determinant-based quantum Monte Carlo,128, 129 perfect pairing and other valence-bond, geminal-type theories,130, 131 and
+others, where direct coupling between the multireference
+wave functions and the F12 factor can be cumbersome.
+There remain some questions to be addressed in the future, e.g., regarding errors that arise from the truncation of
+the BCH expansion of H̄ˆ F12 at the second order [Eq. (9)] as
+well as the neglect of semi-internal excitations in the F12 amplitudes [Eq. (10)] for the multireference case. They are currently under investigation and will be reported elsewhere.
+ACKNOWLEDGMENTS
+
+This research was supported in part by the Core Research for Grant-in-Aid for Scientific Research (C) (Grant No.
+21550027) from Ministry of Education, Culture, Sports, Science and Technology-Japan (MEXT). T.Y. thanks Dr. David
+P. Tew for providing the CCSD(T)(F12*) data during his visit
+at IMS. T.S. is supported by the Japan Society for the Promotion of Science Research Fellowship for Research Abroad.
+APPENDIX: ABBREVIATIONS
+
+The abbreviations used in this article are summarized in
+Table V.
+TABLE V. List of abbreviations.
+aXZ
+CABS
+CAS
+CASSCF
+CASPT2
+CBS
+CC
+CCSD(T)
+CCSDTQ
+CS
+CT
+CTSD
+HF
+LCCSD
+MPn
+MP2-F12
+MR
+MRCI
+MRCI+Q
+OBS
+QCISD
+RDM
+SR
+
+Augmented correlation-consistent basis sets: aug-cc-pVXZ
+(X=D,T,Q,5,6)
+Complementary auxiliary orbital basis set
+Complete active space
+CAS self-consistent field
+CAS second-order perturbation theory
+Complete basis set
+Coupled cluster theory
+CC with single, double, and perturbative triples
+CC with singles, doubles, triples, and quadruples
+CABS singles correlation
+Canonical transformation
+CT with singles and doubles
+Hartree–Fock
+Linearized CCSD
+n-th order Møller–Plesset perturbation theory (n = 2, 3, 4)
+Explicitly correlated MP2 with Slater-type geminals
+Multireference
+MR configuration interaction
+MRCI with the Davidson correction
+Orbital basis set
+Quadratic configuration interaction with singles and doubles
+Reduced density matrices
+Single reference
+
+13 October 2026 02:28:59
+
+IV. CONCLUSIONS
+
+J. Chem. Phys. 136, 084107 (2012)
+
+084107-8
+
+T. Yanai and T. Shiozaki
+
+1 W. Kutzelnigg, Theor. Chim. Acta 68, 445 (1985).
+2 S. Ten-no, Chem. Phys. Lett. 398, 56 (2004).
+3 H.-J. Werner, T. B. Adler, G. Knizia, and F. R. Manby, in Recent Progress
+
+50 E. Neuscamman, T. Yanai, and G. K.-L. Chan, J. Chem. Phys. 130, 124102
+
+(2009).
+51 E. Neuscamman, T. Yanai, and G. K.-L. Chan, J. Chem. Phys. 130, 169901
+
+(2009).
+52 E. Neuscamman, T. Yanai, and G. K.-L. Chan, J. Chem. Phys. 132, 024106
+
+(2010).
+53 T. Yanai, Y. Kurashige, E. Neuscamman, and G. K.-L. Chan, J. Chem.
+
+Phys. 132, 024105 (2010).
+54 E. Neuscamman, T. Yanai, and G. K.-L. Chan, Int. Rev. Phys. Chem. 29,
+
+231 (2010).
+55 F. A. Evangelista and J. Gauss, “On the approximation of the similarity-
+
+transformed Hamiltonian in single-reference and multireference coupled
+cluster theory,” Chem. Phys. (in press).
+56 D. Mukherjee, in Recent Progress in Many-Body Theories, edited by
+E. Schachinger (Plenum, New York, 1995), Vol. 4, p. 127.
+57 D. Mukherjee, Chem. Phys. Lett. 274, 561 (1997).
+58 W. Kutzelnigg and D. Mukherjee, J. Chem. Phys. 107, 432 (1997).
+59 W. Kutzelnigg, J. Chem. Phys. 77, 3081 (1982).
+60 W. Kutzelnigg and S. Koch, J. Chem. Phys. 79, 4315 (1983).
+61 W. Kutzelnigg, J. Chem. Phys. 80, 822 (1984).
+62 W. Kutzelnigg, J. Chem. Phys. 82, 4166 (1985).
+63 W. Kutzelnigg, D. Mukherjee, and S. Koch, J. Chem. Phys. 87, 5902
+(1987).
+64 D. Mukherjee, W. Kutzelnigg, and S. Koch, J. Chem. Phys. 87, 5911
+(1987).
+65 W. Kutzelnigg, Theor. Chem. Acc. 83, 263 (1992).
+66 W. Kutzelnigg, Theor. Chem. Acc. 86, 41 (1993).
+67 J. O. Hirschfelder, J. Chem. Phys. 39, 3145 (1963).
+68 K. Jankowski, Acta Phys. Pol. 32, 421 (1967).
+69 K. Jankowski, Acta Phys. Pol. 37, 669 (1970).
+70 S. F. Boys and N. C. Handy, Proc. R. Soc. London, Ser. A 309, 209 (1969).
+71 S. F. Boys and N. C. Handy, Proc. R. Soc. London, Ser. A 310, 43 (1969).
+72 S. F. Boys and N. C. Handy, Proc. R. Soc. London, Ser. A 310, 63 (1969).
+73 S. F. Boys and N. C. Handy, Proc. R. Soc. London, Ser. A 311, 309 (1969).
+74 N. C. Handy, Mol. Phys. 21, 817 (1971).
+75 N. C. Handy, Mol. Phys. 23, 1 (1972).
+76 S. Ten-no, Chem. Phys. Lett. 330, 169 (2000).
+77 S. Ten-no, Chem. Phys. Lett. 330, 175 (2000).
+78 O. Hino, Y. Tanimura, and S. Ten-no, J. Chem. Phys. 115, 7865 (2001).
+79 O. Hino, Y. Tanimura, and S. Ten-no, Chem. Phys. Lett. 353, 317 (2002).
+80 N. Umezawa and S. Tsuneyuki, J. Chem. Phys. 119, 10015 (2003).
+81 Y. Imamura and G. E. Scuseria, J. Chem. Phys. 118, 2464 (2003).
+82 M. Nooijen and R. J. Bartlett, J. Chem. Phys. 109, 8232 (1998).
+83 H. Luo, J. Chem. Phys. 133, 154109 (2010).
+84 H. Luo, J. Chem. Phys. 135, 024109 (2011).
+85 K. F. Freed, Acc. Chem. Res. 16, 137 (1983).
+86 B. Kirtman, J. Chem. Phys. 75, 798 (1981).
+87 M. R. Hoffmann and J. Simons, J. Chem. Phys. 88, 993 (1988).
+88 Y. G. Khait, J. Song, and M. R. Hoffmann, J. Chem. Phys. 117, 4133
+(2002).
+89 H. Nakatsuji, in Computational Chemistry: Reviews Of Current Trends
+(Computational Chemistry: Reviews of Current Trends) (World Scientific,
+River Edge, NJ, 1997), Vol. 2, p. 62.
+90 R. J. Bartlett and M. Musiał, Rev. Mod. Phys. 79, 291 (2007).
+91 F. Wegner, Ann. Phys. (Leipzig) 3, 77 (1994).
+92 S. D. Glazek and K. G. Wilson, Phys. Rev. D 48, 5863 (1993).
+93 K. Tsukiyama, S. K. Bogner, and A. Schwenk, Phys. Rev. Lett. 106,
+222502 (2011).
+94 S. R. Whilte, J. Chem. Phys. 117, 7472 (2002).
+95 R. J. Gdanitz, Chem. Phys. Lett. 210, 253 (1993).
+96 R. J. Gdanitz, Chem. Phys. Lett. 283, 253 (1998).
+97 S. A. Varganov and T. D. Martínez, J. Chem. Phys. 132, 054103 (2010).
+98 T. Shiozaki, Chem. Phys. Lett. 479, 160 (2009).
+99 T.
+Shiozaki, J. Unsolved Questions 1, 1 (2011), see
+http://junq.info/?p=348.
+100 T. Shiozaki, Rys-like quadrature generator for the Slater-type integrals,
+see http://code.google.com/p/slater-quadrature/.
+101 K. A. Peterson, T. B. Adler, and H.-J. Werner, J. Chem. Phys. 128, 084102
+(2008).
+102 K. E. Yousaf and K. A. Peterson, J. Chem. Phys. 129, 184108 (2008).
+103 T. H. Dunning, J. Chem. Phys. 90, 1007 (1989).
+104 R. A. Kendall, T. H. Dunning, and R. J. Harrison, J. Chem. Phys. 96, 6796
+(1992).
+105 L. Kong and E. F. Valeev, J. Chem. Phys. 133, 174126 (2010).
+
+13 October 2026 02:28:59
+
+in Coupled Cluster Methods, edited by P. Cársky, J. Paldus, and J. Pittner
+(Springer, New York, 2010).
+4 D. P. Tew, C. Hättig, R. A. Bachorz, and W. Klopper, in Recent Progress
+in Coupled Cluster Methods, edited by P. Cársky, J. Paldus, and J. Pittner
+(Springer, New York, 2010).
+5 S. Ten-no and J. Noga, WIREs: Comput. Mol. Sci. 2, 114 (2011).
+6 L. Kong, F. A. Bischoff, and E. F. Valeev, Chem. Rev. 112, 75 (2012).
+7 C. Hättig, W. Klopper, A. Köhn, and D. P. Tew, Chem. Rev. 112, 4 (2012).
+8 W. Klopper and W. Kutzelnigg, Chem. Phys. Lett. 134, 17 (1987).
+9 W. Kutzelnigg and W. Klopper, J. Chem. Phys. 94, 1985 (1991).
+10 J. Noga, W. Kutzelnigg, and W. Klopper, Chem. Phys. Lett. 199, 497
+(1992).
+11 J. Noga and W. Kutzelnigg, J. Chem. Phys. 101, 7738 (1994).
+12 W. Klopper and C. C. M. Samson, J. Chem. Phys. 116, 6397 (2002).
+13 F. R. Manby, J. Chem. Phys. 119, 4607 (2003).
+14 E. F. Valeev, Chem. Phys. Lett. 395, 190 (2004).
+15 S. Ten-no, J. Chem. Phys. 121, 117 (2004).
+16 H. Fliegl, W. Klopper, and C. Hättig, J. Chem. Phys. 122, 084107
+(2005).
+17 S. Kedžuch, M. Milko, and J. Noga, Int. J. Quantum Chem. 105, 929
+(2005).
+18 H. Fliegl, C. Hättig, and W. Klopper, Int. J. Quantum Chem. 106, 2306
+(2006).
+19 S. Ten-no, Chem. Phys. Lett. 447, 175 (2007).
+20 S. Ten-no, J. Chem. Phys. 126, 014108 (2007).
+21 D. P. Tew, W. Klopper, C. Neiss, and C. Hättig, Phys. Chem. Chem. Phys.
+9, 1921 (2007).
+22 H.-J. Werner, T. B. Adler, and F. R. Manby, J. Chem. Phys. 126, 164102
+(2007).
+23 T. B. Adler, G. Knizia, and H.-J. Werner, J. Chem. Phys. 127, 221106
+(2007).
+24 E. F. Valeev, Phys. Chem. Chem. Phys. 10, 108 (2008).
+25 D. P. Tew, W. Klopper, and C. Hättig, Chem. Phys. Lett. 452, 326 (2008).
+26 T. Shiozaki, M. Kamiya, S. Hirata, and E. F. Valeev, J. Chem. Phys. 129,
+071101 (2008).
+27 M. Torheyden and E. F. Valeev, Phys. Chem. Chem. Phys. 10, 3410
+(2008).
+28 J. Noga, S. Kedžuch, J. Šimunek, and S. Ten-no, J. Chem. Phys. 128,
+174103 (2008).
+29 E. F. Valeev and T. D. Crawford, J. Chem. Phys. 128, 244113 (2008).
+30 A. Köhn, G. W. Richings, and D. P. Tew, J. Chem. Phys. 129, 201103
+(2008).
+31 T. Shiozaki, M. Kamiya, S. Hirata, and E. F. Valeev, Phys. Chem. Chem.
+Phys. 10, 3358 (2008).
+32 T. Shiozaki, M. Kamiya, S. Hirata, and E. F. Valeev, J. Chem. Phys. 130,
+054101 (2009).
+33 T. Shiozaki, E. F. Valeev, and S. Hirata, J. Chem. Phys. 131, 044118
+(2009).
+34 A. Köhn, J. Chem. Phys. 130, 104104 (2009).
+35 A. Köhn, J. Chem. Phys. 130, 131101 (2009).
+36 G. Knizia, T. B. Adler, and H.-J. Werner, J. Chem. Phys. 130, 054104
+(2009).
+37 D. Bokhan, S. Bernadotte, and S. Ten-no, Chem. Phys. Lett. 469, 214
+(2009).
+38 M. Torheyden and E. F. Valeev, J. Chem. Phys. 131, 171103 (2009).
+39 T. Shiozaki, E. F. Valeev, and S. Hirata, Annu. Rep. Comp. Chem. 5, 131
+(2009).
+40 C. Hättig, D. P. Tew, and A. Köhn, J. Chem. Phys. 132, 231102 (2010).
+41 A. Köhn and D. Tew, J. Chem. Phys. 133, 174117 (2010).
+42 A. Köhn, J. Chem. Phys. 133, 174118 (2010).
+43 T. Shiozaki and H.-J. Werner, J. Chem. Phys. 133, 141103 (2010).
+44 T. Shiozaki, G. Knizia, and H.-J. Werner, J. Chem. Phys. 134, 034113
+(2011).
+45 T. Shiozaki and H.-J. Werner, J. Chem. Phys. 134, 184104 (2011).
+46 S. Kedžuch, O. Demel, J. Pittner, S. Ten-no, and J. Noga, Chem. Phys.
+Lett. 511, 418 (2011).
+47 T. Yanai and G. K.-L. Chan, J. Chem. Phys. 124, 194106 (2006).
+48 T. Yanai and G. K.-L. Chan, J. Chem. Phys. 127, 104107 (2007).
+49 G. K.-L. Chan and T. Yanai, in Advances in Chemical Physics, edited
+by D. A. Mazziotti (Wiley, Hoboken, NJ, 2007), Vol. 134, Chap. 13,
+pp. 343–384.
+
+J. Chem. Phys. 136, 084107 (2012)
+
+084107-9
+
+Canonical transcorrelated theory
+
+J. Chem. Phys. 136, 084107 (2012)
+
+106 I. Shavitt, Tetrahedron 41, 1531 (1985).
+
+118 G. K.-L. Chan and M. Head-Gordon, J. Chem. Phys. 116, 4462 (2002).
+
+107 S. Hirata, J. Phys. Chem. A 107, 9887 (2003).
+
+119 K. H. Marti, I. M. Ondík, G. Moritz, and M. Reiher, J. Chem. Phys. 128,
+
+108 S. Hirata, J. Chem. Phys. 121, 51 (2004).
+
+014104 (2008).
+
+109 M. Kállay and P. R. Surján, J. Chem. Phys. 115, 2945 (2001).
+
+120 D. Zgid and M. Nooijen, J. Chem. Phys. 128, 014107 (2008).
+
+110 M. Kállay and J. Gauss, J. Chem. Phys. 121, 9257 (2004).
+
+121 Y.
+
+111 A.
+
+Auer, G. Baumgartner, D. Bernholdt, A. Bibireata, V. Choppella, D. Cociorva, X. Gao, R. Harrison, A. Hartono, S.
+Krishnamoorthy, S. Krishnan, C. Lam, Q. Lu, M. Nooijen, R. Pitzer,
+J. Ramanujam, P. Sadayappan, and A. Sibiryakov, Mol. Phys. 104, 211
+(2006).
+112 S. Hirata, Tensor Contraction Engine: A Symbolic Manipulation Program
+for Quantum-Mechanical Many-Electron Theories, version 1.0, 2002.
+113 T. Yanai, H. Nakano, T. Nakajima, T. Tsuneda, S. Hirata, Y. Kawashima,
+Y. Nakao, M. Kamiya, H. Sekino, and K. Hirao, in Computational Science – ICCS 2003, Lecture Notes in Computer Science (Springer-Verlag,
+Berlin, 2003), pp. 712–712.
+114 K. E. Yousaf and K. A. Peterson, Chem. Phys. Lett. 476, 303 (2009).
+115 D. P. Tew, W. Klopper, R. A. Bachorz, and C. Hättig, in Handbook of
+High-Resolution Spectroscopies, edited by M. Quack and F. Merkt (Wiley,
+Chichester, 2011), pp. 363–388.
+116 D. P. Tew, W. Klopper, M. Heckert, and J. Gauss, J. Phys. Chem. A 111,
+11242 (2007).
+117 S. R. White and R. L. Martin, J. Chem. Phys. 110, 4127 (1999).
+
+Kurashige and T. Yanai, J. Chem. Phys. 130, 234114
+(2009).
+122 E. Neuscamman, T. Yanai, and G. K.-L. Chan, J. Chem. Phys. 132, 024106
+(2010).
+123 T. Yanai, Y. Kurashige, E. Neuscamman, and G. K.-L. Chan, J. Chem.
+Phys. 132, 024105 (2010).
+124 Y. Kurashige and T. Yanai, J. Chem. Phys. 135, 094104 (2011).
+125 H. J. Changlani, J. M. Kinder, C. J. Umrigar, and G. K.-L. Chan, Phys.
+Rev. B 80, 245116 (2009).
+126 K. H. Marti, B. Bauer, M. Reiher, M. Troyer, and F. Verstraete, New J.
+Phys. 12, 103008 (2010).
+127 K. H. Marti and M. Reiher, Phys. Chem. Chem. Phys. 13, 6750
+(2011).
+128 Y. Ohtsuka and S. Nagase, Chem. Phys. Lett. 463, 431 (2008).
+129 G. H. Booth, A. J. W. Thom, and A. Alavi, J. Chem. Phys. 131, 054106
+(2009).
+130 V. A. Rassolov and F. Xu, J. Chem. Phys. 127, 044104 (2007).
+131 J. A. Parkhill, K. Lawler, and M. Head-Gordon, J. Chem. Phys. 130,
+084101 (2009).
+
+13 October 2026 02:28:59
+
+
